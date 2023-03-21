@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\extern\glad\glad.c">
+      <Filter>Glad</Filter>
+    </ClCompile>
+    <ClCompile Include="BMUtil.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorUtil.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderData.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshData.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUtil.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GLuniform.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GLBabysitter.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Maths.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetDatabase.cpp">
+      <Filter>Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp" />
+    <ClCompile Include="MeshInstance.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBuffer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="LightingEnviroment.cpp">
+      <Filter>Rendering\Lighting</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{fae0a39e-2266-4b39-98a4-1fdace3f9dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{75f7bb83-1e25-425d-88ad-ab252016f88c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Glad">
+      <UniqueIdentifier>{93a838e1-958b-45d7-b416-a2799e1ec061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{b4d17bd1-7312-4426-8a37-789f9d24f9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Lighting">
+      <UniqueIdentifier>{8269d0e4-e8e6-4f4f-b2b1-4d84b6de4167}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\extern\glad\khrplatform.h">
+      <Filter>Glad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\glad\glad.h">
+      <Filter>Glad</Filter>
+    </ClInclude>
+    <ClInclude Include="BMUtil.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorUtil.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Maths.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderData.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshData.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUtil.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GLuniform.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GLBabysitter.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDatabase.h">
+      <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h" />
+    <ClInclude Include="Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshInstance.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBuffer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingEnviroment.h">
+      <Filter>Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingData.h">
+      <Filter>Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightData.h">
+      <Filter>Rendering\Lighting</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
