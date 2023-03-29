@@ -162,11 +162,13 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="ColorUtil.cpp" />
+    <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="GLBabysitter.cpp" />
     <ClCompile Include="GLuniform.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="KeyTable.cpp" />
     <ClCompile Include="LightingEnviroment.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maths.cpp" />
     <ClCompile Include="MeshInstance.cpp" />
@@ -197,6 +199,7 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ColorUtil.h" />
     <ClInclude Include="DirectionalLightData.h" />
+    <ClInclude Include="FileIO.h" />
     <ClInclude Include="GLBabysitter.h" />
     <ClInclude Include="GLuniform.h" />
     <ClInclude Include="Graphics.h" />

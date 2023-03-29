@@ -3,6 +3,9 @@
 #include "Maths.h"
 #include "assimp/scene.h"
 #include "assimp/cimport.h"
+#include "FileIO.h"
+
+#include <fstream>
 
 MeshData& MeshData::MergeByDistance(float threshold)
 {
@@ -152,6 +155,8 @@ const MeshScene* LoadMeshSceneFromFile(std::string path)
 
 MeshData MeshData::LoadMeshFromFile(std::string path, int subMeshIndex)
 {
+	if (!DoesFileExist(path)) return {};
+
 	const MeshScene* scene = LoadMeshSceneFromFile(path);
 
 	MeshData data;

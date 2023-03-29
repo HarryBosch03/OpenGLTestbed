@@ -1,85 +1,30 @@
-#ifndef INCLUDE_LOGGER
-#define INCLUDE_LOGGER
+#pragma once
 
-#include <string>
-#include <windows.h>
 #include <iostream>
+#include <windows.h>
 
-#define DEF_CALLBACK(n) \
-void Set ## n ## Callback(void(*callback)(void*), void* userData = nullptr); \
-void Log ## n(const std::string& text);
+#define CONSOLE_COLOR(col, bold) \
+"\033["#bold";"#col"m"
 
-namespace Logger
-{
-	void SetCharacterAttributes(int attributes);
-	void Init();
-	void Log(const std::string& text);
-	void Log(const std::string& text, int attributes);
+#define LOG_COLOR(col, text) \
+std::cout << col << text << C_DEFAULT;
 
-	void PushAttribute(int attrib);
-	void PopAttribute();
+#define C_BLACK  CONSOLE_COLOR(30, 0)
+#define C_RED    CONSOLE_COLOR(31, 0)
+#define C_GREEN  CONSOLE_COLOR(32, 0)
+#define C_YELLOW CONSOLE_COLOR(33, 0)
+#define C_BLUE   CONSOLE_COLOR(34, 0)
+#define C_PURPLE CONSOLE_COLOR(35, 0)
+#define C_CYAN   CONSOLE_COLOR(36, 0)
+#define C_WHITE  CONSOLE_COLOR(37, 0)
 
-	DEF_CALLBACK(Warning);
-	DEF_CALLBACK(Error);
-}
+#define C_BLACK_B  CONSOLE_COLOR(30, 1)
+#define C_RED_B    CONSOLE_COLOR(31, 1)
+#define C_GREEN_B  CONSOLE_COLOR(32, 1)
+#define C_YELLOW_B CONSOLE_COLOR(33, 1)
+#define C_BLUE_B   CONSOLE_COLOR(34, 1)
+#define C_PURPLE_B CONSOLE_COLOR(35, 1)
+#define C_CYAN_B   CONSOLE_COLOR(36, 1)
+#define C_WHITE_B  CONSOLE_COLOR(37, 1)
 
-#endif
-
-#ifdef LOGGER_IMPLEMENTATION
-
-HANDLE hConsole;
-int defaultAttributes;
-
-#define DEF_CALLBACK_BODY(n, a) \
-void(* ## n ## Callback)(void*) = nullptr; \
-void* n ## CallbackData = nullptr; \
-void Logger::Log ## n (const std::string& text) \
-{ \
-	Log(text, a); \
-	if (n ## Callback) n ## Callback(n ## CallbackData); \
-} \
-void Logger::Set ## n ## Callback (void(*callback)(void*), void* userData) \
-{ \
-	n ## Callback = callback; \
-	n ## CallbackData = userData; \
-}
-
-DEF_CALLBACK_BODY(Warning, FOREGROUND_RED | FOREGROUND_GREEN);
-DEF_CALLBACK_BODY(Error, FOREGROUND_RED | FOREGROUND_INTENSITY);
-
-void GetDefaultAttributes()
-{
-	CONSOLE_SCREEN_BUFFER_INFO info;
-	GetConsoleScreenBufferInfo(hConsole, &info);
-	defaultAttributes = info.wAttributes;
-}
-
-void Logger::Init()
-{
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetDefaultAttributes();
-}
-
-void Logger::Log(const std::string& text)
-{
-	std::cout << text;
-}
-
-void Logger::Log(const std::string& text, int a)
-{
-	
-	Log(text);
-}
-
-void Logger::PushAttribute(int attrib)
-{
-	GetDefaultAttributes();
-	SetConsoleTextAttribute(hConsole, attrib);
-}
-
-void Logger::PopAttribute()
-{
-	SetConsoleTextAttribute(hConsole, defaultAttributes);
-}
-
-#endif
+#define C_DEFAULT C_WHITE
