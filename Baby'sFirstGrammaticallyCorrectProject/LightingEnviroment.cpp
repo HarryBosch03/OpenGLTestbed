@@ -6,24 +6,33 @@ LightingEnviroment* LightingEnviroment::Current = nullptr;
 
 void LightingEnviroment::Initalize()
 {
-	dataBuffer.Initalize(0, (byte*)&data, sizeof(LightingData));
+
 }
 
-void LightingEnviroment::PushLight(const DirectionalLightData& light)
+void LightingEnviroment::PushLight(Vec3 direction, Vec3 color)
 {
-	data.directionalLightData[data.directionalLightCount++] = light;
+	if (dLightCount.value >= maxDLights) return;
+
+	dLightDirections[dLightCount] = direction; 
+	dLightColors[dLightCount] = color;
+	dLightCount.value++;
+}
+
+void LightingEnviroment::SetAmbient(Vec3 color)
+{
+	ambientLight.value = color;
 }
 
 void LightingEnviroment::Bind()
 {
 	Current = this;
-	data.ambientLight = Ambient();
+	GL_UNIFORM_SYNC_ALL
 }
 
 void LightingEnviroment::Unbind()
 {
 	Current = nullptr;
-	directionalLightCount = 0;
+	dLightCount = 0;
 }
 
 void LightingEnviroment::SetShaderUniforms(ShaderProgram& shader)

@@ -14,3 +14,7 @@ namespace ColorUtil
 	Vec4 FromHSV(float h, float s, float b);
 	Vec4 ToHSV(float r, float g, float b);
 }
+
+#define HEX3(col) ColorUtil::FromHex3(0x ## col)
+
+#define GREY(v) Vec4(v, v, v, 1.0)

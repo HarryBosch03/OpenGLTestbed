@@ -3,11 +3,14 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <windows.h>
 
 void APIENTRY GLCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei, const GLchar* message, const void*)
 {
 	std::stringstream output;
 	output << "GL Log:\nSource: ";
+
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	switch (source)
 	{
@@ -103,9 +106,6 @@ void GLBabysitter::Initalize()
 	glEnable(GL_DEBUG_OUTPUT);
 
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
 	glDebugMessageCallback(GLCallback, nullptr);
-
-	const char* testMessage = "GLBabysitter Initalized Correctly!";
-	glDebugMessageInsert(GL_DEBUG_SOURCE_API, GL_DEBUG_TYPE_OTHER, 0, GL_DEBUG_SEVERITY_NOTIFICATION, strlen(testMessage), testMessage);
 }

@@ -47,11 +47,39 @@
     <ClCompile Include="MeshInstance.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderBuffer.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="LightingEnviroment.cpp">
       <Filter>Rendering\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderPreprocessor.cpp" />
+    <ClCompile Include="Input.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui_impl_glfw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui_impl_opengl3.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyTable.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +97,12 @@
     </Filter>
     <Filter Include="Rendering\Lighting">
       <UniqueIdentifier>{8269d0e4-e8e6-4f4f-b2b1-4d84b6de4167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stb">
+      <UniqueIdentifier>{3e1572a9-7751-4287-acb8-810480c24c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{9d758e65-6161-468b-842c-3ce9b5ac10ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,23 +155,62 @@
     <ClInclude Include="Texture.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="MeshInstance.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderBuffer.h">
-      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="LightingEnviroment.h">
       <Filter>Rendering\Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="LightingData.h">
-      <Filter>Rendering\Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="DirectionalLightData.h">
       <Filter>Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderPreprocessor.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_include.h">
+      <Filter>stb</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\dirent.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imgui_impl_glfw.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imgui_impl_opengl3.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyTable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

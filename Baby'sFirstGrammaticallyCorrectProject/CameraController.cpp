@@ -2,6 +2,8 @@
 
 #include "Graphics.h"
 #include "Application.h"
+#include "imgui.h"
+#include "input.h"
 
 GLFWwindow* window = nullptr;
 Vec2 cursorPosition;
@@ -13,7 +15,7 @@ using glm::clamp;
 
 void CameraController::ProcessInput()
 {
-	if (!glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1)) return;
+	if (!Input::GetMouseDown(GLFW_MOUSE_BUTTON_1)) return;
 
 	Vec2 cursorDelta = cursorPosition - lastCursorPos;
 	position += cursorDelta * panSpeed;
