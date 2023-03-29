@@ -51,13 +51,14 @@ string ShaderPreprocessor::GenerateShaderFromPath(const string& filePath)
 	C_STRING_COPY(inject)
 	C_STRING_COPY(include)
 
-	if (!std::filesystem::exists(filePath))
+	char* data = stb_include_file(filePathC, injectC, includeC, error);
+	if (!data)
 	{
-		Logger::LogError("File \"filePath\" does not exist!");
+		LOG_ERROR("Failed to load scene file at \"filePath\" does not exist!");
+		LOG_ERROR("STB ERROR DUMP: " << error);
 		return {};
 	}
 
-	char* data = stb_include_file(filePathC, injectC, includeC, error);
 	string output = string() + data;
 	free(data);
 
@@ -65,7 +66,6 @@ string ShaderPreprocessor::GenerateShaderFromPath(const string& filePath)
 	delete[] injectC;
 	delete[] includeC;
 
-	std::cout << error[0];
 	WriteOutputToFile(output, filePath);
 	return output;
 }

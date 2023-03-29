@@ -88,7 +88,6 @@ void Application::Initalize()
 
 	lightingEnviroment.Initalize();
 
-	Logger::SetErrorCallback(Close);
 	Input::Init();
 }
 

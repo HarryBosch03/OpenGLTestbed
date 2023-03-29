@@ -29,7 +29,7 @@ void ShaderProgram::LogGLError(const std::string& message, const GLuint& glObjec
 	glGetShaderInfoLog(glObject, logSize, nullptr, errorLog);
 	s << errorLog;
 	s << '\n';
-	Logger::LogError(s.str());
+	LOG_ERROR(s.str());
 
 	bad = true;
 }
@@ -63,7 +63,7 @@ void ShaderProgram::LoadShader(GLuint& shader, const std::string& fileName, GLen
 	}
 	else
 	{
-		Logger::Log("Shader \"" + fileName + "\" Compiled Successfully\n", FOREGROUND_GREEN);
+		LOG("Shader \"" << fileName << "\" Compiled Successfully");
 	}
 }
 
@@ -101,7 +101,7 @@ void ShaderProgram::Initalize(const std::string& vertFileName, const std::string
 	}
 	else
 	{
-		Logger::Log("Shader Compiled and Linked successfully.\n", FOREGROUND_GREEN);
+		LOG_SUCCESS("Shader Compiled and Linked successfully.") << '\n';
 	}
 
 	SetupUniforms();
@@ -109,12 +109,10 @@ void ShaderProgram::Initalize(const std::string& vertFileName, const std::string
 
 void ShaderProgram::HotReload()
 {
-	Logger::Log("Attempting to perform Hot Reload of Shader Program...\n", FOREGROUND_RED | FOREGROUND_GREEN);
+	LOG_WARNING("Attempting to perform Hot Reload of Shader Program...");
 
 	Cleanup();
 	Initalize(vertFileName, fragFileName);
-
-	Logger::Log("Successfully Reloaded Shader Program\n\n", FOREGROUND_GREEN);
 }
 
 ShaderProgram::~ShaderProgram()

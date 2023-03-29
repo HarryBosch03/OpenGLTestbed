@@ -11,7 +11,7 @@
 
 int main()
 {
-	Logger::Init();
+	LOG_TEST
 
 	Application application;
 

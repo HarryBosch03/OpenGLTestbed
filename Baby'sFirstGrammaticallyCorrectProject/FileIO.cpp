@@ -12,7 +12,7 @@ bool DoesFileExist(std::string path)
 	if (!exists)
 	{
 		std::string fullpath = std::filesystem::absolute(path).string();
-		LOG_COLOR(C_RED_B, "[SOFT ERROR] Path: \"" << fullpath << "\" does not exist!");
+		LOG_ERROR("Path: \"" << fullpath << "\" does not exist!");
 	}
 	return exists;
 }
