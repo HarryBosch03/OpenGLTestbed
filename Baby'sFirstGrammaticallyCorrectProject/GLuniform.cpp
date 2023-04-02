@@ -1,46 +1,47 @@
 #include "GLuniform.h"
 
 #include "ShaderProgram.h"
-#include <map>
 
 const ShaderProgram* currentShader = nullptr;
 
-GLint GLuniform::GetHandle(ShaderProgram* shaderProgram)
+std::vector<IGLuniform*> uniforms;
+
+GLint IGLuniform::GetHandle(ShaderProgram* shaderProgram)
 {
 	const char* nameC = name.c_str();
 	return glGetUniformLocation(shaderProgram->programHandle, nameC);
 }
 
-GLuniform::GLuniform(const std::string& name)
+IGLuniform::IGLuniform(const std::string& name)
 {
 	this->name = name;
-	uniforms[name] = this;
+	uniforms.push_back(this);
 }
 
-GLuniform::~GLuniform()
+IGLuniform::~IGLuniform()
 {
 	for (auto it = uniforms.begin(); it != uniforms.end(); ++it)
 	{
-		if ((*it).second != this) continue;
+		if (*it != this) continue;
 		uniforms.erase(it);
 		break;
 	}
 }
 
-void GLuniform::SendAll(ShaderProgram* shaderProgram)
+void IGLuniform::SendAll(ShaderProgram* shaderProgram)
 {
-	for (std::pair<const std::string, GLuniform*>& uniform : uniforms)
+	for (IGLuniform* uniform : uniforms)
 	{
-		uniform.second->Send(shaderProgram);
+		uniform->Send(shaderProgram);
 	}
 }
 
 #define SET_DEF(t, set, cast) \
-void GLuniformData<t>::Set(ShaderProgram* shaderProgram) \
+void GLuniform<t>::Set(ShaderProgram* shaderProgram) \
 { \
 	set(GetHandle(shaderProgram), 1, (cast*)&value); \
 } \
-void GLuniformData<std::vector<t>>::Set(ShaderProgram* shaderProgram) \
+void GLuniform<std::vector<t>>::Set(ShaderProgram* shaderProgram) \
 { \
 	set(GetHandle(shaderProgram), value.size(), (cast*)value.data()); \
 }

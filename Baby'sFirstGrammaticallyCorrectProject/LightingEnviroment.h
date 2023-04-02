@@ -10,11 +10,11 @@ class LightingEnviroment
 private:
 	const int maxDLights = 4;
 
-	//GLuniform<int> dLightCount = {"dLightCount"};
-	//GLuniformList<Vec3>
-	//	dLightDirections = {"dLightDirections", maxDLights},
-	//	dLightColors = {"dLightColors", maxDLights};
-	//GLuniform<Vec3> ambientLight = {"ambientLight"};
+	GLuniform<int> dLightCount = {"dLightCount"};
+	GLuniformList<Vec3>
+		dLightDirections = {"dLightDirections", maxDLights},
+		dLightColors = {"dLightColors", maxDLights};
+	GLuniform<Vec3> ambientLight = {"ambientLight"};
 
 public:
 	inline Vec3 Ambient() { return ambientLight.value; }

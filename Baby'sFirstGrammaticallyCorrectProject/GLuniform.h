@@ -1,24 +1,83 @@
 #pragma once
 
-#include <map>
+#include "Graphics.h"
+#include "Maths.h"
+
+#include <string>
 #include <vector>
 
-namespace GLuniform
+class ShaderProgram;
+
+class IGLuniform
 {
-	std::map<std::string, std::vector<unsigned char>> map;
+protected:
+	std::string name;
 
-	void Set(const std::string& ref, unsigned char* data, int length);
-	void Get(const std::string& ref, unsigned char** data, int* length);
+	GLint GetHandle(ShaderProgram* shaderProgram);
+	virtual void Send(ShaderProgram* shaderProgram) = 0;
 
+public:
+	IGLuniform(const std::string& name);
+	~IGLuniform();
 
-	template<typename T>
-	void Set(const std::string& ref, const T& data)
+	static void SendAll(ShaderProgram* shaderProgram);
+};
+
+template<typename T>
+class GLuniform : public IGLuniform
+{
+public:
+	T value;
+	
+	GLuniform(const std::string& name) : IGLuniform(name) { }
+	GLuniform(const std::string& name, const T& value) : IGLuniform(name)
 	{
-		unsigned char* raw[sizeof(T)];
-		for (int i = 0; i < sizeof(T); i++)
-		{
-			raw[i] = ((unsigned char*)&data)[i];
-		}
-		Set(ref, raw, sizeof(T));
+		this->value = value;
 	}
-}
+
+	T& operator =(const T& other)
+	{
+		return value = other;
+	}
+
+	void Set(ShaderProgram* shaderProgram);
+
+	void Send(ShaderProgram* shaderProgram) override
+	{
+		Set(shaderProgram);
+	}
+};
+
+template<typename T>
+class GLuniformList : public GLuniform<std::vector<T>>
+{
+	void Send(ShaderProgram* shaderProgram) override
+	{
+		GLuniform<std::vector<T>>::Set(shaderProgram);
+	}
+
+public:
+	GLuniformList(const std::string& name, int buffer = 0) : GLuniform<std::vector<T>>(name) 
+	{
+		Buffer(buffer);
+	}
+
+	GLuniformList& Buffer(int count)
+	{
+		for (int i = 0; i < count; i++)
+		{
+			GLuniform<std::vector<T>>::value.push_back({});
+		}
+		return *this;
+	}
+
+	T& operator[](int i)
+	{
+		return GLuniform<std::vector<T>>::value[i];
+	}
+
+	T& operator[](const GLuniform<int>& i)
+	{
+		return (*this)[i.value];
+	}
+};
