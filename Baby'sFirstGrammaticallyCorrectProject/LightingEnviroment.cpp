@@ -4,6 +4,11 @@
 
 LightingEnviroment* LightingEnviroment::Current = nullptr;
 
+Vec3 LightingEnviroment::Ambient()
+{
+	return Uniforms::AmbientLight.value;
+}
+
 void LightingEnviroment::Initalize()
 {
 
@@ -11,16 +16,16 @@ void LightingEnviroment::Initalize()
 
 void LightingEnviroment::PushLight(Vec3 direction, Vec3 color)
 {
-	if (dLightCount.value >= maxDLights) return;
+	if (Uniforms::DLightCount.value >= MaxDLights) return;
 
-	dLightDirections[dLightCount] = direction; 
-	dLightColors[dLightCount] = color;
-	dLightCount.value++;
+	Uniforms::DLightDirections[Uniforms::DLightCount] = direction;
+	Uniforms::DLightColors[Uniforms::DLightCount] = color;
+	Uniforms::DLightCount.value++;
 }
 
 void LightingEnviroment::SetAmbient(Vec3 color)
 {
-	ambientLight.value = color;
+	Uniforms::AmbientLight.value = color;
 }
 
 void LightingEnviroment::Bind()
@@ -31,7 +36,7 @@ void LightingEnviroment::Bind()
 void LightingEnviroment::Unbind()
 {
 	Current = nullptr;
-	dLightCount = 0;
+	Uniforms::DLightCount = 0;
 }
 
 void LightingEnviroment::SetShaderUniforms(ShaderProgram& shader)

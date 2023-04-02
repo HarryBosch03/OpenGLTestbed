@@ -15,15 +15,6 @@ class ShaderProgram
 	void LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int logSize);
 	void Cleanup();
 
-	GLuniform<Mat4>
-		modelMat = GLuniform<Mat4>("_Model"),
-		viewMat = GLuniform<Mat4>("_View"),
-		projMat = GLuniform<Mat4>("_Projection"),
-		viewProjMat = GLuniform<Mat4>("_VP"),
-		modelViewProjMat = GLuniform<Mat4>("_MVP");
-	GLuniform<float> time = GLuniform<float>("_Time");
-	GLuniform<Vec3> camPos = GLuniform<Vec3>("_CamPos");
-
 	void Load(const std::string& name);
 	void Initalize(const std::string& vert, const std::string& frag);
 

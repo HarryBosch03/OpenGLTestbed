@@ -11,22 +11,31 @@ out vec4 fragColor;
 in vec3 col;
 in vec3 worldNormal;
 in vec3 worldPos;
+in vec2 uv;
 
-uniform sampler2D mainTex
+uniform sampler2D texCol;
+uniform sampler2D texMetal;
+uniform sampler2D texRough;
+uniform sampler2D texNormal;
+uniform sampler2D texHeight;
+uniform sampler2D texAO;
 
 void main ()
 {
+	vec3 temp = texture(texCol, uv).rgb;
+
 	Surface surface;
-	surface.diffuse = vec3(1, 1, 1);
+	surface.diffuse = texture(texCol, uv).rgb;
 	surface.specular = vec3(0.0);
 	surface.normal = normalize(worldNormal);
 	surface.viewDir = normalize(_CamPos - worldPos);
-	surface.metallic = 1.0;
-	surface.roughness = 0.6;
+	surface.metallic = texture(texMetal, uv).r;
+	surface.roughness = texture(texRough, uv).r;
 
 	float d = dot(surface.normal, surface.viewDir);
 
 	vec3 final = GetLighting(surface);
+	final *= texture(texAO, uv).r;
 
 	fragColor = vec4(final, 1);
 }

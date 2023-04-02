@@ -25,9 +25,9 @@ Material& Material::SetShader(const std::string& shader)
 	return *this;
 }
 
-Material& Material::SetTexture(int i, Texture* tex)
+Material& Material::SetTexture(const std::string& ref, Texture* tex)
 {
-	textures[i] = tex;
+	textures[ref] = tex;
 	return *this;
 }
 
@@ -37,7 +37,9 @@ void Material::Bind()
 
 	for (auto& pair : textures)
 	{
-		pair.second->Bind(pair.first);
+		glUniform1i(glGetUniformLocation(program->programHandle, pair.first.c_str()), textureIndex);
+		pair.second->Bind(textureIndex);
+		textureIndex++;
 	}
 }
 
@@ -49,4 +51,5 @@ void Material::Unbind()
 	}
 
 	program->Unbind();
+	textureIndex = 0;
 }

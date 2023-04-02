@@ -3,7 +3,7 @@
 #include "ShaderPreprocessor.h"
 #include "Application.h"
 #include "Logger.h"
-#include "GLuniform.h"
+#include "Uniforms.h"
 
 #include <iostream>
 #include <string>
@@ -200,14 +200,14 @@ void ShaderProgram::Bind()
 
 	const Camera& camera = *Camera::Current;
 
-	viewMat.value = Camera::Current->view;
-	projMat.value = Camera::Current->projection;
+	Uniforms::ViewMat.value = Camera::Current->view;
+	Uniforms::ProjMat.value = Camera::Current->projection;
 
 	Mat4 vp = camera.projection * camera.view;
-	viewProjMat.value = vp;
+	Uniforms::ViewProjMat.value = vp;
 
-	time.value = Application::Current->Time();
-	camPos.value = Camera::Current->position;
+	Uniforms::Time.value = Application::Current->Time();
+	Uniforms::CamPos.value = Camera::Current->position;
 
 	IGLuniform::SendAll(this);
 }
@@ -222,9 +222,9 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 {
 	const Camera& camera = *Camera::Current;
 
-	modelMat.value = model;
+	Uniforms::ModelMat.value = model;
 	Mat4 mvp = Camera::Current->projection * Camera::Current->view * model;
-	modelViewProjMat.value = mvp;
+	Uniforms::ModelViewProjMat.value = mvp;
 }
 
 ShaderProgram* ShaderProgram::Find(const std::string& name)
