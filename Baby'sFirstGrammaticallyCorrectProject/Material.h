@@ -9,7 +9,8 @@ class Texture;
 class Material
 {
 	ShaderProgram* program = nullptr;
-	std::map<int, Texture*> textures;
+	std::map<std::string, Texture*> textures;
+	int textureIndex;
 
 public:
 	Material() = default;
@@ -18,8 +19,7 @@ public:
 
 	Material& SetShader(const std::string& shader);
 	Material& SetShader(ShaderProgram* program);
-	Material& SetTexture(int i, Texture* tex);
-	inline Material& SetMainTexture(Texture* tex) { return SetTexture(0, tex); }
+	Material& SetTexture(const std::string& ref, Texture* tex);
 
 	void Bind();
 	void Unbind();

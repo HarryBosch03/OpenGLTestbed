@@ -95,6 +95,9 @@
     <ClCompile Include="Material.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Uniforms.cpp">
+      <Filter>Rendering\Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -233,6 +236,9 @@
       <Filter>stb</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Uniforms.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>

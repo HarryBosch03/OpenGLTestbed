@@ -10,6 +10,7 @@ Texture::~Texture()
 
 Texture& Texture::LoadFromFile(const std::string& fileLoc)
 {
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(fileLoc.c_str(), &width, &height, &channels, 4);
 	if (!data)
 	{
@@ -29,13 +30,13 @@ Texture& Texture::LoadFromFile(const std::string& fileLoc)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	GLint format = channels == 3 ? GL_RGB : GL_RGBA;
-	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	stbi_image_free(data);
+	initalized = true;
 	return *this;
 }
 

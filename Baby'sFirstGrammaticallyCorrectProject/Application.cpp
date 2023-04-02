@@ -97,11 +97,16 @@ void Application::Initalize()
 
 	babysitter.Initalize();
 
-	renderData.Load("./Assets/Models/monke.fbx");
+	renderData.Load("./Assets/Models/Monke Low Res.fbx");
 	Material material = Material("shader");
 	can.SetMaterial(material).SetMeshData(&renderData);
 
-	can.material.SetTexture(0, ASSET(Texture, "./Assets/Textures/Monke/Monke.Color.tga"));
+	can.material.SetTexture("texCol", ASSET(Texture, "./Assets/Textures/Monke/Monke.Color.tga"));
+	can.material.SetTexture("texMetal", ASSET(Texture, "./Assets/Textures/Monke/Monke.Metal.tga"));
+	can.material.SetTexture("texRough", ASSET(Texture, "./Assets/Textures/Monke/Monke.Roughness.tga"));
+	can.material.SetTexture("texNormal", ASSET(Texture, "./Assets/Textures/Monke/Monke.Normal.tga"));
+	can.material.SetTexture("texHeight", ASSET(Texture, "./Assets/Textures/Monke/Monke.Height.tga"));
+	can.material.SetTexture("texAO", ASSET(Texture, "./Assets/Textures/Monke/Monke.AO.tga"));
 
 	lightingEnviroment.Initalize();
 

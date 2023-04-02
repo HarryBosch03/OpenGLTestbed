@@ -181,6 +181,7 @@
     <ClCompile Include="ShaderPreprocessor.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Uniforms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\glad.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_include.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Uniforms.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
