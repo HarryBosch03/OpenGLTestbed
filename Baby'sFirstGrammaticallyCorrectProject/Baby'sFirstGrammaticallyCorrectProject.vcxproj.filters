@@ -89,6 +89,12 @@
     <ClCompile Include="ShaderPreprocessor.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -222,6 +228,12 @@
     </ClInclude>
     <ClInclude Include="FileIO.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>stb</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

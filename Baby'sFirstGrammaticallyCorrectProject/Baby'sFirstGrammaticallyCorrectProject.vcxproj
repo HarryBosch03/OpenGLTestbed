@@ -119,6 +119,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)extern/assimp/x64-$(Configuration)/include;$(SolutionDir)extern/imgui;$(SolutionDir)extern;$(SolutionDir)extern/glad;$(SolutionDir)extern/glm;$(SolutionDir)extern/glfw;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -170,6 +171,7 @@
     <ClCompile Include="LightingEnviroment.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Maths.cpp" />
     <ClCompile Include="MeshInstance.cpp" />
     <ClCompile Include="MeshRenderData.cpp" />
@@ -178,6 +180,7 @@
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ShaderPreprocessor.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\glad.h" />
@@ -207,6 +210,7 @@
     <ClInclude Include="KeyTable.h" />
     <ClInclude Include="LightingEnviroment.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Maths.h" />
     <ClInclude Include="MeshInstance.h" />
     <ClInclude Include="MeshRenderData.h" />
@@ -215,6 +219,7 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ShaderPreprocessor.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_include.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>

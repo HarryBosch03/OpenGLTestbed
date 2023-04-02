@@ -6,10 +6,8 @@
 
 void MeshInstance::Bind()
 {
-	if (meshData)
-	{
-		meshData->Bind();
-	}
+	material.Bind();
+	if (meshData) meshData->Bind();
 }
 
 void MeshInstance::Draw()
@@ -24,10 +22,20 @@ void MeshInstance::Draw()
 
 void MeshInstance::Unbind()
 {
-	if (meshData)
-	{
-		meshData->Unbind();
-	}
+	if (meshData) meshData->Unbind();
+	material.Unbind();
+}
+
+MeshInstance& MeshInstance::SetMaterial(Material material)
+{
+	this->material = material;
+	return *this;
+}
+
+MeshInstance& MeshInstance::SetMeshData(MeshRenderData* data)
+{
+	this->meshData = data;
+	return *this;
 }
 
 Mat4 MeshInstance::LocalToWorld() const

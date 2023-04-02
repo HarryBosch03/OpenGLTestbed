@@ -2,56 +2,58 @@
 
 #include "stb_include.h"
 #include "Logger.h"
+#include "ShaderProgram.h"
 
 #include <vector>
 #include <fstream>
 #include <iostream>
 #include <filesystem>
 
-typedef std::stringstream sstream;
-typedef std::string string;
-typedef std::fstream fstream;
+std::vector<std::string> includes;
+const std::string CompiledLocation = ShaderPath + "Compiled/";
 
-std::vector<string> includes;
-
-void WriteOutputToFile(const string& data, string filePath)
+void ShaderPreprocessor::Initalize()
 {
-	int period = filePath.find_last_of('.');
+	std::filesystem::remove_all(CompiledLocation);
+}
 
-	filePath += "[COMPILED].glsl";
+void WriteOutputToFile(const std::string& data, const std::string& filePath, int attempt = 0)
+{
+	std::string path = filePath;
 
-	fstream fs;
+	if (attempt > 0) path += "(" + std::to_string(attempt) + ")";
+	path += "[COMPILED].glsl";
 
-	fs.open(filePath, std::ios::out);
+
+	if (std::filesystem::exists(path))
+	{
+		WriteOutputToFile(data, filePath, attempt + 1);
+		return;
+	}
+
+	std::ofstream fs(path);
 	if (fs.is_open())
 	{
 		fs.write(data.c_str(), data.size());
 	}
 	else
 	{
-		std::cout << "Failed to write to " << filePath << "\n\n";
+		std::cout << "Failed to write to " << path << " (" << fs.failbit << ")\n\n";
 	}
 	fs.close();
 }
 
-#define C_STRING_COPY(str) \
-char* str ## C = new char[str.size() + 1]; \
-strcpy(str ## C, str.data()); \
-str ## C[str.size()] = '\0';
-
-string ShaderPreprocessor::GenerateShaderFromPath(const string& filePath)
+std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const std::string& shaderName)
 {
-	string shader = BMUtil::LoadTextFromFile(filePath);
 	char error[256];
 
-	std::string inject = "";
-	std::string include = "./Assets/Shaders";
+	char* shaderC = new char[shader.size()];
+	char* includeC = new char[ShaderPath.size()];
 
-	C_STRING_COPY(filePath)
-	C_STRING_COPY(inject)
-	C_STRING_COPY(include)
+	std::strcpy(shaderC, shader.c_str());
+	std::strcpy(includeC, ShaderPath.c_str());
 
-	char* data = stb_include_file(filePathC, injectC, includeC, error);
+	char* data = stb_include_string(shaderC, nullptr, includeC, nullptr, error);
 	if (!data)
 	{
 		LOG_ERROR("Failed to load scene file at \"filePath\" does not exist!");
@@ -59,13 +61,9 @@ string ShaderPreprocessor::GenerateShaderFromPath(const string& filePath)
 		return {};
 	}
 
-	string output = string() + data;
+	std::string output = std::string() + data;
 	free(data);
 
-	delete[] filePathC;
-	delete[] injectC;
-	delete[] includeC;
-
-	WriteOutputToFile(output, filePath);
+	WriteOutputToFile(output, CompiledLocation + shaderName);
 	return output;
 }

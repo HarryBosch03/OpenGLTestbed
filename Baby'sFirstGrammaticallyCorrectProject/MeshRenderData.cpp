@@ -12,7 +12,7 @@ MeshRenderData::MeshRenderData(std::string path)
 	Load(path);
 }
 
-void MeshRenderData::Load(const MeshData& meshData)
+MeshRenderData& MeshRenderData::Load(const MeshData& meshData)
 {
 	this->data = meshData;
 
@@ -32,11 +32,14 @@ void MeshRenderData::Load(const MeshData& meshData)
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	return *this;
 }
 
-void MeshRenderData::Load(std::string path)
+MeshRenderData& MeshRenderData::Load(std::string path)
 {
-	Load(MeshData::LoadMeshFromFile(path, 0));
+	Load(MeshData().LoadFromFile(path, 0));
+	return* this;
 }
 
 void MeshRenderData::Bind()

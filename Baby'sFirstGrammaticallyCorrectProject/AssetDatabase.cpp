@@ -1,24 +1,35 @@
 #include "AssetDatabase.h"
 
+#include "Texture.h"
+#include "MeshData.h"
+
 #include <filesystem>
 
-namespace fs = std::filesystem;
+std::map<std::string, void*> assets;
 
-void LoadAllMeshes()
+template<typename T>
+T* TryLoadExistingAsset(const std::string& fileLoc)
 {
-    fs::current_path("./Assets");
-    for (auto const& entry : fs::recursive_directory_iterator(".obj"))
-    {
-
-    }
+	return assets.count(fileLoc) > 0 ? (T*)assets.at(fileLoc) : nullptr;
 }
 
-void AssetDatabase::LoadAllAssets()
+void AssetDatabase::Cleanup()
 {
-
+	for (auto& entry : assets)
+	{
+		delete entry.second;
+	}
+	assets.clear();
 }
 
-MeshData* AssetDatabase::GetMesh(std::string name)
-{
-    return nullptr;
+#define LOAD_TYPE_DEF(T, ...) \
+{ \
+	T* tex; \
+	if (tex = TryLoadExistingAsset<T>(fileLoc)) return tex; \
+	tex = &(new T())->LoadFromFile(fileLoc, __VA_ARGS__); \
+	return tex; \
 }
+
+MeshData* AssetDatabase::GetMesh(const std::string& fileLoc, int subMeshIndex) LOAD_TYPE_DEF(MeshData, 0)
+
+Texture* AssetDatabase::GetTexture(const std::string& fileLoc) LOAD_TYPE_DEF(Texture)

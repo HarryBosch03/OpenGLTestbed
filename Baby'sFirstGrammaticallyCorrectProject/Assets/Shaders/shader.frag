@@ -12,6 +12,8 @@ in vec3 col;
 in vec3 worldNormal;
 in vec3 worldPos;
 
+uniform sampler2D mainTex
+
 void main ()
 {
 	Surface surface;

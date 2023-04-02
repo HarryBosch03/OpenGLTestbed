@@ -5,6 +5,7 @@
 
 #include "Logger.h"
 #include "Input.h"
+#include "ShaderPreprocessor.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -15,6 +16,20 @@ Application* Application::Current = nullptr;
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
 
 Vec3 ambient = GREY(0.1);
+float ambientStrength = 1.2f;
+const int lightCount = 3;
+Vec3 lightColor[lightCount] = 
+{
+	HEX3(ffefd6),
+	HEX3(c4eeff),
+	HEX3(c4eeff),
+};
+float lightStrength[lightCount] =
+{
+	4.0f,
+	2.0f,
+	3.0f,
+};
 
 void Application::Run()
 {
@@ -37,7 +52,7 @@ void Application::Run()
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		
+
 		Loop();
 
 		while (fixedFrameTimeAccumilator >= fixedUnscaledFrameTime)
@@ -81,18 +96,23 @@ void Application::Initalize()
 	ImGui_ImplOpenGL3_Init();
 
 	babysitter.Initalize();
-	shader.Initalize("./Assets/Shaders/shader.vert", "./Assets/Shaders/shader.frag");
 
-	canRenderData.Load("./Assets/Models/monke.fbx");
-	can.meshData = &canRenderData;
+	renderData.Load("./Assets/Models/monke.fbx");
+	Material material = Material("shader");
+	can.SetMaterial(material).SetMeshData(&renderData);
+
+	can.material.SetTexture(0, ASSET(Texture, "./Assets/Textures/Monke/Monke.Color.tga"));
 
 	lightingEnviroment.Initalize();
 
 	Input::Init();
+	ShaderPreprocessor::Initalize();
 }
 
 void Application::Loop()
 {
+	ImGui::Begin("Utility");
+
 	can.position = Vec3(0.0f, glm::sin(Time() * 5.0f) * 0.2f, 0.0f);
 
 	float a = Time() * 1.0f;
@@ -106,20 +126,32 @@ void Application::Loop()
 		HotReloadShaders();
 	}
 
-	lightingEnviroment.PushLight({ 1.0, -1.0, 1.0 }, HEX3(ffefd6) * 2.0f);
-	lightingEnviroment.PushLight({ -1.0, 1.0, 0.5 }, HEX3(c4eeff) * 0.4f);
-	lightingEnviroment.PushLight({ -1.0, -0.2, 0.5 }, HEX3(c4eeff) * 0.8f);
-	lightingEnviroment.SetAmbient(ambient, 0.5f);
+	lightingEnviroment.PushLight({ 1.0, -1.0, -1.0 }, lightColor[0] * lightStrength[0]);
+	lightingEnviroment.PushLight({ -1.0, 1.0, 0.5 }, lightColor[1] * lightStrength[1]);
+	lightingEnviroment.PushLight({ -1.0, -0.2, 0.5 }, lightColor[2] * lightStrength[2]);
+	lightingEnviroment.SetAmbient(ambient, ambientStrength);
 
-	ImGui::Begin("Utility");
+	if (ImGui::CollapsingHeader("Lighting Enviroment"))
+	{
+		ImGui::ColorEdit3("Ambient Light", &ambient.x);
+		ImGui::SliderFloat("Ambient Strength", &ambientStrength, 0.0f, 2.0f);
+		for (size_t i = 0; i < lightCount; i++)
+		{
+			if (!ImGui::CollapsingHeader((std::string("Light.") + std::to_string(i)).c_str())) continue;
+
+			ImGui::ColorEdit3("Color", &lightColor[i].x);
+			ImGui::SliderFloat("Strength", &lightStrength[i], 0.0f, 10.0f);
+		}
+	}
+
 	if (ImGui::Button("Hot Reload Shaders"))
 	{
 		HotReloadShaders();
 	}
-	ImGui::End();
 
 	Input::Update();
-	rt.Initalize();
+
+	ImGui::End();
 }
 
 void Application::FixedLoop()
@@ -132,14 +164,12 @@ void Application::Render()
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
 
-	rt.Bind(width, height);
 	glClearColor(ambient.r, ambient.g, ambient.b, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
 	camera.Bind();
 
-	shader.Bind();
 	lightingEnviroment.Bind();
 
 	can.Bind();
@@ -147,7 +177,6 @@ void Application::Render()
 	can.Unbind();
 
 	lightingEnviroment.Unbind();
-	shader.Unbind();
 
 	camera.Unbind();
 
@@ -156,8 +185,6 @@ void Application::Render()
 	{
 		ImGui_ImplOpenGL3_RenderDrawData(data);
 	}
-
-	rt.Unbind();
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
@@ -170,7 +197,7 @@ bool Application::ShouldClose()
 
 void Application::HotReloadShaders()
 {
-	shader.HotReload();
+	ShaderProgram::HotReloadAll();
 }
 
 void WindowResizeCallback(GLFWwindow* window, int width, int height)
@@ -183,6 +210,8 @@ Application::~Application()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+
+	ShaderProgram::CleanupAll();
 
 	glfwTerminate();
 }

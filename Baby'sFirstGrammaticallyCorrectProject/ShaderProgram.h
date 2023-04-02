@@ -5,43 +5,43 @@
 
 #include <string>
 
+const std::string ShaderPath = "./Assets/Shaders/";
+
 class ShaderProgram
 {
 	bool bad = true;
 
-	void LoadShader(GLuint& shader, const std::string& fileName, GLenum shaderType, GLchar* errorLog, int logSize, GLint& success);
+	void LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int logSize, GLint& success);
 	void LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int logSize);
 	void Cleanup();
 
-	GLuniform 
-		modelMat = GLuniform("_Model"),
-		viewMat = GLuniform("_View"),
-		projMat = GLuniform("_Projection"),
-		viewProjMat = GLuniform("_VP"),
-		modelViewProjMat = GLuniform("_MVP"),
-		time = GLuniform("_Time"),
-		camPos = GLuniform("_CamPos");
+	GLuniform<Mat4>
+		modelMat = GLuniform<Mat4>("_Model"),
+		viewMat = GLuniform<Mat4>("_View"),
+		projMat = GLuniform<Mat4>("_Projection"),
+		viewProjMat = GLuniform<Mat4>("_VP"),
+		modelViewProjMat = GLuniform<Mat4>("_MVP");
+	GLuniform<float> time = GLuniform<float>("_Time");
+	GLuniform<Vec3> camPos = GLuniform<Vec3>("_CamPos");
 
-	void SetupUniforms();
+	void Load(const std::string& name);
+	void Initalize(const std::string& vert, const std::string& frag);
+
+	ShaderProgram() = default;
+	~ShaderProgram();
+
+	void HotReload();
 
 public:
 	GLuint 
-		vertShader, 
-		fragShader, 
-		shaderProgram;
+		vertHandle, 
+		fragHandle, 
+		programHandle;
 
-	std::string 
-		vertFileName, 
-		fragFileName;
+	std::string name = "Unnamed Shader Program";
 
-	ShaderProgram() = default;
 	ShaderProgram(const ShaderProgram& other) = delete;
 	ShaderProgram& operator=(const ShaderProgram& other) = delete;
-	~ShaderProgram();
-
-	void Initalize(const std::string& vertFileName, const std::string& fragFileName);
-
-	void HotReload();
 
 	void Bind();
 	void Unbind();
@@ -49,4 +49,9 @@ public:
 	void SetModelMatrix(const Mat4& model);
 
 	static ShaderProgram* Current;
+
+	static ShaderProgram* Find(const std::string& name);
+	static ShaderProgram* Fallback();
+	static void CleanupAll();
+	static void HotReloadAll();
 };

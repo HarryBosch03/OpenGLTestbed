@@ -6,5 +6,6 @@
 
 namespace ShaderPreprocessor
 {
-	std::string GenerateShaderFromPath(const std::string& filePath);
+	void Initalize();
+	std::string ParseIncludes(const std::string& shader, const std::string& shaderName);
 };

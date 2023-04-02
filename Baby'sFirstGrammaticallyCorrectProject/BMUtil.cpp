@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-std::string BMUtil::LoadTextFromFile(std::string fileName)
+std::string BMUtil::LoadTextFromFile(const std::string& fileName, bool* success, bool log)
 {
 	std::stringstream res;
 	std::fstream file(fileName.c_str(), std::ios::in);
@@ -19,8 +19,11 @@ std::string BMUtil::LoadTextFromFile(std::string fileName)
 	}
 	else
 	{
-		std::cout << std::string() << "Could not find file \"" + fileName + "\"\n";
+		if (log) std::cout << std::string() << "Could not find file \"" + fileName + "\"\n";
+		if (success) *success = false;
+		return "";
 	}
 	file.close();
+	if (success) *success = true;
 	return res.str();
 }

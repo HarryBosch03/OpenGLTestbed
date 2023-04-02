@@ -9,6 +9,8 @@
 #include "MeshRenderData.h"
 #include "MeshInstance.h"
 #include "RenderTarget.h"
+#include "Texture.h"
+#include "AssetDatabase.h"
 
 class Application
 {
@@ -17,10 +19,8 @@ class Application
 	CameraController cameraController;
 	GLBabysitter babysitter;
 	LightingEnviroment lightingEnviroment;
-	ShaderProgram shader;
-	RenderTarget rt;
-
-	MeshRenderData canRenderData;
+	
+	MeshRenderData renderData;
 	MeshInstance can;
 
 	float time = 0.0f;

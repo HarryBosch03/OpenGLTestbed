@@ -52,6 +52,8 @@ std::cout << C_ARGS(color, mode) << "[" << type << "] " << text << " at (" << FI
 
 #define LOG_ERROR(text) LOG_GENERIC(text, " ERROR ", C_RED_BG, C_BOLD)
 
+#define FNAME(str) str.substr(str.find_last_of("/\\") + 1)
+
 #ifdef _DEBUG
 
 #define LOG_TEST \

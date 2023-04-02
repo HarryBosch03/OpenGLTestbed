@@ -1,11 +1,20 @@
 #pragma once
 
-struct MeshData;
+#include "Logger.h"
 
 #include <string>
+#include <map>
+
+class Texture;
+class MeshData;
 
 namespace AssetDatabase
 {
-	void LoadAllAssets();
-	MeshData* GetMesh(std::string name);
+	void Use();
+	void Cleanup();
+
+	Texture* GetTexture(const std::string& fileLoc);
+	MeshData* GetMesh(const std::string& fileLoc, int subMeshIndex);
 };
+
+#define ASSET(type, fileLoc) AssetDatabase::Get##type(fileLoc)

@@ -4,6 +4,7 @@
 
 #include "Maths.h"
 #include "MeshData.h"
+#include "Material.h"
 
 #include <vector>
 
@@ -20,8 +21,8 @@ public:
 	MeshRenderData& operator=(const MeshRenderData& other) = delete;
 	~MeshRenderData();
 
-	void Load(const MeshData& meshData);
-	void Load(std::string path);
+	MeshRenderData& Load(const MeshData& meshData);
+	MeshRenderData& Load(std::string path);
 
 	void Bind();
 	void Draw() const;

@@ -147,40 +147,40 @@ void AddTri(aiMesh* mesh, IndexList& indices, int face, int a, int b, int c)
 	indices.push_back(mesh->mFaces[face].mIndices[c]);
 }
 
-const MeshScene* LoadMeshSceneFromFile(std::string path)
+const MeshScene* LoadMeshSceneFromFile(const std::string& fileLoc)
 {
-	const char* pathC = path.c_str();
+	const char* pathC = fileLoc.c_str();
 	return aiImportFile(pathC, 0);
 }
 
-MeshData MeshData::LoadMeshFromFile(std::string path, int subMeshIndex)
+MeshData& MeshData::LoadFromFile(const std::string& fileLoc, int subMeshIndex)
 {
-	if (!DoesFileExist(path)) return {};
+	vertices.clear();
+	indices.clear();
 
-	const MeshScene* scene = LoadMeshSceneFromFile(path);
+	if (!DoesFileExist(fileLoc)) return *this;
 
-	MeshData data;
+	const MeshScene* scene = LoadMeshSceneFromFile(fileLoc);
 	aiMesh* mesh = scene->mMeshes[subMeshIndex];
-
 	int faceCount = mesh->mNumFaces;
 	for (int i = 0; i < faceCount; i++)
 	{
 		for (int j = 0; j < mesh->mFaces[i].mNumIndices - 2; j++)
 		{
-			AddTri(mesh, data.indices, i, 0, j + 2, j + 1);
+			AddTri(mesh, indices, i, 0, j + 2, j + 1);
 		}
 	}
 
 	int vertexCount = mesh->mNumVertices;
 	for (int i = 0; i < vertexCount; i++)
 	{
-		data.vertices.push_back(VertexData()
+		vertices.push_back(VertexData()
 		.SetPosition(mesh->mVertices[i])
 		.SetNormal(mesh->mNormals[i])
 		.SetTextureCoordinates(mesh->mTextureCoords[0][i]));
 	}
 
-	return data;
+	return *this;
 }
 
 VertexData::VertexData(Vec4 position, Vec4 normal, Vec2 textureCoordiates)

@@ -46,5 +46,5 @@ struct MeshData
 	MeshData& Subdivide(int itterations);
 	MeshData& RecalculateNormals(bool flip = false);
 
-	static MeshData LoadMeshFromFile(std::string path, int subMeshIndex);
+	MeshData& LoadFromFile(const std::string& path, int subMeshIndex);
 };
