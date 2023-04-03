@@ -9,10 +9,10 @@ class Texture;
 class Material
 {
 	ShaderProgram* program = nullptr;
-	std::map<std::string, Texture*> textures;
-	int textureIndex;
 
 public:
+	std::map<std::string, Texture*> textures;
+
 	Material() = default;
 	Material(const std::string& shader);
 	Material(ShaderProgram* program);

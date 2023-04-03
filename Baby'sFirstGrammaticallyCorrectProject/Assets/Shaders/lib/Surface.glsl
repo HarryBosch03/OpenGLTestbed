@@ -1,7 +1,6 @@
 struct Surface
 {
-    vec3 diffuse;
-    vec3 specular;
+    vec3 albedo;
     vec3 normal;
     vec3 viewDir;
     

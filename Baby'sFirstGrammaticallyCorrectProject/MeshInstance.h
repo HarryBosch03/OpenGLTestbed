@@ -8,6 +8,8 @@ class MeshRenderData;
 class MeshInstance
 {
 	MeshRenderData* meshData = nullptr;
+	void Bind();
+	void Unbind();
 
 public:
 	Vec3 position;
@@ -15,9 +17,7 @@ public:
 	Vec3 scale;
 	Material material;
 
-	void Bind();
 	void Draw();
-	void Unbind();
 
 	MeshInstance& SetMaterial(Material material);
 	MeshInstance& SetMeshData(MeshRenderData* data);

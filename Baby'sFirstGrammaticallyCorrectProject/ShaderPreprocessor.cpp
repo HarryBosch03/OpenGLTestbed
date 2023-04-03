@@ -15,6 +15,7 @@ const std::string CompiledLocation = ShaderPath + "Compiled/";
 void ShaderPreprocessor::Initalize()
 {
 	std::filesystem::remove_all(CompiledLocation);
+	std::filesystem::create_directory(CompiledLocation);
 }
 
 void WriteOutputToFile(const std::string& data, const std::string& filePath, int attempt = 0)
@@ -24,21 +25,14 @@ void WriteOutputToFile(const std::string& data, const std::string& filePath, int
 	if (attempt > 0) path += "(" + std::to_string(attempt) + ")";
 	path += "[COMPILED].glsl";
 
-
-	if (std::filesystem::exists(path))
-	{
-		WriteOutputToFile(data, filePath, attempt + 1);
-		return;
-	}
-
-	std::ofstream fs(path);
+	std::fstream fs(path, std::ios::out);
 	if (fs.is_open())
 	{
 		fs.write(data.c_str(), data.size());
 	}
 	else
 	{
-		std::cout << "Failed to write to " << path << " (" << fs.failbit << ")\n\n";
+		std::cout << "Failed to write to \"" << path << "\"\n\n";
 	}
 	fs.close();
 }
@@ -56,7 +50,7 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 	char* data = stb_include_string(shaderC, nullptr, includeC, nullptr, error);
 	if (!data)
 	{
-		LOG_ERROR("Failed to load scene file at \"filePath\" does not exist!");
+		LOG_ERROR("Failed Shader Preprocess for \"" << shaderName << "\"");
 		LOG_ERROR("STB ERROR DUMP: " << error);
 		return {};
 	}
@@ -65,5 +59,6 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 	free(data);
 
 	WriteOutputToFile(output, CompiledLocation + shaderName);
+
 	return output;
 }

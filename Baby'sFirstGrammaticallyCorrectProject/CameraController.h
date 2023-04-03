@@ -10,14 +10,17 @@ class CameraController
 	void SetPosition(Camera& camera);
 
 public:
-	float panSpeed = 0.3f;
-	float distance = 5.0f;
-	float drag = 15.0f;
-	
-	Vec2 position = Zero;
-	Vec2 lastPosition = Zero;
+	float moveSpeed = 10.0f;
+	float moveAcceleration = 10.0f;
+	float sensitivity = 0.3f;
 
-	Vec2 lastCursorPos = Zero;
+	Vec3 moveInput = {};
+
+	Vec2 rotation = {};
+	Vec3 velocity = {};
+	Vec3 acceleration = {};
+
+	Vec2 lastCursorPosition;
 
 	void Control(Camera& camera);
 };

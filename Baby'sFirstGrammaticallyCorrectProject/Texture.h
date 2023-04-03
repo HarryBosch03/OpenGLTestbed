@@ -1,7 +1,9 @@
 #pragma once
 
-#include "assimp/texture.h"
 #include "Graphics.h"
+#include <string>
+
+class ShaderProgram;
 
 class Texture
 {
@@ -12,6 +14,9 @@ class Texture
 
 	int boundIndex = -1;
 	bool bound = false;
+	std::string ref;
+
+	void PassDataToGL(void* data, GLenum type, GLint internalFormat, const std::string& fileLoc);
 
 public:
 	Texture() = default;
@@ -20,10 +25,13 @@ public:
 	~Texture();
 
 	Texture& LoadFromFile(const std::string& fileLoc);
-	void Bind(int index);
+	void Bind(const std::string& ref);
 	void Unbind();
 
 	inline const int& Width() const { return width; }
 	inline const int& Height() const { return height; }
 	inline const int& Channels() const { return channels; }
+
+	static void BindAll();
+	static void UnbindAll();
 };

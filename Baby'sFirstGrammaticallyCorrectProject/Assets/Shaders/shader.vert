@@ -5,22 +5,27 @@
 layout (location = 0) in vec4 position;
 layout (location = 1) in vec4 normal;
 layout (location = 2) in vec2 texcoord0;
+layout (location = 3) in vec4 tangent;
 
-out vec3 col;
-out vec3 worldNormal;
-out vec3 worldPos;
-out vec2 uv;
+out vec4 vColor;
+out vec4 vNormal;
+out vec4 vPosition;
+out vec2 vUV;
+out vec4 vTangent;
+out vec4 vBitangent;
 
 void main ()
 {
 	vec4 p = position;
-	worldPos = (_Model * position).xyz;
+	vPosition = Model * position;
+	vNormal = Model * normal;
 
-	col = normal.xyz;
-	col = vec3(1);
-	uv = texcoord0;
+	vColor = vec4(1);
+	vUV = texcoord0;
 
-	worldNormal = (_Model * normal).xyz;
+	vec3 t = tangent.xyz;
+	vTangent = Model * vec4(t, 0.0);
+	vBitangent = vec4(cross(vNormal.xyz, vTangent.xyz) * tangent.w, 0.0);
 
-	gl_Position = _MVP * p;
+	gl_Position = MVP * p;
 }

@@ -1,12 +1,13 @@
 #include "LightingEnviroment.h"
 
 #include "Graphics.h"
+#include "GLuniform.h"
 
 LightingEnviroment* LightingEnviroment::Current = nullptr;
 
 Vec3 LightingEnviroment::Ambient()
 {
-	return Uniforms::AmbientLight.value;
+	return Uniform::Get<Vec3>("AmbientLight");
 }
 
 void LightingEnviroment::Initalize()
@@ -16,16 +17,17 @@ void LightingEnviroment::Initalize()
 
 void LightingEnviroment::PushLight(Vec3 direction, Vec3 color)
 {
-	if (Uniforms::DLightCount.value >= MaxDLights) return;
+	int& count = Uniform::Get<int>("DLightCount");
+	if (count >= MaxDLights) return;
 
-	Uniforms::DLightDirections[Uniforms::DLightCount] = direction;
-	Uniforms::DLightColors[Uniforms::DLightCount] = color;
-	Uniforms::DLightCount.value++;
+	Uniform::SetBuffer<Vec3>("DLightDirections", MaxDLights, count, direction);
+	Uniform::SetBuffer<Vec3>("DLightColors", MaxDLights, count, color);
+	count++;
 }
 
 void LightingEnviroment::SetAmbient(Vec3 color)
 {
-	Uniforms::AmbientLight.value = color;
+	Uniform::Set<Vec3>("AmbientLight", color);
 }
 
 void LightingEnviroment::Bind()
@@ -36,7 +38,7 @@ void LightingEnviroment::Bind()
 void LightingEnviroment::Unbind()
 {
 	Current = nullptr;
-	Uniforms::DLightCount = 0;
+	Uniform::Set<int>("DLightCount", 0);
 }
 
 void LightingEnviroment::SetShaderUniforms(ShaderProgram& shader)

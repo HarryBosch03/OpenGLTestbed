@@ -16,7 +16,7 @@ Application* Application::Current = nullptr;
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
 
 Vec3 ambient = GREY(0.1);
-float ambientStrength = 1.2f;
+float ambientStrength = 0.8f;
 const int lightCount = 3;
 Vec3 lightColor[lightCount] = 
 {
@@ -26,9 +26,9 @@ Vec3 lightColor[lightCount] =
 };
 float lightStrength[lightCount] =
 {
-	4.0f,
-	2.0f,
-	3.0f,
+	1.0f,
+	0.6f,
+	0.3f,
 };
 
 void Application::Run()
@@ -97,6 +97,8 @@ void Application::Initalize()
 
 	babysitter.Initalize();
 
+	ShaderPreprocessor::Initalize();
+
 	renderData.Load("./Assets/Models/Monke Low Res.fbx");
 	Material material = Material("shader");
 	can.SetMaterial(material).SetMeshData(&renderData);
@@ -107,12 +109,16 @@ void Application::Initalize()
 	can.material.SetTexture("texNormal", ASSET(Texture, "./Assets/Textures/Monke/Monke.Normal.tga"));
 	can.material.SetTexture("texHeight", ASSET(Texture, "./Assets/Textures/Monke/Monke.Height.tga"));
 	can.material.SetTexture("texAO", ASSET(Texture, "./Assets/Textures/Monke/Monke.AO.tga"));
+	
+	skybox.material.SetShader("sky");
+	skybox.material.SetTexture("glMap", ASSET(Texture, "./Assets/Textures/forest.hdr"));
 
 	lightingEnviroment.Initalize();
 
 	Input::Init();
-	ShaderPreprocessor::Initalize();
 }
+
+float metalIn = 0.0f, roughIn = 0.0f;
 
 void Application::Loop()
 {
@@ -144,10 +150,15 @@ void Application::Loop()
 		{
 			if (!ImGui::CollapsingHeader((std::string("Light.") + std::to_string(i)).c_str())) continue;
 
-			ImGui::ColorEdit3("Color", &lightColor[i].x);
-			ImGui::SliderFloat("Strength", &lightStrength[i], 0.0f, 10.0f);
+			ImGui::ColorEdit3("Color##" + i, &lightColor[i].x);
+			ImGui::SliderFloat("Strength##" + i, &lightStrength[i], 0.0f, 10.0f);
 		}
 	}
+
+	ImGui::SliderFloat("Metalness", &metalIn, 0.0f, 1.0f);
+	ImGui::SliderFloat("Roughness", &roughIn, 0.0f, 1.0f);
+	Uniform::Set<float>("metalIn", metalIn);
+	Uniform::Set<float>("roughIn", roughIn);
 
 	if (ImGui::Button("Hot Reload Shaders"))
 	{
@@ -170,17 +181,18 @@ void Application::Render()
 	glfwGetWindowSize(window, &width, &height);
 
 	glClearColor(ambient.r, ambient.g, ambient.b, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
 	camera.Bind();
 
 	lightingEnviroment.Bind();
+	skybox.Bind();
 
-	can.Bind();
 	can.Draw();
-	can.Unbind();
+	skybox.Draw();
 
+	skybox.Unbind();
 	lightingEnviroment.Unbind();
 
 	camera.Unbind();

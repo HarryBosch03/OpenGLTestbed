@@ -2,10 +2,10 @@
 
 layout (location = 0) in vec4 position;
 
-uniform mat4 _MVP;
+uniform mat4 MVP;
 
 void main ()
 {
 	vec4 p = position;
-	gl_Position = _MVP * p;
+	gl_Position = MVP * p;
 }

@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Uniforms.h"
 #include "ColorUtil.h"
 
 #include <vector>
 
 const int MaxDLights = 4;
+
+class ShaderProgram;
 
 class LightingEnviroment
 {

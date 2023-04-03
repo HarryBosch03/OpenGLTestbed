@@ -15,26 +15,29 @@ using glm::clamp;
 
 void CameraController::ProcessInput()
 {
-	if (!Input::GetMouseDown(GLFW_MOUSE_BUTTON_1)) return;
+	moveInput =
+	{
+		Input::GetKeyDown(GLFW_KEY_A) - Input::GetKeyDown(GLFW_KEY_D),
+		Input::GetKeyDown(GLFW_KEY_LEFT_SHIFT) - Input::GetKeyDown(GLFW_KEY_SPACE),
+		Input::GetKeyDown(GLFW_KEY_W) - Input::GetKeyDown(GLFW_KEY_S),
+	};
 
-	Vec2 cursorDelta = cursorPosition - lastCursorPos;
-	position += cursorDelta * panSpeed;
+	Vec2 delta = cursorPosition - lastCursorPosition;
+	rotation += delta * sensitivity;
+	rotation.y = glm::clamp(rotation.y, -90.0f, 90.0f);
 }
 
 void CameraController::SetPosition(Camera& camera)
 {
-	position.y = clamp(position.y, -89.9f, 89.9f);
-	float a1 = radians(position.x), a2 = radians(position.y);
+	Vec3 targetVelocity = (camera.rotation * moveInput) * moveSpeed;
+	acceleration += (targetVelocity - velocity) * moveAcceleration;
 
-	Vec2 tempPos = position;
-	float dt = Application::Current->FrameTime();
-	Vec2 velocity = (position - lastPosition) / dt;
-	Vec2 force = -velocity * drag;
+	camera.position += velocity * Application::FrameTime();
+	velocity += acceleration * Application::FrameTime();
+	acceleration = Zero;
 
-	position += velocity * dt + force * dt * dt;
-	lastPosition = tempPos;
-
-	camera.position = Vec3(cos(a1) * cos(a2), sin(a2), sin(a1) * cos(a2)) * distance;
+	Vec2 rotRad = glm::radians(rotation);
+	camera.rotation = Quat(Vec3(0.0f, rotRad.x, rotRad.y));
 }
 
 void CameraController::Control(Camera& camera)
@@ -48,5 +51,5 @@ void CameraController::Control(Camera& camera)
 	ProcessInput();
 	SetPosition(camera);
 
-	lastCursorPos = cursorPosition;
+	lastCursorPosition = cursorPosition;
 }

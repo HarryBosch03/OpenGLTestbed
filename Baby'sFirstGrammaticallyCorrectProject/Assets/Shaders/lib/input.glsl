@@ -1,11 +1,13 @@
-uniform mat4 _Model;
-uniform mat4 _View;
-uniform mat4 _Projection;
-uniform mat4 _VP;
-uniform mat4 _MVP;
+uniform mat4 Model;
+uniform mat4 View;
+uniform mat4 Projection;
+uniform mat4 VP;
+uniform mat4 MVP;
 
-uniform float _Time;
+uniform mat4 VP_I;
 
-uniform vec3 _CamPos;
+uniform float Time;
+
+uniform vec3 CamPosition;
 
 float pi = 3.14159265;

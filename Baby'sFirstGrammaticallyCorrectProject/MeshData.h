@@ -19,19 +19,7 @@ struct VertexData
 	Vec4 position;
 	Vec4 normal;
 	Vec2 textureCoordinates;
-
-	VertexData(Vec4 position = {0, 0, 0, 1}, Vec4 normal = Zero, Vec2 textureCoordiates = Zero);
-
-	VertexData& SetPosition(Vec3 position);
-	VertexData& SetPosition(aiVector3D position);
-	VertexData& SetPosition(Vec4 position);
-
-	VertexData& SetNormal(Vec3 normal);
-	VertexData& SetNormal(aiVector3D normal);
-	VertexData& SetNormal(Vec4 normal);
-	
-	VertexData& SetTextureCoordinates(Vec2 textureCoordinates);
-	VertexData& SetTextureCoordinates(aiVector3D textureCoordinates);
+	Vec4 tangent;
 };
 
 struct MeshData
@@ -44,7 +32,7 @@ struct MeshData
 	MeshData& SplitNormals();
 	MeshData& Subdivide();
 	MeshData& Subdivide(int itterations);
-	MeshData& RecalculateNormals(bool flip = false);
+	MeshData& CalculateNormals(bool flip = false);
 
 	MeshData& LoadFromFile(const std::string& path, int subMeshIndex);
 };

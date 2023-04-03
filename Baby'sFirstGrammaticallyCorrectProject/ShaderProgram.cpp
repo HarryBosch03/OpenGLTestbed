@@ -3,7 +3,6 @@
 #include "ShaderPreprocessor.h"
 #include "Application.h"
 #include "Logger.h"
-#include "Uniforms.h"
 
 #include <iostream>
 #include <string>
@@ -69,7 +68,20 @@ void ShaderProgram::LoadShader(GLuint& handle, const std::string& shader, GLenum
 	glGetShaderiv(handle, GL_COMPILE_STATUS, &success);
 	if (success == GL_FALSE)
 	{
-		LogGLError(std::string() + "Shader \"" + name + "\" Failed with error: ", handle, errorLog, logSize);
+		std::string type;
+		switch (shaderType)
+		{
+		case GL_VERTEX_SHADER:
+			type = "Vertex";
+			break;
+		case GL_FRAGMENT_SHADER:
+			type = "Fragment";
+			break;
+		default:
+			type = "Unknown";
+			break;
+		}
+		LogGLError(std::string() + type + " Shader \"" + name + "\" Failed with error: ", handle, errorLog, logSize);
 	}
 	else
 	{
@@ -142,7 +154,7 @@ void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
 	programHandle = glCreateProgram();
 
 	ERROR_DEF_START
-	LoadShader(vertHandle, vert, GL_VERTEX_SHADER, errorLog, logSize, success);
+		LoadShader(vertHandle, vert, GL_VERTEX_SHADER, errorLog, logSize, success);
 	LoadShader(fragHandle, frag, GL_FRAGMENT_SHADER, errorLog, logSize, success);
 
 	glAttachShader(programHandle, vertHandle);
@@ -152,14 +164,14 @@ void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
 
 	ERROR_DEF_END
 
-	if (bad)
-	{
-		Cleanup();
-	}
-	else
-	{
-		LOG_SUCCESS("Shader Compiled and Linked successfully.") << '\n';
-	}
+		if (bad)
+		{
+			Cleanup();
+		}
+		else
+		{
+			LOG_SUCCESS("Shader Compiled and Linked successfully.") << '\n';
+		}
 }
 
 ShaderProgram::~ShaderProgram()
@@ -200,14 +212,16 @@ void ShaderProgram::Bind()
 
 	const Camera& camera = *Camera::Current;
 
-	Uniforms::ViewMat.value = Camera::Current->view;
-	Uniforms::ProjMat.value = Camera::Current->projection;
-
 	Mat4 vp = camera.projection * camera.view;
-	Uniforms::ViewProjMat.value = vp;
 
-	Uniforms::Time.value = Application::Current->Time();
-	Uniforms::CamPos.value = Camera::Current->position;
+	Uniform::Set<Mat4>("View", Camera::Current->view);
+	Uniform::Set<Mat4>("Projection", Camera::Current->projection);
+	Uniform::Set<Mat4>("VP", vp);
+
+	Uniform::Set<Mat4>("VP_I", glm::inverse(vp));
+
+	Uniform::Set<float>("Time", Application::Current->Time());
+	Uniform::Set<Vec3>("CamPosition", Camera::Current->position);
 
 	IGLuniform::SendAll(this);
 }
@@ -222,9 +236,9 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 {
 	const Camera& camera = *Camera::Current;
 
-	Uniforms::ModelMat.value = model;
 	Mat4 mvp = Camera::Current->projection * Camera::Current->view * model;
-	Uniforms::ModelViewProjMat.value = mvp;
+	Uniform::Set<Mat4>("Model", model);
+	Uniform::Set<Mat4>("MVP", mvp);
 }
 
 ShaderProgram* ShaderProgram::Find(const std::string& name)

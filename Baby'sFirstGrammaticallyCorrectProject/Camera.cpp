@@ -9,10 +9,12 @@ void Camera::Bind()
 {
 	Current = this;
 
-	view = glm::lookAt(position, (Vec3)Zero, { 0.0f, 1.0f, 0.0f });
+	view = glm::translate(glm::toMat4(rotation), position);
 
 	int width, height;
 	glfwGetWindowSize(Application::Current->Window(), &width, &height);
+	if (width == 0 || height == 0) return;
+
 	float aspect = (float)width / height;
 
 	float fovRad = fov * deg2Rad;

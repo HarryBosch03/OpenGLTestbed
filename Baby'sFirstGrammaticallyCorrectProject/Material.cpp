@@ -37,19 +37,20 @@ void Material::Bind()
 
 	for (auto& pair : textures)
 	{
-		glUniform1i(glGetUniformLocation(program->programHandle, pair.first.c_str()), textureIndex);
-		pair.second->Bind(textureIndex);
-		textureIndex++;
+		pair.second->Bind(pair.first);
 	}
+
+	Texture::BindAll();
 }
 
 void Material::Unbind()
 {
+	Texture::UnbindAll();
+
 	for (auto& pair : textures)
 	{
 		pair.second->Unbind();
 	}
 
 	program->Unbind();
-	textureIndex = 0;
 }

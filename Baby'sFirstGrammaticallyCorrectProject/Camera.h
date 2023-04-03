@@ -9,8 +9,9 @@ class Application;
 class Camera
 {
 public:
-	Vec3 position;
-	float fov = 25.0f;
+	Vec3 position = { -5.0f, 0.0f, 0.0f };
+	Quat rotation = QIdentity;
+	float fov = 60.0f;
 	float orthoSize = 5.0f;
 	bool ortho = false;
 

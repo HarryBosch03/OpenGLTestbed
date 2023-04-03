@@ -43,10 +43,10 @@ void MeshUtil::Quad(MeshData& meshData, const Vec2& size, const Mat4& mat)
 	Vec3 d = mat * Point(xSize - ySize);
 
 	int i = meshData.vertices.size();
-	meshData.vertices.push_back(Point(a));
-	meshData.vertices.push_back(Point(b));
-	meshData.vertices.push_back(Point(c));
-	meshData.vertices.push_back(Point(d));
+	meshData.vertices.push_back({ Point(a) });
+	meshData.vertices.push_back({ Point(b) });
+	meshData.vertices.push_back({ Point(c) });
+	meshData.vertices.push_back({ Point(d) });
 
 	meshData.indices.push_back(i);
 	meshData.indices.push_back(i + 1);
@@ -140,7 +140,7 @@ MeshData MeshUtil::Sphere(const float radius, int rows, int columns, const Mat4&
 
 void MeshUtil::Sphere(MeshData& meshData, const float radius, int rows, int columns, const Mat4& mat)
 {
-	meshData.vertices.push_back(Up * radius * 0.5f);
+	meshData.vertices.push_back({ Up * radius * 0.5f });
 
 	for (int i = 1; i < rows - 1; i++)
 	{
@@ -149,12 +149,12 @@ void MeshUtil::Sphere(MeshData& meshData, const float radius, int rows, int colu
 		for (int j = 0; j < columns; j++)
 		{
 			float a2 = j / (float)columns * tau;
-			Vec3 p = {cos(a2) * sin(a1), cos(a1), sin(a2) * sin(a1)};
-			meshData.vertices.push_back(Point(p * radius * 0.5f));
+			Vec3 p = { cos(a2) * sin(a1), cos(a1), sin(a2) * sin(a1) };
+			meshData.vertices.push_back({ Point(p * radius * 0.5f) });
 		}
 	}
 
-	meshData.vertices.push_back(Up * -radius * 0.5f);
+	meshData.vertices.push_back({ Up * -radius * 0.5f });
 
 	for (int i = 0; i < columns; i++)
 	{
@@ -162,7 +162,7 @@ void MeshUtil::Sphere(MeshData& meshData, const float radius, int rows, int colu
 		meshData.indices.push_back(i % columns + 1);
 		meshData.indices.push_back(0);
 	}
-	
+
 	for (int i = 0; i < rows - 3; i++)
 	{
 		for (int j = 0; j < columns; j++)

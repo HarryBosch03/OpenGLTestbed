@@ -1,10 +1,11 @@
 #include "GLuniform.h"
 
 #include "ShaderProgram.h"
+#include <map>
 
 const ShaderProgram* currentShader = nullptr;
 
-std::vector<IGLuniform*> uniforms;
+std::map<std::string, IGLuniform*> Uniform::uniforms;
 
 GLint IGLuniform::GetHandle(ShaderProgram* shaderProgram)
 {
@@ -15,25 +16,15 @@ GLint IGLuniform::GetHandle(ShaderProgram* shaderProgram)
 IGLuniform::IGLuniform(const std::string& name)
 {
 	this->name = name;
-	uniforms.push_back(this);
-}
-
-IGLuniform::~IGLuniform()
-{
-	for (auto it = uniforms.begin(); it != uniforms.end(); ++it)
-	{
-		if (*it != this) continue;
-		uniforms.erase(it);
-		break;
-	}
 }
 
 void IGLuniform::SendAll(ShaderProgram* shaderProgram)
 {
-	for (IGLuniform* uniform : uniforms)
+	for (std::pair<const std::string, IGLuniform*>& uniform : Uniform::uniforms)
 	{
-		uniform->Send(shaderProgram);
+		uniform.second->Send(shaderProgram);
 	}
+	Uniform::uniforms.clear();
 }
 
 #define SET_DEF(t, set, cast) \

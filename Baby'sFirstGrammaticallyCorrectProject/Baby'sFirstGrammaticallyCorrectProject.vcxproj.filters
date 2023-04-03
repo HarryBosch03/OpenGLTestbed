@@ -95,8 +95,8 @@
     <ClCompile Include="Material.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Uniforms.cpp">
-      <Filter>Rendering\Lighting</Filter>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,7 +238,7 @@
     <ClInclude Include="Material.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Uniforms.h">
+    <ClInclude Include="Skybox.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>

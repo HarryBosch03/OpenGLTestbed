@@ -1,9 +1,12 @@
 #include "MeshData.h"
 
 #include "Maths.h"
+#include "FileIO.h"
+#include "Logger.h"
+
 #include "assimp/scene.h"
 #include "assimp/cimport.h"
-#include "FileIO.h"
+#include "assimp/postprocess.h"
 
 #include <fstream>
 
@@ -72,13 +75,13 @@ MeshData& MeshData::Subdivide()
 
 		int s = vertices.size();
 
-		vertices.push_back(Point(a));
-		vertices.push_back(Point(ab));
-		vertices.push_back(Point(b));
-		vertices.push_back(Point(bc));
-		vertices.push_back(Point(c));
-		vertices.push_back(Point(ca));
-	   
+		vertices.push_back({ Point(a) });
+		vertices.push_back({ Point(ab) });
+		vertices.push_back({ Point(b) });
+		vertices.push_back({ Point(bc) });
+		vertices.push_back({ Point(c) });
+		vertices.push_back({ Point(ca) });
+
 		indices.push_back(s);
 		indices.push_back(s + 1);
 		indices.push_back(s + 5);
@@ -108,7 +111,7 @@ MeshData& MeshData::Subdivide(int itterations)
 	return *this;
 }
 
-MeshData& MeshData::RecalculateNormals(bool flip)
+MeshData& MeshData::CalculateNormals(bool flip)
 {
 	for (int i = 0; i < vertices.size(); i++)
 	{
@@ -150,7 +153,17 @@ void AddTri(aiMesh* mesh, IndexList& indices, int face, int a, int b, int c)
 const MeshScene* LoadMeshSceneFromFile(const std::string& fileLoc)
 {
 	const char* pathC = fileLoc.c_str();
-	return aiImportFile(pathC, 0);
+	return aiImportFile(pathC, aiPostProcessSteps::aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_SortByPType);
+}
+
+Vec4 Vec(const aiVector3D& v, float w)
+{
+	return Vec4(v.x, v.y, v.z, w);
+}
+
+Vec3 Vec(const aiVector3D& v)
+{
+	return Vec3(v.x, v.y, v.z);
 }
 
 MeshData& MeshData::LoadFromFile(const std::string& fileLoc, int subMeshIndex)
@@ -174,61 +187,29 @@ MeshData& MeshData::LoadFromFile(const std::string& fileLoc, int subMeshIndex)
 	int vertexCount = mesh->mNumVertices;
 	for (int i = 0; i < vertexCount; i++)
 	{
-		vertices.push_back(VertexData()
-		.SetPosition(mesh->mVertices[i])
-		.SetNormal(mesh->mNormals[i])
-		.SetTextureCoordinates(mesh->mTextureCoords[0][i]));
+		Vec4 vertex, normal, tangent;
+		Vec2 texCoord;
+		bool hasTangents = mesh->HasTangentsAndBitangents();
+
+		vertex = Vec(mesh->mVertices[i], 1.0f);
+		normal = Vec(mesh->mNormals[i], 0.0f);
+		tangent = hasTangents ? Vec(mesh->mTangents[i], 1.0) : Zero;
+
+		texCoord = TexCoord(mesh->mTextureCoords[0][i]);
+
+		vertices.push_back(
+			{
+				vertex,
+				normal,
+				texCoord,
+				tangent,
+			});
+
+		if (!hasTangents)
+		{
+			LOG_WARNING("Mesh \"" << FNAME(fileLoc) << "\" Does not have Tangents");
+		}
 	}
 
-	return *this;
-}
-
-VertexData::VertexData(Vec4 position, Vec4 normal, Vec2 textureCoordiates)
-{
-	this->position = position;
-	this->normal = normal;
-	this->textureCoordinates = textureCoordinates;
-}
-
-VertexData& VertexData::SetPosition(Vec3 position)
-{
-	return SetPosition(Point(position));
-}
-
-VertexData& VertexData::SetPosition(aiVector3D position)
-{
-	return SetPosition({ position.x, position.y, position.z, 1.0f });
-}
-
-VertexData& VertexData::SetPosition(Vec4 position)
-{
-	this->position = position;
-	return *this;
-}
-
-VertexData& VertexData::SetNormal(Vec3 normal)
-{
-	return SetNormal(Normal(normal));
-}
-
-VertexData& VertexData::SetNormal(aiVector3D normal)
-{
-	return SetNormal({normal.x, normal.y, normal.z, 0.0f});
-}
-
-VertexData& VertexData::SetNormal(Vec4 normal)
-{
-	this->normal = normal;
-	return *this;
-}
-
-VertexData& VertexData::SetTextureCoordinates(aiVector3D textureCoordinates)
-{
-	return SetTextureCoordinates(Vec2(textureCoordinates.x, textureCoordinates.y));
-}
-
-VertexData& VertexData::SetTextureCoordinates(Vec2 textureCoordinates)
-{
-	this->textureCoordinates = textureCoordinates;
 	return *this;
 }

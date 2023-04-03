@@ -3,21 +3,27 @@
 #include "MeshRenderData.h"
 #include "ShaderProgram.h"
 #include "Camera.h"
+#include "Texture.h"
 
 void MeshInstance::Bind()
 {
+	Mat4 m = LocalToWorld();
+	ShaderProgram::Current->SetModelMatrix(m);
+
 	material.Bind();
 	if (meshData) meshData->Bind();
 }
 
 void MeshInstance::Draw()
 {
+	Bind();
+
 	if (meshData)
 	{
-		Mat4 m = LocalToWorld();
-		ShaderProgram::Current->SetModelMatrix(m);
 		meshData->Draw();
 	}
+
+	Unbind();
 }
 
 void MeshInstance::Unbind()

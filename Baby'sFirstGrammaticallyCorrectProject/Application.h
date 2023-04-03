@@ -11,6 +11,7 @@
 #include "RenderTarget.h"
 #include "Texture.h"
 #include "AssetDatabase.h"
+#include "Skybox.h"
 
 class Application
 {
@@ -22,6 +23,7 @@ class Application
 	
 	MeshRenderData renderData;
 	MeshInstance can;
+	Skybox skybox;
 
 	float time = 0.0f;
 	float unscaledTime = 0.0f;
@@ -43,9 +45,9 @@ class Application
 	void HotReloadShaders();
 
 public:
-	inline float Time() const { return time; }
-	inline float FrameTime() const { return frameTime; }
-	inline float& FixedFrameTime() { return fixedUnscaledFrameTime; }
+	inline static float Time() { return Application::Current->time; }
+	inline static float FrameTime() { return Application::Current->frameTime; }
+	inline static float& FixedFrameTime() { return Application::Current->fixedUnscaledFrameTime; }
 
 	inline GLFWwindow* Window() const { return window; }
 

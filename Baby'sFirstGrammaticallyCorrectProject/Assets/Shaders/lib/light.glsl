@@ -1,9 +1,9 @@
 const int maxDirectionalLights = 4;
 
-uniform int dLightCount;
-uniform vec3 dLightDirections[maxDirectionalLights];
-uniform vec3 dLightColors[maxDirectionalLights];
-uniform vec3 ambientLight;
+uniform int DLightCount;
+uniform vec3 DLightDirections[maxDirectionalLights];
+uniform vec3 DLightColors[maxDirectionalLights];
+uniform vec3 AmbientLight;
 
 struct DLight
 {
@@ -15,8 +15,8 @@ DLight GetDLight (int index)
 {
 	DLight light;
 
-	light.direction = dLightDirections[index];
-	light.color = dLightColors[index];
+	light.direction = DLightDirections[index];
+	light.color = DLightColors[index];
 
 	return light;
 }
