@@ -16,17 +16,47 @@ vec2 SampleSphericalMap(vec3 v)
     return uv;
 }
 #line      4        0 
+#line       1        2 
+const int maxDirectionalLights = 4;
+
+layout (std140) uniform DLightData
+{
+	int DLightCount;
+	vec4 DLightDirections[maxDirectionalLights];
+	vec4 DLightColors[maxDirectionalLights];
+	vec4 AmbientLight;
+};
+
+struct DLight
+{
+	vec3 direction;
+	vec3 color;
+};
+
+DLight GetDLight (int index)
+{
+	DLight light;
+
+	light.direction = DLightDirections[index].xyz;
+	light.color = DLightColors[index].xyz;
+
+	return light;
+}
+
+uniform sampler2D glMap;
+
+vec3 sampleAmbient (vec3 v)
+{
+    return texture(glMap, SampleSphericalMap(v)).rgb * AmbientLight.rgb;
+}
+#line      5        0 
 
 out vec4 FragColor;
 
 in vec3 localPos;
 
-uniform sampler2D glMap;
-
 void main ()
 {
-    vec2 uv = SampleSphericalMap(normalize(localPos));
-    vec3 color = texture(glMap, uv).rgb;
-
-    FragColor = vec4(color.rgb, 1.0);
+    vec3 color = sampleAmbient(normalize(localPos));
+    FragColor = vec4(color, 1.0);
 }

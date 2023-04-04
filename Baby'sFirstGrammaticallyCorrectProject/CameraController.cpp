@@ -17,9 +17,9 @@ void CameraController::ProcessInput()
 {
 	moveInput =
 	{
-		Input::GetKeyDown(GLFW_KEY_A) - Input::GetKeyDown(GLFW_KEY_D),
-		Input::GetKeyDown(GLFW_KEY_Q) - Input::GetKeyDown(GLFW_KEY_E),
-		Input::GetKeyDown(GLFW_KEY_W) - Input::GetKeyDown(GLFW_KEY_S),
+		Input::GetKeyDown(GLFW_KEY_D) - Input::GetKeyDown(GLFW_KEY_A),
+		Input::GetKeyDown(GLFW_KEY_E) - Input::GetKeyDown(GLFW_KEY_Q),
+		Input::GetKeyDown(GLFW_KEY_S) - Input::GetKeyDown(GLFW_KEY_W),
 	};
 
 	if (Input::GetMouseDown(GLFW_MOUSE_BUTTON_2))

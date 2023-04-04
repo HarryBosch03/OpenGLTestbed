@@ -17,6 +17,11 @@ const float deg2Rad = pi / 180.0f;
 typedef glm::vec2 Vec2;
 typedef glm::vec3 Vec3;
 typedef glm::vec4 Vec4;
+
+typedef glm::vec<2, int, glm::defaultp> Vec2I;
+typedef glm::vec<3, int, glm::defaultp> Vec3I;
+typedef glm::vec<4, int, glm::defaultp> Vec4I;
+
 typedef glm::mat4 Mat4;
 typedef glm::quat Quat;
 

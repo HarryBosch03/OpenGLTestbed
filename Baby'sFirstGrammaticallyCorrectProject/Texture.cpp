@@ -1,7 +1,8 @@
 #include "Texture.h"
 
 #include "ShaderProgram.h"
-#include "Logger.h"
+#include "LogMaster.h"
+#include "FileUtility.h"
 
 #include "stb_image.h"
 
@@ -28,12 +29,12 @@ void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const 
 {
 	if (!data)
 	{
-		LOG_ERROR("Error Loading \"" << fileLoc << "\"");
+		LogError("Error Loading \"" << fileLoc << "\"");
 		return;
 	}
 	if (channels != 3 && channels != 4)
 	{
-		LOG_ERROR("Texture \"" << FNAME(fileLoc) << "\" has an invalid number of channels (" << channels << ")");
+		LogError("Texture \"" << Utility::Files::FileName(fileLoc) << "\" has an invalid number of channels (" << channels << ")");
 	}
 
 	glGenTextures(1, &handle);

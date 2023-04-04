@@ -12,8 +12,8 @@ class ShaderProgram : public Asset
 {
 	bool bad = true;
 
-	void LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int logSize, GLint& success);
-	void LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int logSize);
+	void LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int LoggerSize, GLint& success);
+	void LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int LoggerSize);
 	void Cleanup();
 
 	void Initalize(const std::string& vert, const std::string& frag);

@@ -9,7 +9,7 @@ void Camera::Bind()
 {
 	Current = this;
 
-	view = glm::translate(glm::toMat4(rotation), position);
+	view = glm::translate(glm::toMat4(rotation), -position);
 
 	int width, height;
 	glfwGetWindowSize(Application::Current->Window(), &width, &height);

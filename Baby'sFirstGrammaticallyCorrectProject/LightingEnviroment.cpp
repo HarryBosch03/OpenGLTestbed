@@ -2,8 +2,17 @@
 
 #include "Graphics.h"
 #include "GLuniform.h"
+#include "UniformBufferObject.h"
 
 LightingEnviroment* LightingEnviroment::Current = nullptr;
+
+struct DLightData
+{
+	Vec4I DLightCount = Zero;
+	Vec4 DLightDirections[MaxDLights] = { Zero };
+	Vec4 DLightColors[MaxDLights] = { Zero };
+	Vec4 AmbientLight = Zero;
+};
 
 Vec3 LightingEnviroment::Ambient()
 {
@@ -17,17 +26,20 @@ void LightingEnviroment::Initalize()
 
 void LightingEnviroment::PushLight(Vec3 direction, Vec3 color)
 {
-	int& count = Uniform::Get<int>("DLightCount");
-	if (count >= MaxDLights) return;
+	DLightData& lightData = UniformBufferObject::Lookup<DLightData>("DLightData");
+	int& count = lightData.DLightCount[0];
 
-	Uniform::SetBuffer<Vec3>("DLightDirections", MaxDLights, count, direction);
-	Uniform::SetBuffer<Vec3>("DLightColors", MaxDLights, count, color);
+	if (count >= MaxDLights) return;
+	
+	lightData.DLightDirections[count] = Vector(direction);
+	lightData.DLightColors[count] = Vector(color);
+
 	count++;
 }
 
 void LightingEnviroment::SetAmbient(Vec3 color)
 {
-	Uniform::Set<Vec3>("AmbientLight", color);
+	UniformBufferObject::Lookup<DLightData>("DLightData").AmbientLight = Vector(color);
 }
 
 void LightingEnviroment::Bind()

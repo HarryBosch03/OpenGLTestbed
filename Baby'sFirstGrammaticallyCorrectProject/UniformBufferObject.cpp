@@ -1,24 +1,42 @@
 #include "UniformBufferObject.h"
 
+#include "ShaderProgram.h"
+
 #include <map>
 
-std::map<std::string, UniformBufferObject> map;
+std::map<std::string, UniformBufferObject*> UniformBufferObject::map;
 
-void UniformBufferObject::Set(const std::string& ref, void* data, int sizeBytes)
+UniformBufferObject::UniformBufferObject()
 {
-	UniformBufferObject& buffer = map[ref];
-
-	if (!buffer.handle) glGenBuffers(1, &buffer.handle);
-
-	glBindBuffer(GL_UNIFORM_BUFFER, buffer.handle);
-	glBufferData(GL_UNIFORM_BUFFER, sizeBytes, data, GL_STATIC_DRAW);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	glGenBuffers(1, &handle);
 }
 
-void UniformBufferObject::SendToActiveShader()
+UniformBufferObject::~UniformBufferObject()
 {
-	for (const std::pair<const std::string, UniformBufferObject>& buffer : map)
+	delete[] data;
+}
+
+UniformBufferObject& UniformBufferObject::Find(const std::string& ref)
+{
+	if (!map.count(ref)) map[ref] = new UniformBufferObject();
+	return *map[ref];
+}
+
+void UniformBufferObject::SendToActiveShader(ShaderProgram* program)
+{
+	for (const std::pair<const std::string, UniformBufferObject*>& buffer : map)
 	{
-		// TODO
+		GLuint& programHandle = program->programHandle;
+		int index = glGetUniformBlockIndex(programHandle, buffer.first.c_str());
+		if (index == -1) continue;
+		GLint binding = 0;
+		glGetActiveUniformBlockiv(programHandle, index, GL_UNIFORM_BLOCK_BINDING, &binding);
+		glUniformBlockBinding(programHandle, index, binding);
+
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer.second->handle);
+		glBufferData(GL_UNIFORM_BUFFER, buffer.second->sizeBytes, buffer.second->data, GL_STATIC_DRAW);
+
+		glBindBufferRange(GL_UNIFORM_BUFFER, 0, buffer.second->handle, 0, buffer.second->sizeBytes);
 	}
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

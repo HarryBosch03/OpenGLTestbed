@@ -1,7 +1,7 @@
 #include "ShaderPreprocessor.h"
 
 #include "stb_include.h"
-#include "Logger.h"
+#include "LogMaster.h"
 #include "ShaderProgram.h"
 
 #include <vector>
@@ -50,8 +50,8 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 	char* data = stb_include_string(shaderC, nullptr, includeC, nullptr, error);
 	if (!data)
 	{
-		LOG_ERROR("Failed Shader Preprocess for \"" << shaderName << "\"");
-		LOG_ERROR("STB ERROR DUMP: " << error);
+		LogError("Failed Shader Preprocess for \"" << shaderName << "\"");
+		LogError("STB ERROR DUMP: " << error);
 		return {};
 	}
 

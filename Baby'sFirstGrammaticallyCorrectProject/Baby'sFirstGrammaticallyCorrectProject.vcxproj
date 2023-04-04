@@ -176,7 +176,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="KeyTable.cpp" />
     <ClCompile Include="LightingEnviroment.cpp" />
-    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="LogMaster.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Maths.cpp" />
@@ -221,7 +221,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="KeyTable.h" />
     <ClInclude Include="LightingEnviroment.h" />
-    <ClInclude Include="Logger.h" />
+    <ClInclude Include="LogMaster.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Maths.h" />
     <ClInclude Include="MeshInstance.h" />

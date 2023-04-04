@@ -49,5 +49,6 @@ void main ()
 	vec3 final = GetLighting(surface);
 	final *= texture(texAO, v.uv).r;
 
-	fragColor = vec4(final, 1);
+	float debug = 0.0;
+	fragColor = mix(vec4(final, 1), vec4(0.5, 0.5, 1.0, 1.0), debug);
 }

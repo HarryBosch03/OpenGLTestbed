@@ -2,8 +2,9 @@
 
 #include "ShaderPreprocessor.h"
 #include "Application.h"
-#include "Logger.h"
+#include "LogMaster.h"
 #include "FileUtility.h"
+#include "UniformBufferObject.h"
 
 #include <iostream>
 #include <string>
@@ -13,24 +14,24 @@
 ShaderProgram* ShaderProgram::Current = nullptr;
 
 #define ERROR_DEF_START \
-const int logSize = 512; \
-GLchar errorLog[logSize] = {'\0'}; \
+const int LoggerSize = 512; \
+GLchar errorLog[LoggerSize] = {'\0'}; \
 GLint success = 0;
 
 #define ERROR_DEF_END \
 if (success == GL_FALSE) \
 { \
-	LogGLError(std::string() + "Error Linking Shader Program \"" + name + "\"\n", programHandle, errorLog, logSize); \
+	LogGLError(std::string() + "Error Linking Shader Program \"" + name + "\"\n", programHandle, errorLog, LoggerSize); \
 }
 
-void ShaderProgram::LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int logSize)
+void ShaderProgram::LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int LoggerSize)
 {
 	std::stringstream s;
 	s << message << '\n';
-	glGetShaderInfoLog(glObject, logSize, nullptr, errorLog);
+	glGetShaderInfoLog(glObject, LoggerSize, nullptr, errorLog);
 	s << errorLog;
 	s << '\n';
-	LOG_ERROR(s.str());
+	LogError(s.str());
 
 	bad = true;
 }
@@ -48,7 +49,7 @@ void ShaderProgram::Cleanup()
 	bad = true;
 }
 
-void ShaderProgram::LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int logSize, GLint& success)
+void ShaderProgram::LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int LoggerSize, GLint& success)
 {
 	handle = glCreateShader(shaderType);
 	const char* shaderC = shader.c_str();
@@ -71,11 +72,11 @@ void ShaderProgram::LoadShader(GLuint& handle, const std::string& shader, GLenum
 			type = "Unknown";
 			break;
 		}
-		LogGLError(std::string() + type + " Shader \"" + name + "\" Failed with error: ", handle, errorLog, logSize);
+		LogGLError(std::string() + type + " Shader \"" + name + "\" Failed with error: ", handle, errorLog, LoggerSize);
 	}
 	else
 	{
-		LOG("Shader \"" << name << "\" Compiled Successfully");
+		LogMessage("Shader \"" << name << "\" Compiled Successfully");
 	}
 }
 
@@ -122,7 +123,7 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 		fragRaw = BMUtil::LoadTextFromFile(fileLoc + ".frag", &success);
 		if (!success)
 		{
-			LOG_ERROR("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");
+			LogError("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");
 			Cleanup();
 			return *this;
 		}
@@ -145,8 +146,8 @@ void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
 	programHandle = glCreateProgram();
 
 	ERROR_DEF_START
-		LoadShader(vertHandle, vert, GL_VERTEX_SHADER, errorLog, logSize, success);
-	LoadShader(fragHandle, frag, GL_FRAGMENT_SHADER, errorLog, logSize, success);
+		LoadShader(vertHandle, vert, GL_VERTEX_SHADER, errorLog, LoggerSize, success);
+	LoadShader(fragHandle, frag, GL_FRAGMENT_SHADER, errorLog, LoggerSize, success);
 
 	glAttachShader(programHandle, vertHandle);
 	glAttachShader(programHandle, fragHandle);
@@ -161,7 +162,7 @@ void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
 		}
 		else
 		{
-			LOG_SUCCESS("Shader Compiled and Linked successfully.") << '\n';
+			LogSuccess("Shader Compiled and Linked successfully." << '\n');
 		}
 }
 
@@ -216,6 +217,7 @@ void ShaderProgram::Bind()
 	Uniform::Set<Vec3>("CamPosition", Camera::Current->position);
 
 	IGLuniform::SendAll(this);
+	UniformBufferObject::SendToActiveShader(this);
 }
 
 void ShaderProgram::Unbind()

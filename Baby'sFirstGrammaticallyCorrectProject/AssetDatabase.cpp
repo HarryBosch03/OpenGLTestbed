@@ -30,7 +30,7 @@ void AssetDatabase::HotReload()
 
 void AssetDatabase::HotReload(bool(*predicate)(const AssetEntry& entry))
 {
-	LOG_WARNING("Reloading All Assets...");
+	LogWarning("Reloading All Assets...");
 
 	auto start = std::chrono::high_resolution_clock::now();
 	for (const AssetEntry& asset : assets)
@@ -41,7 +41,7 @@ void AssetDatabase::HotReload(bool(*predicate)(const AssetEntry& entry))
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-	LOG_SUCCESS("Finished Reloading " << assets.size() << " Assets Successfully in " << duration.count() << "ms");
+	LogSuccess("Finished Reloading " << assets.size() << " Assets Successfully in " << duration.count() << "ms");
 }
 
 class AssetDatabaseDrawer : public DrawGUIListener

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Logger.h"
+#include "LogMaster.h"
 #include "Texture.h"
 
 #include <string>

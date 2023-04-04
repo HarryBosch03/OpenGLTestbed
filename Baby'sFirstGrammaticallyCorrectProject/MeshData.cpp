@@ -2,7 +2,8 @@
 
 #include "Maths.h"
 #include "FileIO.h"
-#include "Logger.h"
+#include "LogMaster.h"
+#include "FileUtility.h"
 
 #include "assimp/scene.h"
 #include "assimp/cimport.h"
@@ -157,7 +158,7 @@ const MeshScene* LoadMeshSceneFromFile(const std::string& fileLoc)
 	if (!mesh)
 	{
 		const char* error = aiGetErrorString();
-		LOG_ERROR("Error importing file \"" << fileLoc << "\"\nDump: \n" << error << "\nAt Line ");
+		LogError("Error importing file \"" << fileLoc << "\"\nDump: \n" << error << "\nAt Line ");
 	}
 	return mesh;
 }
@@ -221,7 +222,7 @@ Asset& MeshData::LoadFromFile(const std::string& fileLoc, void* args)
 
 		if (!hasTangents)
 		{
-			LOG_WARNING("Mesh \"" << FNAME(fileLoc) << "\" Does not have Tangents");
+			LogWarning("Mesh \"" << Utility::Files::FileName(fileLoc) << "\" Does not have Tangents");
 		}
 	}
 

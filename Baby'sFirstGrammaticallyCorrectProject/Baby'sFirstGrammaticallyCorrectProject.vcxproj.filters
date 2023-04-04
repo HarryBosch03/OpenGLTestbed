@@ -83,9 +83,6 @@
     <ClCompile Include="FileIO.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderPreprocessor.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -113,6 +110,9 @@
     <ClCompile Include="UniformBufferObject.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="LogMaster.cpp">
+      <Filter>LogMaster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -138,6 +138,9 @@
     </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{2e8f87eb-5248-4d5e-b44d-2590a6f24c75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogMaster">
+      <UniqueIdentifier>{b07ab74d-5bb6-4c73-8ba5-6f40963090a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +207,6 @@
     </ClInclude>
     <ClInclude Include="stb_include.h">
       <Filter>stb</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Core</Filter>
@@ -276,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="UniformBufferObject.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="LogMaster.h">
+      <Filter>LogMaster</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

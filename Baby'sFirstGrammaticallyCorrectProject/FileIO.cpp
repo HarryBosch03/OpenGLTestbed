@@ -1,6 +1,6 @@
 #include "FileIO.h"
 
-#include "Logger.h"
+#include "LogMaster.h"
 
 #include <fstream>
 #include <iostream>
@@ -12,7 +12,7 @@ bool DoesFileExist(std::string path)
 	if (!exists)
 	{
 		std::string fullpath = std::filesystem::absolute(path).string();
-		LOG_ERROR("Path: \"" << fullpath << "\" does not exist!");
+		LogError("Path: \"" << fullpath << "\" does not exist!");
 	}
 	return exists;
 }

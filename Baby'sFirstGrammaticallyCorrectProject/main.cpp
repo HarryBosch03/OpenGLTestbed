@@ -10,11 +10,11 @@
 #include "stb_image.h"
 
 #define LOGGER_IMPLEMENTATION
-#include "Logger.h"
+#include "LogMaster.h"
 
 int main()
 {
-	LOG_TEST
+	Logger.Test();
 
 	Application application;
 

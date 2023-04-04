@@ -45,7 +45,7 @@ struct Surface
 #line       1        4 
 const int maxDirectionalLights = 4;
 
-uniform DLightData
+layout (std140) uniform DLightData
 {
 	int DLightCount;
 	vec4 DLightDirections[maxDirectionalLights];
@@ -67,6 +67,13 @@ DLight GetDLight (int index)
 	light.color = DLightColors[index].xyz;
 
 	return light;
+}
+
+uniform sampler2D glMap;
+
+vec3 sampleAmbient (vec3 v)
+{
+    return texture(glMap, SampleSphericalMap(v)).rgb * AmbientLight.rgb;
 }
 #line      7        0 
 #line       1        5 
@@ -108,10 +115,10 @@ vec3 GetLighting (Surface surface, DLight light)
     float rough = surface.roughness * 0.9 + 0.1;
     vec3 h = normalize(surface.viewDir - light.direction);
 
-    float NdotL = max(dot(surface.normal, -light.direction), 0.0);
-    float NdotV = max(dot(surface.normal, surface.viewDir), 0.0);
-    float NdotH = max(dot(surface.normal, h), 0.0);
-    float HdotV = max(dot(h, surface.viewDir), 0.0);
+    float NdotL = abs(dot(surface.normal, -light.direction));
+    float NdotV = abs(dot(surface.normal, surface.viewDir));
+    float NdotH = abs(dot(surface.normal, h));
+    float HdotV = abs(dot(h, surface.viewDir));
 
     vec3 radiance = light.color * NdotL;
 
@@ -131,13 +138,11 @@ vec3 GetLighting (Surface surface, DLight light)
     return (kD * surface.albedo / pi + spec) * radiance * NdotL;
 }
 
-uniform sampler2D glMap;
-
 vec3 sampleGL (Surface surface)
 {
     DLight light;
     light.direction = -surface.normal;
-    light.color = texture(glMap, SampleSphericalMap(surface.normal)).rgb;
+    light.color = sampleAmbient(surface.normal);
 
     return GetLighting(surface, light);
 }
@@ -202,5 +207,6 @@ void main ()
 	vec3 final = GetLighting(surface);
 	final *= texture(texAO, v.uv).r;
 
-	fragColor = vec4(final, 1);
+	float debug = 0.0;
+	fragColor = mix(vec4(final, 1), vec4(0.5, 0.5, 1.0, 1.0), debug);
 }

@@ -3,7 +3,7 @@
 #include "MeshData.h"
 #include "MeshRenderData.h"
 
-#include "Logger.h"
+#include "LogMaster.h"
 #include "Input.h"
 #include "ShaderPreprocessor.h"
 #include "DrawGUIListener.h"
@@ -39,6 +39,8 @@ void Application::Run()
 
 	while (!ShouldClose())
 	{
+		Logger.PushToConsole();
+
 		float newTime = (float)glfwGetTime();
 
 		unscaledFrameTime = newTime - time;
@@ -106,12 +108,12 @@ void Application::Initalize()
 	Material material = Material("shader");
 	can.SetMaterial(material).SetMeshData(&renderData);
 
-	can.material.SetTexture("texCol", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Color.tga"));
-	can.material.SetTexture("texMetal", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Metal.tga"));
-	can.material.SetTexture("texRough", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Roughness.tga"));
-	can.material.SetTexture("texNormal", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Normal.tga"));
-	can.material.SetTexture("texHeight", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Height.tga"));
-	can.material.SetTexture("texAO", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.AO.tga"));
+	can.material.SetTexture("texCol", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Albedo.tga"));
+	can.material.SetTexture("texMetal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Metal.tga"));
+	can.material.SetTexture("texRough", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Rough.tga"));
+	can.material.SetTexture("texNormal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Normal.tga"));
+	can.material.SetTexture("texHeight", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Height.tga"));
+	can.material.SetTexture("texAO", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.AO.tga"));
 	
 	skybox.Setup("Textures/forest.hdr");
 
