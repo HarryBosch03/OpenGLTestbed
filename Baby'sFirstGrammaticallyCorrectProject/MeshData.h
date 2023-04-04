@@ -2,6 +2,8 @@
 
 #include "Graphics.h"
 #include "Maths.h"
+#include "Asset.h"
+
 #include <vector>
 #include <string>
 
@@ -22,8 +24,12 @@ struct VertexData
 	Vec4 tangent;
 };
 
-struct MeshData
+class MeshData: public Asset
 {
+	std::string fileLoc;
+	int subMeshIndex;
+
+public:
 	VertexList vertices;
 	IndexList indices;
 	GLenum indexType = GL_UNSIGNED_INT;
@@ -34,5 +40,8 @@ struct MeshData
 	MeshData& Subdivide(int itterations);
 	MeshData& CalculateNormals(bool flip = false);
 
-	MeshData& LoadFromFile(const std::string& path, int subMeshIndex);
+	inline const AssetType& GetType() override { return AssetType::Texture; }
+
+	Asset& LoadFromFile(const std::string& path, void* args) override;
+	Asset& Reload() override;
 };

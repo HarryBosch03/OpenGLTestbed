@@ -16,13 +16,12 @@ class MeshRenderData
 public:
 	MeshRenderData() = default;
 	MeshRenderData(const MeshData& meshData);
-	MeshRenderData(std::string path);
 	MeshRenderData(const MeshRenderData& other) = delete;
 	MeshRenderData& operator=(const MeshRenderData& other) = delete;
 	~MeshRenderData();
 
 	MeshRenderData& Load(const MeshData& meshData);
-	MeshRenderData& Load(std::string path);
+	MeshRenderData& Load(MeshData* meshData);
 
 	void Bind();
 	void Draw() const;

@@ -2,16 +2,17 @@
 
 #include "Texture.h"
 #include "MeshData.h"
+#include "Asset.h"
+#include "DrawGUIListener.h"
+#include "FileUtility.h"
+#include "Tree.h"
 
-#include <filesystem>
+#include "imgui.h"
+#include "AssetDatabasePredicate.h"
 
-std::map<std::string, void*> assets;
+#include <chrono>
 
-template<typename T>
-T* TryLoadExistingAsset(const std::string& fileLoc)
-{
-	return assets.count(fileLoc) > 0 ? (T*)assets.at(fileLoc) : nullptr;
-}
+std::map<std::string, Asset*> assets;
 
 void AssetDatabase::Cleanup()
 {
@@ -22,14 +23,59 @@ void AssetDatabase::Cleanup()
 	assets.clear();
 }
 
-#define LOAD_TYPE_DEF(T, ...) \
-{ \
-	T* tex; \
-	if (tex = TryLoadExistingAsset<T>(fileLoc)) return tex; \
-	tex = &(new T())->LoadFromFile(fileLoc, __VA_ARGS__); \
-	return tex; \
+void AssetDatabase::HotReload()
+{
+	HotReload(AssetDatabase::Predicates::All);
 }
 
-MeshData* AssetDatabase::GetMesh(const std::string& fileLoc, int subMeshIndex) LOAD_TYPE_DEF(MeshData, 0)
+void AssetDatabase::HotReload(bool(*predicate)(const AssetEntry& entry))
+{
+	LOG_WARNING("Reloading All Assets...");
 
-Texture* AssetDatabase::GetTexture(const std::string& fileLoc) LOAD_TYPE_DEF(Texture)
+	auto start = std::chrono::high_resolution_clock::now();
+	for (const AssetEntry& asset : assets)
+	{
+		if (!predicate(asset)) continue;
+		asset.second->Reload();
+	}
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+	LOG_SUCCESS("Finished Reloading " << assets.size() << " Assets Successfully in " << duration.count() << "ms");
+}
+
+class AssetDatabaseDrawer : public DrawGUIListener
+{
+public:
+	void DrawGUI() override
+	{
+		std::map<std::string, std::vector<std::string>> pathMap;
+		for (const AssetEntry& asset : assets)
+		{
+			int i = asset.first.substr(0, 2) == "./" ? 2 : 0;
+			std::stringstream working;
+			while (i < asset.first.size())
+			{
+				char c = asset.first[i++];
+				if (c == '/' || c == '\\')
+				{
+					pathMap[asset.first].push_back(working.str());
+					working.clear();
+					continue;
+				}
+				working << c;
+			}
+		}
+
+		if (ImGui::CollapsingHeader("Asset Database"))
+		{
+			int depth;
+			for (const AssetEntry& asset : assets)
+			{
+				
+			}
+		}
+	}
+};
+
+AssetDatabaseDrawer drawer;

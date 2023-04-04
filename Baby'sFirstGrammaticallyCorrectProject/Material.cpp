@@ -1,6 +1,7 @@
 #include "Material.h"
 
 #include "ShaderProgram.h"
+#include "AssetDatabase.h"
 #include "Texture.h"
 
 Material& Material::SetShader(ShaderProgram* program)
@@ -21,7 +22,7 @@ Material::Material(ShaderProgram* program)
 
 Material& Material::SetShader(const std::string& shader)
 {
-	this->program = ShaderProgram::Find(shader);
+	this->program = AssetDatabase::LoadAsset<ShaderProgram>(ShaderPath + shader);
 	return *this;
 }
 

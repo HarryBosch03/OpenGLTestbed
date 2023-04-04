@@ -1,5 +1,8 @@
 #include "MeshRenderData.h"
 
+#include "AssetDatabase.h"
+#include "ShaderProgram.h"
+
 #include <stdexcept>
 
 MeshRenderData::MeshRenderData(const MeshData& meshData)
@@ -7,9 +10,12 @@ MeshRenderData::MeshRenderData(const MeshData& meshData)
 	Load(meshData);
 }
 
-MeshRenderData::MeshRenderData(std::string path) 
+void SetVertexAttribute(std::string ref, int size, size_t start, GLenum type = GL_FLOAT, GLboolean normalized = GL_FALSE)
 {
-	Load(path);
+	GLint handle = glGetAttribLocation(ShaderProgram::Current->programHandle, ref.c_str());
+	if (handle == -1) return;
+	glEnableVertexAttribArray(handle);
+	glVertexAttribPointer(handle, size, type, normalized, sizeof(VertexData), (void*)start);
 }
 
 MeshRenderData& MeshRenderData::Load(const MeshData& meshData)
@@ -19,38 +25,26 @@ MeshRenderData& MeshRenderData::Load(const MeshData& meshData)
 	glGenBuffers(1, &vbo);
 	glGenVertexArrays(1, &vao);
 
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, data.vertices.size() * sizeof(VertexData), data.vertices.data(), GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(offsetof(VertexData, position)));
-
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(offsetof(VertexData, normal)));
-
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(offsetof(VertexData, textureCoordinates)));
-
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(VertexData), (void*)(offsetof(VertexData, tangent)));
-
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 	return *this;
 }
 
-MeshRenderData& MeshRenderData::Load(std::string path)
+MeshRenderData& MeshRenderData::Load(MeshData* meshData)
 {
-	Load(MeshData().LoadFromFile(path, 0));
+	Load(*meshData);
 	return* this;
 }
 
 void MeshRenderData::Bind()
 {
 	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	glBufferData(GL_ARRAY_BUFFER, data.vertices.size() * sizeof(VertexData), data.vertices.data(), GL_STATIC_DRAW);
+
+	SetVertexAttribute("position", 4, offsetof(VertexData, position));
+	SetVertexAttribute("normal", 4, offsetof(VertexData, normal));
+	SetVertexAttribute("texcoord0", 2, offsetof(VertexData, textureCoordinates));
+	SetVertexAttribute("tangent", 4, offsetof(VertexData, tangent));
 }
 
 void MeshRenderData::Draw() const
@@ -61,6 +55,7 @@ void MeshRenderData::Draw() const
 void MeshRenderData::Unbind()
 {
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 MeshRenderData::~MeshRenderData()

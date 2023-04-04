@@ -1,11 +1,24 @@
 #pragma once
 
 #include "Graphics.h"
+#include "Asset.h"
 #include <string>
 
 class ShaderProgram;
 
-class Texture
+enum class TextureFiltering
+{
+	Linear = 0b00,
+	Nearest = 0b10,
+};
+
+struct TextureImportSettings
+{
+	TextureFiltering filtering = TextureFiltering::Linear;
+	bool useMipmaps = true;
+};
+
+class Texture : public Asset
 {
 	GLuint handle = 0;
 
@@ -16,7 +29,9 @@ class Texture
 	bool bound = false;
 	std::string ref;
 
-	void PassDataToGL(void* data, GLenum type, GLint internalFormat, const std::string& fileLoc);
+	TextureImportSettings settings;
+
+	void PassDataToGL(void* data, GLenum type, GLint internalFormat, const std::string& fileLoc, const TextureImportSettings& settings);
 
 public:
 	Texture() = default;
@@ -24,7 +39,11 @@ public:
 	Texture& operator=(const Texture& other) = delete;
 	~Texture();
 
-	Texture& LoadFromFile(const std::string& fileLoc);
+	inline const AssetType& GetType() override { return AssetType::Texture; }
+
+	Asset& LoadFromFile(const std::string& fileLoc, void* args) override;
+	Asset& Reload() override;
+
 	void Bind(const std::string& ref);
 	void Unbind();
 

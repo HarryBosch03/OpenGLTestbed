@@ -3,6 +3,7 @@
 #include "ShaderPreprocessor.h"
 #include "Application.h"
 #include "Logger.h"
+#include "FileUtility.h"
 
 #include <iostream>
 #include <string>
@@ -10,9 +11,6 @@
 #include <map>
 
 ShaderProgram* ShaderProgram::Current = nullptr;
-ShaderProgram* fallback;
-
-std::map<std::string, ShaderProgram*> loadedShaders;
 
 #define ERROR_DEF_START \
 const int logSize = 512; \
@@ -48,14 +46,6 @@ void ShaderProgram::Cleanup()
 	programHandle = 0;
 
 	bad = true;
-}
-
-void ShaderProgram::HotReloadAll()
-{
-	for (auto& shader : loadedShaders)
-	{
-		shader.second->HotReload();
-	}
 }
 
 void ShaderProgram::LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int logSize, GLint& success)
@@ -109,14 +99,14 @@ std::string ReadShader(const std::string shader, const std::string program)
 	return out.str();
 }
 
-void ShaderProgram::Load(const std::string& name)
+Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 {
-	this->name = name;
+	Asset::LoadFromFile(Utility::Files::RemoveExtension(_fileLoc), args);
 
-	std::string shaderPath = ShaderPath + name;
+	this->name = Utility::Files::FileName(fileLoc);
 
 	bool success;
-	std::string shaderRaw = BMUtil::LoadTextFromFile(shaderPath + ".shader", &success, false);
+	std::string shaderRaw = BMUtil::LoadTextFromFile(fileLoc + ".shader", &success, false);
 
 	std::string vertRaw;
 	std::string fragRaw;
@@ -128,13 +118,13 @@ void ShaderProgram::Load(const std::string& name)
 	}
 	else
 	{
-		vertRaw = BMUtil::LoadTextFromFile(shaderPath + ".vert", &success);
-		fragRaw = BMUtil::LoadTextFromFile(shaderPath + ".frag", &success);
+		vertRaw = BMUtil::LoadTextFromFile(fileLoc + ".vert", &success);
+		fragRaw = BMUtil::LoadTextFromFile(fileLoc + ".frag", &success);
 		if (!success)
 		{
-			LOG_ERROR("Failed to load shader file");
+			LOG_ERROR("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");
 			Cleanup();
-			return;
+			return *this;
 		}
 	}
 
@@ -142,6 +132,7 @@ void ShaderProgram::Load(const std::string& name)
 	std::string frag = ShaderPreprocessor::ParseIncludes(fragRaw, name + "[FRAG]");
 
 	Initalize(vert, frag);
+	return *this;
 }
 
 void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
@@ -179,7 +170,7 @@ ShaderProgram::~ShaderProgram()
 	Cleanup();
 }
 
-void ShaderProgram::HotReload()
+Asset& ShaderProgram::Reload()
 {
 	glDeleteShader(vertHandle);
 	glDeleteShader(fragHandle);
@@ -190,7 +181,8 @@ void ShaderProgram::HotReload()
 	programHandle = 0;
 	bad = true;
 
-	Load(name);
+	LoadFromFile(fileLoc, nullptr);
+	return *this;
 }
 
 void ShaderProgram::Bind()
@@ -201,7 +193,7 @@ void ShaderProgram::Bind()
 		return;
 	}
 
-	if (bad && this != fallback)
+	if (bad && this != Fallback())
 	{
 		Fallback()->Bind();
 		return;
@@ -241,34 +233,7 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 	Uniform::Set<Mat4>("MVP", mvp);
 }
 
-ShaderProgram* ShaderProgram::Find(const std::string& name)
-{
-	if (loadedShaders.count(name) > 0) return loadedShaders.at(name);
-
-	ShaderProgram* newShader = new ShaderProgram();
-	newShader->Load(name);
-	loadedShaders[name] = newShader;
-	return newShader;
-}
-
 ShaderProgram* ShaderProgram::Fallback()
 {
-	if (!fallback)
-	{
-		fallback = new ShaderProgram();
-	}
-	if (fallback->bad)
-	{
-		fallback->Load("fallback");
-	}
-	return fallback;
-}
-
-void ShaderProgram::CleanupAll()
-{
-	for (auto& shader : loadedShaders)
-	{
-		delete shader.second;
-	}
-	loadedShaders.clear();
+	return AssetDatabase::LoadAsset<ShaderProgram>("Shaders/fallback");
 }

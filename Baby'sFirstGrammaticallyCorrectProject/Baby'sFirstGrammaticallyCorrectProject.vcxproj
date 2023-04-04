@@ -161,12 +161,16 @@
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetDatabase.cpp" />
+    <ClCompile Include="AssetDatabasePredicate.cpp" />
     <ClCompile Include="BMUtil.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="ColorUtil.cpp" />
+    <ClCompile Include="DrawGUIListener.cpp" />
     <ClCompile Include="FileIO.cpp" />
+    <ClCompile Include="FileUtility.cpp" />
     <ClCompile Include="GLBabysitter.cpp" />
     <ClCompile Include="GLuniform.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -185,6 +189,7 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="UniformBufferObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\glad.h" />
@@ -200,12 +205,15 @@
     <ClInclude Include="..\extern\imgui\imstb_textedit.h" />
     <ClInclude Include="..\extern\imgui\imstb_truetype.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetDatabase.h" />
+    <ClInclude Include="AssetDatabasePredicate.h" />
     <ClInclude Include="BMUtil.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ColorUtil.h" />
     <ClInclude Include="DirectionalLightData.h" />
+    <ClInclude Include="DrawGUIListener.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="GLBabysitter.h" />
     <ClInclude Include="GLuniform.h" />
@@ -227,6 +235,9 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_include.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="FileUtility.h" />
+    <ClInclude Include="Tree.h" />
+    <ClInclude Include="UniformBufferObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #include "Skybox.h"
 
 #include "Maths.h"
-#include "Texture.h"
+#include "AssetDatabase.h"
 
 const Vec3 A = {-1.0f,  1.0f, 0.9999f };
 const Vec3 B = { 1.0f,  1.0f, 0.9999f };
@@ -13,6 +13,12 @@ const Vec3 verticies[] = { A, B, C, C, D, A };
 Skybox::~Skybox()
 {
 	glDeleteBuffers(1, &Handle());
+}
+
+void Skybox::Setup(const std::string& textureName, const std::string& shaderName, const TextureImportSettings& settings)
+{
+	material.SetShader(shaderName);
+	material.SetTexture("glMap", AssetDatabase::LoadAsset<Texture>("Textures/forest.hdr", (void*)&settings));
 }
 
 const GLuint& Skybox::Handle()

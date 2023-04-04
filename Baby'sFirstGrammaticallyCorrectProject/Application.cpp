@@ -6,6 +6,8 @@
 #include "Logger.h"
 #include "Input.h"
 #include "ShaderPreprocessor.h"
+#include "DrawGUIListener.h"
+#include "AssetDatabasePredicate.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -44,6 +46,7 @@ void Application::Run()
 
 		unscaledTime += unscaledFrameTime;
 		time += frameTime;
+		frame++;
 
 		fixedFrameTimeAccumilator += unscaledFrameTime;
 
@@ -99,19 +102,18 @@ void Application::Initalize()
 
 	ShaderPreprocessor::Initalize();
 
-	renderData.Load("./Assets/Models/Monke Low Res.fbx");
+	renderData.Load(AssetDatabase::LoadAsset<MeshData>("Models/Monke Low Res.fbx", nullptr));
 	Material material = Material("shader");
 	can.SetMaterial(material).SetMeshData(&renderData);
 
-	can.material.SetTexture("texCol", ASSET(Texture, "./Assets/Textures/Monke/Monke.Color.tga"));
-	can.material.SetTexture("texMetal", ASSET(Texture, "./Assets/Textures/Monke/Monke.Metal.tga"));
-	can.material.SetTexture("texRough", ASSET(Texture, "./Assets/Textures/Monke/Monke.Roughness.tga"));
-	can.material.SetTexture("texNormal", ASSET(Texture, "./Assets/Textures/Monke/Monke.Normal.tga"));
-	can.material.SetTexture("texHeight", ASSET(Texture, "./Assets/Textures/Monke/Monke.Height.tga"));
-	can.material.SetTexture("texAO", ASSET(Texture, "./Assets/Textures/Monke/Monke.AO.tga"));
+	can.material.SetTexture("texCol", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Color.tga"));
+	can.material.SetTexture("texMetal", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Metal.tga"));
+	can.material.SetTexture("texRough", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Roughness.tga"));
+	can.material.SetTexture("texNormal", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Normal.tga"));
+	can.material.SetTexture("texHeight", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.Height.tga"));
+	can.material.SetTexture("texAO", AssetDatabase::LoadAsset<Texture>("Textures/Monke/Monke.AO.tga"));
 	
-	skybox.material.SetShader("sky");
-	skybox.material.SetTexture("glMap", ASSET(Texture, "./Assets/Textures/forest.hdr"));
+	skybox.Setup("Textures/forest.hdr");
 
 	lightingEnviroment.Initalize();
 
@@ -131,11 +133,6 @@ void Application::Loop()
 	can.scale = One * 0.6f;
 
 	cameraController.Control(camera);
-
-	if (Input::GetKeyDown(GLFW_KEY_F3) && Input::GetKeyPressed(GLFW_KEY_T))
-	{
-		HotReloadShaders();
-	}
 
 	lightingEnviroment.PushLight({ 1.0, -1.0, -1.0 }, lightColor[0] * lightStrength[0]);
 	lightingEnviroment.PushLight({ -1.0, 1.0, 0.5 }, lightColor[1] * lightStrength[1]);
@@ -160,9 +157,19 @@ void Application::Loop()
 	Uniform::Set<float>("metalIn", metalIn);
 	Uniform::Set<float>("roughIn", roughIn);
 
-	if (ImGui::Button("Hot Reload Shaders"))
+	DrawGUIListener::DrawAllListeners();
+
+	if (ImGui::Button("Hot Reload All Assets"))
 	{
-		HotReloadShaders();
+		AssetDatabase::HotReload();
+	}
+
+	for (int i = 1; i < (int)AssetType::Count; i++)
+	{
+		if (ImGui::Button(("Reload " + AssetTypenames[i] + "s").c_str()))
+		{
+			AssetDatabase::HotReload(AssetDatabase::Predicates::MatchType((AssetType)i));
+		}
 	}
 
 	Input::Update();
@@ -189,7 +196,13 @@ void Application::Render()
 	lightingEnviroment.Bind();
 	skybox.Bind();
 
+	can.position = Right;
 	can.Draw();
+	can.position = Up;
+	can.Draw();
+	can.position = Forward;
+	can.Draw();
+
 	skybox.Draw();
 
 	skybox.Unbind();
@@ -212,11 +225,6 @@ bool Application::ShouldClose()
 	return quit || glfwWindowShouldClose(window);
 }
 
-void Application::HotReloadShaders()
-{
-	ShaderProgram::HotReloadAll();
-}
-
 void WindowResizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -227,8 +235,6 @@ Application::~Application()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-
-	ShaderProgram::CleanupAll();
 
 	glfwTerminate();
 }

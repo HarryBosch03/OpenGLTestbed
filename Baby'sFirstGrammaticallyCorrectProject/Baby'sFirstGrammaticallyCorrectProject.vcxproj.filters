@@ -98,6 +98,21 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawGUIListener.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetDatabasePredicate.cpp">
+      <Filter>Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformBufferObject.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -120,6 +135,9 @@
     </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{9d758e65-6161-468b-842c-3ce9b5ac10ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{2e8f87eb-5248-4d5e-b44d-2590a6f24c75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +257,24 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Skybox.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawGUIListener.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtility.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDatabasePredicate.h">
+      <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBufferObject.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>

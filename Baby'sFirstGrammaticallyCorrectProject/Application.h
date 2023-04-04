@@ -30,6 +30,7 @@ class Application
 	float frameTime = 0.0f;
 	float unscaledFrameTime = 0.0f;
 	float fixedUnscaledFrameTime = 1.0f / 50.0f;
+	int frame = -1;
 	
 	float timeScale = 1.0f;
 	float fixedFrameTimeAccumilator = 0.0f;
@@ -42,12 +43,11 @@ class Application
 	void Render();
 	bool ShouldClose();
 
-	void HotReloadShaders();
-
 public:
 	inline static float Time() { return Application::Current->time; }
 	inline static float FrameTime() { return Application::Current->frameTime; }
 	inline static float& FixedFrameTime() { return Application::Current->fixedUnscaledFrameTime; }
+	inline static int Frame() { return Application::Current->frame; }
 
 	inline GLFWwindow* Window() const { return window; }
 

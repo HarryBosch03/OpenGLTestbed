@@ -7,14 +7,24 @@
 
 #include <map>
 
+std::map<std::string, Texture*> boundTextures;
+
+// 0b[Filter Mode][Use Mipmaps]
+GLint filterMap[] =
+{
+	GL_LINEAR, // 0b00
+	GL_LINEAR_MIPMAP_LINEAR, // 0b01
+
+	GL_NEAREST, // 0b10
+	GL_NEAREST_MIPMAP_NEAREST, // 0b11
+};
+
 Texture::~Texture()
 {
 	glDeleteTextures(1, &handle);
 }
 
-std::map<std::string, Texture*> boundTextures;
-
-void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const std::string& fileLoc)
+void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const std::string& fileLoc, const TextureImportSettings& settings)
 {
 	if (!data)
 	{
@@ -31,11 +41,12 @@ void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMap[(int)settings.filtering | (int)settings.useMipmaps]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, GL_RGBA, type, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	if (settings.useMipmaps) glGenerateMipmap(GL_TEXTURE_2D);
+	
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -43,21 +54,37 @@ void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const 
 	initalized = true;
 }
 
-Texture& Texture::LoadFromFile(const std::string& fileLoc)
+Asset& Texture::LoadFromFile(const std::string& fileLoc, void* args)
 {
+	Asset::LoadFromFile(fileLoc, args);
+
+	settings = args ? *static_cast<TextureImportSettings*>(args) : TextureImportSettings();
+
 	stbi_set_flip_vertically_on_load(true);
 	bool hdr = stbi_is_hdr(fileLoc.c_str());
 
 	if (hdr)
 	{
 		float* data = stbi_loadf(fileLoc.c_str(), &width, &height, &channels, 4);
-		PassDataToGL(data, GL_FLOAT, GL_RGB16F, fileLoc);
+		PassDataToGL(data, GL_FLOAT, GL_RGB16F, fileLoc, settings);
 	}
 	else
 	{
 		unsigned char* data = stbi_load(fileLoc.c_str(), &width, &height, &channels, 4);
-		PassDataToGL(data, GL_UNSIGNED_BYTE, GL_RGBA, fileLoc);
+		PassDataToGL(data, GL_UNSIGNED_BYTE, GL_RGBA, fileLoc, settings);
 	}
+	return *this;
+}
+
+Asset& Texture::Reload()
+{
+	glDeleteTextures(1, &handle);
+	handle = 0;
+	width = 0;
+	height = 0;
+	channels = 0;
+	initalized = false;
+	LoadFromFile(fileLoc, &settings);
 	return *this;
 }
 

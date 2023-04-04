@@ -24,17 +24,20 @@ void IGLuniform::SendAll(ShaderProgram* shaderProgram)
 	{
 		uniform.second->Send(shaderProgram);
 	}
-	Uniform::uniforms.clear();
 }
 
 #define SET_DEF(t, set, cast) \
 void GLuniform<t>::Set(ShaderProgram* shaderProgram) \
 { \
-	set(GetHandle(shaderProgram), 1, (cast*)&value); \
+	GLint handle = GetHandle(shaderProgram); \
+	if (handle == -1) return; \
+	set(handle, 1, (cast*)&value); \
 } \
 void GLuniform<std::vector<t>>::Set(ShaderProgram* shaderProgram) \
 { \
-	set(GetHandle(shaderProgram), value.size(), (cast*)value.data()); \
+	GLint handle = GetHandle(shaderProgram); \
+	if (handle == -1) return; \
+	set(handle, value.size(), (cast*)value.data()); \
 }
 
 #define SET_DEF_F(t, set) SET_DEF(t, set, GLfloat)

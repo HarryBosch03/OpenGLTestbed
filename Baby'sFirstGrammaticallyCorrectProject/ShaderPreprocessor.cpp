@@ -10,7 +10,7 @@
 #include <filesystem>
 
 std::vector<std::string> includes;
-const std::string CompiledLocation = ShaderPath + "Compiled/";
+const std::string CompiledLocation = "../Assets/" + ShaderPath + "Compiled/";
 
 void ShaderPreprocessor::Initalize()
 {
@@ -45,7 +45,7 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 	char* includeC = new char[ShaderPath.size()];
 
 	std::strcpy(shaderC, shader.c_str());
-	std::strcpy(includeC, ShaderPath.c_str());
+	std::strcpy(includeC, ("../Assets/" + ShaderPath).c_str());
 
 	char* data = stb_include_string(shaderC, nullptr, includeC, nullptr, error);
 	if (!data)

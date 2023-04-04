@@ -40,7 +40,7 @@ const Vec4 Up = { 0.0f, 1.0f, 0.0f, 0.0f };
 const Vec4 Forward = { 0.0f, 0.0f, 1.0f, 0.0f };
 
 const Mat4 MatIdentity = Mat4(1);
-const Quat QIdentity = { 1.0f, 0.0f, 0.0f, 0.0f };
+const Quat QIdentity = Quat({0.0f, 0.0f, 0.0f});
 
 inline float SqrLength(Vec3 v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
 

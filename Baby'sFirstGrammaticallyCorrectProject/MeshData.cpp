@@ -153,7 +153,18 @@ void AddTri(aiMesh* mesh, IndexList& indices, int face, int a, int b, int c)
 const MeshScene* LoadMeshSceneFromFile(const std::string& fileLoc)
 {
 	const char* pathC = fileLoc.c_str();
-	return aiImportFile(pathC, aiPostProcessSteps::aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_SortByPType);
+	const MeshScene* mesh = aiImportFile(pathC, aiPostProcessSteps::aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_SortByPType);
+	if (!mesh)
+	{
+		const char* error = aiGetErrorString();
+		LOG_ERROR("Error importing file \"" << fileLoc << "\"\nDump: \n" << error << "\nAt Line ");
+	}
+	return mesh;
+}
+
+void ReleaseMeshData(const MeshScene* scene)
+{
+	aiReleaseImport(scene);
 }
 
 Vec4 Vec(const aiVector3D& v, float w)
@@ -166,8 +177,11 @@ Vec3 Vec(const aiVector3D& v)
 	return Vec3(v.x, v.y, v.z);
 }
 
-MeshData& MeshData::LoadFromFile(const std::string& fileLoc, int subMeshIndex)
+Asset& MeshData::LoadFromFile(const std::string& fileLoc, void* args)
 {
+	Asset::LoadFromFile(fileLoc, args);
+
+	int subMeshIndex = args ? *(int*)args : 0;
 	vertices.clear();
 	indices.clear();
 
@@ -211,5 +225,11 @@ MeshData& MeshData::LoadFromFile(const std::string& fileLoc, int subMeshIndex)
 		}
 	}
 
+	ReleaseMeshData(scene);
+	return *this;
+}
+
+Asset& MeshData::Reload()
+{
 	return *this;
 }
