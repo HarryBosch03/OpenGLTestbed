@@ -113,6 +113,9 @@
     <ClCompile Include="LogMaster.cpp">
       <Filter>LogMaster</Filter>
     </ClCompile>
+    <ClCompile Include="StringUtility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -279,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="LogMaster.h">
       <Filter>LogMaster</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtility.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

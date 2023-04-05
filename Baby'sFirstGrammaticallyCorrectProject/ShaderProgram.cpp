@@ -162,7 +162,7 @@ void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
 		}
 		else
 		{
-			LogSuccess("Shader Compiled and Linked successfully." << '\n');
+			LogSuccess("Shader Compiled and Linked successfully.");
 		}
 }
 

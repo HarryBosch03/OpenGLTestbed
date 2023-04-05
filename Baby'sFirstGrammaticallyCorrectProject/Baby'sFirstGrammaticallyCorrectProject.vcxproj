@@ -188,6 +188,7 @@
     <ClCompile Include="ShaderPreprocessor.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="StringUtility.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UniformBufferObject.cpp" />
   </ItemGroup>
@@ -234,6 +235,7 @@
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_include.h" />
+    <ClInclude Include="StringUtility.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="FileUtility.h" />
     <ClInclude Include="Tree.h" />

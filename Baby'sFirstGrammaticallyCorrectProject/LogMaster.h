@@ -4,27 +4,71 @@
 
 #include <iostream>
 #include <string>
-#include <windows.h>
+#include <vector>
 #include <sstream>
 
 typedef std::string(*LogFormatter)(const std::string& in);
 
+enum class LogEntryType
+{
+	None,
+	Message,
+	Warning,
+	Error,
+	Success,
+
+	Count,
+};
+
+class LogEntry
+{
+	std::stringstream stream;
+	std::stringstream metadata;
+	std::string compiled;
+	bool dirty;
+	void Metadata(const std::string& file, int line);
+
+public:
+	LogEntryType type;
+
+	LogEntry(LogEntryType type);
+	LogEntry(LogEntryType type, const std::string& message);
+
+	std::stringstream& Stream();
+	const std::stringstream& Stream() const;
+
+	std::stringstream& Metadata();
+	const std::stringstream& Metadata() const;
+	
+	const std::string& Compile();
+
+};
+
 class LogMaster
 {
-	std::string Compile();
-	std::stringstream stream;
+	bool dirty = false;
 
-	std::stringstream buffer;
-	void PushLast();
+	std::string Compile();
+	std::vector<LogEntry> entries;
+	LogEntry& GetNewEntry(LogEntryType type);
 
 public:
 	void PushToConsole();
 	void Test();
 
+	std::stringstream& Log(LogEntryType type);
+
 	std::stringstream& Message();
 	std::stringstream& Warning();
 	std::stringstream& Error();
 	std::stringstream& Success();
+	
+	std::stringstream& Log(LogEntryType type, const char* file, int line);
+
+	std::stringstream& Message(const char* file, int line);
+	std::stringstream& Warning(const char* file, int line);
+	std::stringstream& Error(const char* file, int line);
+	std::stringstream& Success(const char* file, int line);
 
 	struct ErrorState
 	{
@@ -44,7 +88,7 @@ public:
 
 extern LogMaster Logger;
 
-#define LogMessage(message) Logger.Message() << message << " [at " << Utility::Files::FileName(__FILE__) << ", ln: " << __LINE__ << "]\n"
-#define LogWarning(message) Logger.Warning() << message << " [at " << Utility::Files::FileName(__FILE__) << ", ln: " << __LINE__ << "]\n"
-#define LogError(message) Logger.Error() << message << " [at " << Utility::Files::FileName(__FILE__) << ", ln: " << __LINE__ << "]\n"
-#define LogSuccess(message) Logger.Success() << message << " [at " << Utility::Files::FileName(__FILE__) << ", ln: " << __LINE__ << "]\n"
+#define LogMessage(message) Logger.Message(__FILE__, __LINE__) << message
+#define LogWarning(message) Logger.Warning(__FILE__, __LINE__) << message
+#define LogError(message) Logger.Error(__FILE__, __LINE__) << message
+#define LogSuccess(message) Logger.Success(__FILE__, __LINE__) << message
