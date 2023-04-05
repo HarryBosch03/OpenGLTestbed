@@ -6,8 +6,16 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iostream>
+#include <windows.h>
+#include <winuser.h>
 
 typedef std::string(*LogFormatter)(const std::string& in);
+
+const std::string ANSIReset = "\x1b[0;0m";
+const std::string ANSIWarning = "\x1b[33;1m";
+const std::string ANSIError = "\x1b[41;1m";
+const std::string ANSISuccess = "\x1b[32;1m";
 
 enum class LogEntryType
 {
@@ -20,55 +28,28 @@ enum class LogEntryType
 	Count,
 };
 
-class LogEntry
-{
-	std::stringstream stream;
-	std::stringstream metadata;
-	std::string compiled;
-	bool dirty;
-	void Metadata(const std::string& file, int line);
+class LogMaster;
 
-public:
-	LogEntryType type;
-
-	LogEntry(LogEntryType type);
-	LogEntry(LogEntryType type, const std::string& message);
-
-	std::stringstream& Stream();
-	const std::stringstream& Stream() const;
-
-	std::stringstream& Metadata();
-	const std::stringstream& Metadata() const;
-	
-	const std::string& Compile();
-
-};
+struct ILogEntry;
+struct LogSeparator;
 
 class LogMaster
 {
-	bool dirty = false;
-
-	std::string Compile();
-	std::vector<LogEntry> entries;
-	LogEntry& GetNewEntry(LogEntryType type);
+	std::string append;
+	std::stringstream buffer;
 
 public:
-	void PushToConsole();
 	void Test();
 
-	std::stringstream& Log(LogEntryType type);
-
-	std::stringstream& Message();
-	std::stringstream& Warning();
-	std::stringstream& Error();
-	std::stringstream& Success();
-	
+	std::stringstream& Log(const std::string& append = ANSIReset);
 	std::stringstream& Log(LogEntryType type, const char* file, int line);
 
 	std::stringstream& Message(const char* file, int line);
 	std::stringstream& Warning(const char* file, int line);
 	std::stringstream& Error(const char* file, int line);
 	std::stringstream& Success(const char* file, int line);
+	
+	void PushToConsole();
 
 	struct ErrorState
 	{
@@ -82,7 +63,7 @@ public:
 		void Raise(const std::string& args);
 		void Clear();
 
-		inline bool Raised() { return message.size() > 0; }
+		inline bool Raised() const { return message.size() > 0; }
 	};
 };
 
