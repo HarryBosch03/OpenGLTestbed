@@ -17,21 +17,25 @@ Application* Application::Current = nullptr;
 
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
 
-Vec3 ambient = GREY(0.1);
-float ambientStrength = 0.8f;
-const int lightCount = 3;
-Vec3 lightColor[lightCount] = 
+Vec3 ambient = GREY(1.0);
+float ambientStrength = 1.0f;
+const int dLightCount = 3;
+Vec3 dLightColor[dLightCount] =
 {
 	HEX3(ffefd6),
 	HEX3(c4eeff),
 	HEX3(c4eeff),
 };
-float lightStrength[lightCount] =
+float dLightStrength[dLightCount] =
 {
 	1.0f,
 	0.6f,
 	0.3f,
 };
+
+Vec3 pointLightPosition = {};
+Vec3 pointLightColor = Vec3(255.0, 15.0, 0.0) / 255.0f;
+float pointLightValue = 100.0f;
 
 void Application::Run()
 {
@@ -102,11 +106,17 @@ void Application::Initalize()
 
 	babysitter.Initalize();
 
+	LogMessage("Initalized Window Context");
+
 	ShaderPreprocessor::Initalize();
+	LogMessage("Initalized Shader Preprocessor");
 
 	renderData.Load(AssetDatabase::LoadAsset<MeshData>("Models/Monke Low Res.fbx", nullptr));
+	LogMessage("Loaded Monke Mesh");
+
 	Material material = Material("shader");
 	can.SetMaterial(material).SetMeshData(&renderData);
+	LogMessage("Loaded Monke Material");
 
 	can.material.SetTexture("texCol", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Albedo.tga"));
 	can.material.SetTexture("texMetal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Metal.tga"));
@@ -114,12 +124,16 @@ void Application::Initalize()
 	can.material.SetTexture("texNormal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Normal.tga"));
 	can.material.SetTexture("texHeight", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Height.tga"));
 	can.material.SetTexture("texAO", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.AO.tga"));
-	
+	LogMessage("Loaded Monke Textures");
+
 	skybox.Setup("Textures/forest.hdr");
+	LogMessage("Loaded Skybox");
 
 	lightingEnviroment.Initalize();
+	LogMessage("Initlalized Lighting Enviroment");
 
 	Input::Init();
+	LogMessage("Initlalized Input");
 }
 
 float metalIn = 0.0f, roughIn = 0.0f;
@@ -136,26 +150,46 @@ void Application::Loop()
 
 	cameraController.Control(camera);
 
-	lightingEnviroment.PushLight({ 1.0, -1.0, -1.0 }, lightColor[0] * lightStrength[0]);
-	lightingEnviroment.PushLight({ -1.0, 1.0, 0.5 }, lightColor[1] * lightStrength[1]);
-	lightingEnviroment.PushLight({ -1.0, -0.2, 0.5 }, lightColor[2] * lightStrength[2]);
+	lightingEnviroment.PushDirectionalLight({ 1.0, -1.0, -1.0 }, dLightColor[0] * dLightStrength[0]);
+	lightingEnviroment.PushDirectionalLight({ -1.0, 1.0, 0.5 }, dLightColor[1] * dLightStrength[1]);
+	lightingEnviroment.PushDirectionalLight({ -1.0, -0.2, 0.5 }, dLightColor[2] * dLightStrength[2]);
+
+	lightingEnviroment.PushPointLight(pointLightPosition, pointLightColor * pointLightValue);
+
 	lightingEnviroment.SetAmbient(ambient, ambientStrength);
 
 	if (ImGui::CollapsingHeader("Lighting Enviroment"))
 	{
+		ImGui::Indent();
+
 		ImGui::ColorEdit3("Ambient Light", &ambient.x);
 		ImGui::SliderFloat("Ambient Strength", &ambientStrength, 0.0f, 2.0f);
-		for (size_t i = 0; i < lightCount; i++)
+		for (size_t i = 0; i < dLightCount; i++)
 		{
 			if (!ImGui::CollapsingHeader((std::string("Light.") + std::to_string(i)).c_str())) continue;
 
-			ImGui::ColorEdit3("Color##" + i, &lightColor[i].x);
-			ImGui::SliderFloat("Strength##" + i, &lightStrength[i], 0.0f, 10.0f);
+			ImGui::Indent();
+
+			ImGui::ColorEdit3("Color##" + i, &dLightColor[i].x);
+			ImGui::SliderFloat("Strength##" + i, &dLightStrength[i], 0.0f, 10.0f);
+
+			ImGui::Unindent();
 		}
+
+		if (ImGui::CollapsingHeader("Point Light"))
+		{
+			ImGui::Indent();
+
+			ImGui::InputFloat3("Position", &pointLightPosition.x);
+			ImGui::ColorEdit3("Color##Point Light", &pointLightColor.x);
+			ImGui::InputFloat("Strength##Point Light", &pointLightValue);
+
+			ImGui::Unindent();
+		}
+
+		ImGui::Unindent();
 	}
 
-	ImGui::SliderFloat("Metalness", &metalIn, 0.0f, 1.0f);
-	ImGui::SliderFloat("Roughness", &roughIn, 0.0f, 1.0f);
 	Uniform::Set<float>("metalIn", metalIn);
 	Uniform::Set<float>("roughIn", roughIn);
 
@@ -175,7 +209,6 @@ void Application::Loop()
 	}
 
 	Input::Update();
-
 	ImGui::End();
 }
 

@@ -69,7 +69,7 @@ public:
 
 		if (ImGui::CollapsingHeader("Asset Database"))
 		{
-			int depth;
+			int depth = 0;
 			for (const AssetEntry& asset : assets)
 			{
 				

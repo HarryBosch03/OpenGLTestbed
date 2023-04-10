@@ -45,6 +45,7 @@ DrawGUIListener& DrawGUIListener::operator=(const DrawGUIListener& other)
 {
 	if (this == &other) return *this;
 	Deregister();
+	return *this;
 }
 
 DrawGUIListener::~DrawGUIListener()

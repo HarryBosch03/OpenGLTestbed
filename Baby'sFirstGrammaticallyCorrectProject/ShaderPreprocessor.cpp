@@ -39,13 +39,15 @@ void WriteOutputToFile(const std::string& data, const std::string& filePath, int
 
 std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const std::string& shaderName)
 {
-	char error[256];
+	char error[256] = {'\0'};
+
+	std::string shaderPath = ("../Assets/" + ShaderPath).c_str();
 
 	char* shaderC = new char[shader.size()];
-	char* includeC = new char[ShaderPath.size()];
+	char* includeC = new char[shaderPath.size()];
 
 	std::strcpy(shaderC, shader.c_str());
-	std::strcpy(includeC, ("../Assets/" + ShaderPath).c_str());
+	std::strcpy(includeC, shaderPath.c_str());
 
 	char* data = stb_include_string(shaderC, nullptr, includeC, nullptr, error);
 	if (!data)
@@ -54,6 +56,9 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 		LogError("STB ERROR DUMP: " << error);
 		return {};
 	}
+
+	delete[] shaderC;
+	delete[] includeC;
 
 	std::string output = std::string() + data;
 	free(data);

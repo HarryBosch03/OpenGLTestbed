@@ -15,7 +15,7 @@ ShaderProgram* ShaderProgram::Current = nullptr;
 
 #define ERROR_DEF_START \
 const int LoggerSize = 512; \
-GLchar errorLog[LoggerSize] = {'\0'}; \
+GLchar errorLog[LoggerSize] = {' '}; \
 GLint success = 0;
 
 #define ERROR_DEF_END \
@@ -103,12 +103,11 @@ std::string ReadShader(const std::string shader, const std::string program)
 Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 {
 	Asset::LoadFromFile(Utility::Files::RemoveExtension(_fileLoc), args);
-
 	this->name = Utility::Files::FileName(fileLoc);
 
 	bool success;
 	std::string shaderRaw = BMUtil::LoadTextFromFile(fileLoc + ".shader", &success, false);
-
+	
 	std::string vertRaw;
 	std::string fragRaw;
 

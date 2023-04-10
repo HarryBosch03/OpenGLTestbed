@@ -27,7 +27,7 @@ struct VertexData
 class MeshData: public Asset
 {
 	std::string fileLoc;
-	int subMeshIndex;
+	int subMeshIndex = 0;
 
 public:
 	VertexList vertices;
@@ -40,7 +40,7 @@ public:
 	MeshData& Subdivide(int itterations);
 	MeshData& CalculateNormals(bool flip = false);
 
-	inline const AssetType& GetType() override { return AssetType::Texture; }
+	inline AssetType GetType() const override { return AssetType::Texture; }
 
 	Asset& LoadFromFile(const std::string& path, void* args) override;
 	Asset& Reload() override;

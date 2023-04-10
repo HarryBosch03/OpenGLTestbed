@@ -116,6 +116,15 @@
     <ClCompile Include="StringUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -202,9 +211,6 @@
     <ClInclude Include="LightingEnviroment.h">
       <Filter>Rendering\Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLightData.h">
-      <Filter>Rendering\Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderPreprocessor.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -285,6 +291,15 @@
     </ClInclude>
     <ClInclude Include="StringUtility.h">
       <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ void Camera::Bind()
 	float aspect = (float)width / height;
 
 	float fovRad = fov * deg2Rad;
-	projection = glm::perspective(fovRad, aspect, 1.0f, 100.0f);
+	projection = glm::perspective(fovRad, aspect, 0.01f, 100.0f);
 }
 
 void Camera::Unbind()

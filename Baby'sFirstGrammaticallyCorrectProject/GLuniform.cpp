@@ -31,19 +31,19 @@ void GLuniform<t>::Set(ShaderProgram* shaderProgram) \
 { \
 	GLint handle = GetHandle(shaderProgram); \
 	if (handle == -1) return; \
-	set(handle, 1, (cast*)&value); \
+	set(handle, GLsizei(1), (cast*)&value); \
 } \
 void GLuniform<std::vector<t>>::Set(ShaderProgram* shaderProgram) \
 { \
 	GLint handle = GetHandle(shaderProgram); \
 	if (handle == -1) return; \
-	set(handle, value.size(), (cast*)value.data()); \
+	set(handle, (GLsizei)value.size(), (cast*)value.data()); \
 }
 
 #define SET_DEF_F(t, set) SET_DEF(t, set, GLfloat)
 #define SET_DEF_I(t, set) SET_DEF(t, set, GLint)
 
-void UniformSetMat(GLint handle, int size, GLfloat* start)
+void UniformSetMat(GLint handle, GLsizei size, GLfloat* start)
 {
 	glUniformMatrix4fv(handle, size, false, start);
 }

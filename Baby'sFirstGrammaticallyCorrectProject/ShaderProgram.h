@@ -21,9 +21,9 @@ class ShaderProgram : public Asset
 public:
 
 	GLuint 
-		vertHandle, 
-		fragHandle, 
-		programHandle;
+		vertHandle = {},
+		fragHandle = {},
+		programHandle = {};
 
 	std::string name = "Unnamed Shader Program";
 
@@ -32,7 +32,7 @@ public:
 	ShaderProgram& operator=(const ShaderProgram& other) = delete;
 	~ShaderProgram();
 
-	const AssetType& GetType() override { return AssetType::Shader; }
+	AssetType GetType() const override { return AssetType::Shader; }
 	Asset& LoadFromFile(const std::string& fileLoc, void*) override;
 
 	void Bind();

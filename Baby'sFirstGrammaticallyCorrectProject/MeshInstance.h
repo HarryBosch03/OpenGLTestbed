@@ -12,9 +12,9 @@ class MeshInstance
 	void Unbind();
 
 public:
-	Vec3 position;
-	Vec4 axisAngleRotation;
-	Vec3 scale;
+	Vec3 position = {};
+	Vec4 axisAngleRotation = {};
+	Vec3 scale = {};
 	Material material;
 
 	void Draw();

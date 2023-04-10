@@ -121,9 +121,9 @@ MeshData& MeshData::CalculateNormals(bool flip)
 
 	for (int i = 0; i < indices.size(); i += 3)
 	{
-		int i1 = indices[i];
-		int i2 = indices[i + 1];
-		int i3 = indices[i + 2];
+		unsigned int i1 = indices[i];
+		unsigned int i2 = indices[i + 1];
+		unsigned int i3 = indices[i + 2];
 
 		Vec3 a = vertices[i1].position, b = vertices[i2].position, c = vertices[i3].position;
 

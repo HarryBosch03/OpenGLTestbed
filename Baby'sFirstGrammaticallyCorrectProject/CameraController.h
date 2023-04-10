@@ -20,7 +20,7 @@ public:
 	Vec3 velocity = {};
 	Vec3 acceleration = {};
 
-	Vec2 lastCursorPosition;
+	Vec2 lastCursorPosition = {};
 
 	void Control(Camera& camera);
 };

@@ -1,10 +1,12 @@
 #include "BMUtil.h"
 
+#include "LogMaster.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-std::string BMUtil::LoadTextFromFile(const std::string& fileName, bool* success, bool Logger)
+std::string BMUtil::LoadTextFromFile(const std::string& fileName, bool* success, bool log)
 {
 	std::stringstream res;
 	std::fstream file(fileName.c_str(), std::ios::in);
@@ -19,7 +21,7 @@ std::string BMUtil::LoadTextFromFile(const std::string& fileName, bool* success,
 	}
 	else
 	{
-		if (Logger) std::cout << std::string() << "Could not find file \"" + fileName + "\"\n";
+		if (log) LogError("Could not find file \"" << fileName << "\"");
 		if (success) *success = false;
 		return "";
 	}

@@ -39,7 +39,7 @@ public:
 	Texture& operator=(const Texture& other) = delete;
 	~Texture();
 
-	inline const AssetType& GetType() override { return AssetType::Texture; }
+	inline AssetType GetType() const override { return AssetType::Texture; }
 
 	Asset& LoadFromFile(const std::string& fileLoc, void* args) override;
 	Asset& Reload() override;

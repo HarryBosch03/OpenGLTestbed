@@ -41,6 +41,8 @@ void main ()
 	surface.albedo = texture(texCol, v.uv).rgb * v.color.rgb;
 	surface.normal = fnormal;
 	surface.viewDir = normalize(CamPosition - v.position.xyz);
+	surface.position = v.position.xyz;
+
 	surface.metallic = texture(texMetal, v.uv).r;
 	surface.roughness = texture(texRough, v.uv).r;
 

@@ -42,7 +42,7 @@ std::stringstream& LogMaster::Log(const std::string& append)
 
 std::stringstream& LogMaster::Log(LogEntryType type, const char* file, int line)
 {
-	std::stringstream& buffer = Log(std::string(" at file \"") + file + "\" ln: " + std::to_string(line) + ANSIReset + "\n");
+	std::stringstream& buffer = Log(std::string(" at file \"") + Utility::Files::FileName(file) + "\" ln: " + std::to_string(line) + ANSIReset + "\n");
 
 	switch (type)
 	{
@@ -75,7 +75,7 @@ std::stringstream& LogMaster::Success(const char* file, int line) { return Log(L
 
 void LogMaster::PushToConsole()
 {
-	std::cout << Log().str();
+	*output << Log().str();
 	buffer = {};
 }
 

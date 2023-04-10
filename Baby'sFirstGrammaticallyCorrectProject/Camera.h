@@ -15,8 +15,8 @@ public:
 	float orthoSize = 5.0f;
 	bool ortho = false;
 
-	Mat4 view;
-	Mat4 projection;
+	Mat4 view = {};
+	Mat4 projection = {};
 
 	void Bind();
 	void Unbind();

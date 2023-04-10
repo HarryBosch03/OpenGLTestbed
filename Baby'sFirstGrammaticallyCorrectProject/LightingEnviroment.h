@@ -5,6 +5,7 @@
 #include <vector>
 
 const int MaxDLights = 4;
+const int MaxLights = 64;
 
 class ShaderProgram;
 
@@ -15,7 +16,8 @@ public:
 
 	void Initalize();
 
-	void PushLight(Vec3 direction, Vec3 color);
+	void PushDirectionalLight(Vec3 direction, Vec3 color);
+	void PushPointLight(Vec3 position, Vec3 color);
 	void SetAmbient(Vec3 color);
 	inline void SetAmbient(Vec3 color, float strength) { SetAmbient(color * strength); }
 

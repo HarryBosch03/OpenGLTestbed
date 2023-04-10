@@ -4,5 +4,5 @@
 
 namespace BMUtil
 {
-	std::string LoadTextFromFile(const std::string& fileName, bool* success, bool Logger = true);
+	std::string LoadTextFromFile(const std::string& fileName, bool* success, bool log = true);
 }

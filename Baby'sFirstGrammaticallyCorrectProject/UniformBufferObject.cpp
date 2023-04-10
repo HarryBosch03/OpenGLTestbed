@@ -24,19 +24,23 @@ UniformBufferObject& UniformBufferObject::Find(const std::string& ref)
 
 void UniformBufferObject::SendToActiveShader(ShaderProgram* program)
 {
+	int binding = 0;
 	for (const std::pair<const std::string, UniformBufferObject*>& buffer : map)
 	{
 		GLuint& programHandle = program->programHandle;
 		int index = glGetUniformBlockIndex(programHandle, buffer.first.c_str());
 		if (index == -1) continue;
-		GLint binding = 0;
-		glGetActiveUniformBlockiv(programHandle, index, GL_UNIFORM_BLOCK_BINDING, &binding);
-		glUniformBlockBinding(programHandle, index, binding);
+		
+		GLint debug;
+		glGetActiveUniformBlockiv(programHandle, index, GL_UNIFORM_BLOCK_DATA_SIZE, &debug);
+
+		glUniformBlockBinding(programHandle, index, binding++);
 
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer.second->handle);
 		glBufferData(GL_UNIFORM_BUFFER, buffer.second->sizeBytes, buffer.second->data, GL_STATIC_DRAW);
 
-		glBindBufferRange(GL_UNIFORM_BUFFER, 0, buffer.second->handle, 0, buffer.second->sizeBytes);
+		glBindBufferBase(GL_UNIFORM_BUFFER, index, buffer.second->handle);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, buffer.second->sizeBytes, buffer.second->data);
 	}
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

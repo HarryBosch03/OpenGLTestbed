@@ -9,9 +9,17 @@ LightingEnviroment* LightingEnviroment::Current = nullptr;
 struct DLightData
 {
 	Vec4I DLightCount = Zero;
-	Vec4 DLightDirections[MaxDLights] = { Zero };
-	Vec4 DLightColors[MaxDLights] = { Zero };
+	Vec4 DLightDirections[MaxDLights]{};
+	Vec4 DLightColors[MaxDLights]{};
 	Vec4 AmbientLight = Zero;
+};
+
+struct LightData
+{
+	Vec4I LightCount = Zero;
+	Vec4 LightPositions[MaxLights]{};
+	Vec4 LightColors[MaxLights]{};
+	Vec4 LightDirections[MaxLights]{};
 };
 
 Vec3 LightingEnviroment::Ambient()
@@ -24,7 +32,7 @@ void LightingEnviroment::Initalize()
 
 }
 
-void LightingEnviroment::PushLight(Vec3 direction, Vec3 color)
+void LightingEnviroment::PushDirectionalLight(Vec3 direction, Vec3 color)
 {
 	DLightData& lightData = UniformBufferObject::Lookup<DLightData>("DLightData");
 	int& count = lightData.DLightCount[0];
@@ -33,6 +41,20 @@ void LightingEnviroment::PushLight(Vec3 direction, Vec3 color)
 	
 	lightData.DLightDirections[count] = Vector(direction);
 	lightData.DLightColors[count] = Vector(color);
+
+	count++;
+}
+
+void LightingEnviroment::PushPointLight(Vec3 position, Vec3 color)
+{
+	LightData& lightData = UniformBufferObject::Lookup<LightData>("LightData");
+	int& count = lightData.LightCount[0];
+
+	if (count >= MaxLights) return;
+
+	lightData.LightPositions[count] = Point(position);
+	lightData.LightColors[count] = Vector(color);
+	lightData.LightDirections[count] = Vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
 	count++;
 }
@@ -50,7 +72,9 @@ void LightingEnviroment::Bind()
 void LightingEnviroment::Unbind()
 {
 	Current = nullptr;
-	Uniform::Set<int>("DLightCount", 0);
+	
+	UniformBufferObject::Lookup<DLightData>("DLightData").DLightCount = Zero;
+	UniformBufferObject::Lookup<LightData>("LightData").LightCount = Zero;
 }
 
 void LightingEnviroment::SetShaderUniforms(ShaderProgram& shader)

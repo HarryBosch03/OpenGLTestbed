@@ -11,7 +11,7 @@
 class MeshRenderData
 {
 	MeshData data;
-	GLuint vao, vbo, ibo;
+	GLuint vao = {}, vbo = {}, ibo = {};
 
 public:
 	MeshRenderData() = default;

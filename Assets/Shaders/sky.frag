@@ -1,6 +1,7 @@
 #version 450
 
 #include "lib/common.glsl"
+#include "lib/surface.glsl"
 #include "lib/light.glsl"
 
 out vec4 FragColor;

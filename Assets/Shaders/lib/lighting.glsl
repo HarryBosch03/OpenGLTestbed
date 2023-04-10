@@ -31,15 +31,15 @@ float GeometrySmith(float NdotV, float NdotL, float roughness)
     return ggx1 * ggx2;
 }
 
-vec3 GetLighting (Surface surface, DLight light)
+vec3 GetLighting (Surface surface, Light light)
 {
     float rough = surface.roughness * 0.9 + 0.1;
     vec3 h = normalize(surface.viewDir - light.direction);
 
-    float NdotL = abs(dot(surface.normal, -light.direction));
-    float NdotV = abs(dot(surface.normal, surface.viewDir));
-    float NdotH = abs(dot(surface.normal, h));
-    float HdotV = abs(dot(h, surface.viewDir));
+    float NdotL = max(dot(surface.normal, -light.direction), 0.0);
+    float NdotV = max(dot(surface.normal, surface.viewDir), 0.0);
+    float NdotH = max(dot(surface.normal, h), 0.0);
+    float HdotV = max(dot(h, surface.viewDir), 0.0);
 
     vec3 radiance = light.color * NdotL;
 
@@ -56,14 +56,16 @@ vec3 GetLighting (Surface surface, DLight light)
     float denom = 4.0 * NdotV * NdotL + 0.0001;
     vec3 spec = num / denom;
 
-    return (kD * surface.albedo / pi + spec) * radiance * NdotL;
+    return (kD * surface.albedo / pi + spec) * radiance * NdotL * light.attenuation;
 }
 
 vec3 sampleGL (Surface surface)
 {
-    DLight light;
+    Light light;
+
     light.direction = -surface.normal;
     light.color = sampleAmbient(surface.normal);
+    light.attenuation = 1.0;
 
     return GetLighting(surface, light);
 }
@@ -74,7 +76,13 @@ vec3 GetLighting (Surface surface)
 
     for (int i = 0; i < DLightCount; i++)
     {
-        DLight light = GetDLight(i);
+        Light light = GetDLight(i);
+        color += GetLighting(surface, light);
+    }
+
+    for (int j = 0; j < LightCount; j++)
+    {
+        Light light = GetLight(0, surface);
         color += GetLighting(surface, light);
     }
 

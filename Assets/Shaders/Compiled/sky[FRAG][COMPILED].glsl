@@ -17,9 +17,22 @@ vec2 SampleSphericalMap(vec3 v)
 }
 #line      4        0 
 #line       1        2 
+struct Surface
+{
+    vec3 albedo;
+    vec3 normal;
+    vec3 viewDir;
+    vec3 position;
+    
+    float metallic;
+    float roughness;
+};
+#line      5        0 
+#line       1        3 
 const int maxDirectionalLights = 4;
+const int maxLights = 64;
 
-layout (std140) uniform DLightData
+uniform DLightData
 {
 	int DLightCount;
 	vec4 DLightDirections[maxDirectionalLights];
@@ -27,18 +40,42 @@ layout (std140) uniform DLightData
 	vec4 AmbientLight;
 };
 
-struct DLight
+uniform LightData
+{
+	int LightCount;
+	vec4 LightPositions[maxLights];
+	vec4 LightColors[maxLights];
+	vec4 LightDirections[maxLights];
+};
+
+struct Light
 {
 	vec3 direction;
 	vec3 color;
+	float attenuation;
 };
 
-DLight GetDLight (int index)
+Light GetDLight (int index)
 {
-	DLight light;
+	Light light;
 
 	light.direction = DLightDirections[index].xyz;
 	light.color = DLightColors[index].xyz;
+	light.attenuation = 1.0;
+
+	return light;
+}
+
+Light GetLight (int index, Surface surface)
+{
+	Light light;
+
+	vec3 vec = surface.position - LightPositions[index].xyz;
+	float l = length(vec);
+
+	light.direction = vec / l;
+	light.color = LightColors[index].rgb;
+	light.attenuation = 1.0 / (l * l);
 
 	return light;
 }
@@ -49,7 +86,7 @@ vec3 sampleAmbient (vec3 v)
 {
     return texture(glMap, SampleSphericalMap(v)).rgb * AmbientLight.rgb;
 }
-#line      5        0 
+#line      6        0 
 
 out vec4 FragColor;
 

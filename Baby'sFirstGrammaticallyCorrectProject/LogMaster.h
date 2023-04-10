@@ -17,6 +17,8 @@ const std::string ANSIWarning = "\x1b[33;1m";
 const std::string ANSIError = "\x1b[41;1m";
 const std::string ANSISuccess = "\x1b[32;1m";
 
+const bool PushLogAlways = true;
+
 enum class LogEntryType
 {
 	None,
@@ -39,6 +41,8 @@ class LogMaster
 	std::stringstream buffer;
 
 public:
+	std::ostream* output = &std::cout;
+
 	void Test();
 
 	std::stringstream& Log(const std::string& append = ANSIReset);

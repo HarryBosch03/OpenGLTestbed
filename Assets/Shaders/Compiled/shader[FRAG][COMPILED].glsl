@@ -37,6 +37,7 @@ struct Surface
     vec3 albedo;
     vec3 normal;
     vec3 viewDir;
+    vec3 position;
     
     float metallic;
     float roughness;
@@ -44,8 +45,9 @@ struct Surface
 #line      6        0 
 #line       1        4 
 const int maxDirectionalLights = 4;
+const int maxLights = 64;
 
-layout (std140) uniform DLightData
+uniform DLightData
 {
 	int DLightCount;
 	vec4 DLightDirections[maxDirectionalLights];
@@ -53,18 +55,42 @@ layout (std140) uniform DLightData
 	vec4 AmbientLight;
 };
 
-struct DLight
+uniform LightData
+{
+	int LightCount;
+	vec4 LightPositions[maxLights];
+	vec4 LightColors[maxLights];
+	vec4 LightDirections[maxLights];
+};
+
+struct Light
 {
 	vec3 direction;
 	vec3 color;
+	float attenuation;
 };
 
-DLight GetDLight (int index)
+Light GetDLight (int index)
 {
-	DLight light;
+	Light light;
 
 	light.direction = DLightDirections[index].xyz;
 	light.color = DLightColors[index].xyz;
+	light.attenuation = 1.0;
+
+	return light;
+}
+
+Light GetLight (int index, Surface surface)
+{
+	Light light;
+
+	vec3 vec = surface.position - LightPositions[index].xyz;
+	float l = length(vec);
+
+	light.direction = vec / l;
+	light.color = LightColors[index].rgb;
+	light.attenuation = 1.0 / (l * l);
 
 	return light;
 }
@@ -110,15 +136,15 @@ float GeometrySmith(float NdotV, float NdotL, float roughness)
     return ggx1 * ggx2;
 }
 
-vec3 GetLighting (Surface surface, DLight light)
+vec3 GetLighting (Surface surface, Light light)
 {
     float rough = surface.roughness * 0.9 + 0.1;
     vec3 h = normalize(surface.viewDir - light.direction);
 
-    float NdotL = abs(dot(surface.normal, -light.direction));
-    float NdotV = abs(dot(surface.normal, surface.viewDir));
-    float NdotH = abs(dot(surface.normal, h));
-    float HdotV = abs(dot(h, surface.viewDir));
+    float NdotL = max(dot(surface.normal, -light.direction), 0.0);
+    float NdotV = max(dot(surface.normal, surface.viewDir), 0.0);
+    float NdotH = max(dot(surface.normal, h), 0.0);
+    float HdotV = max(dot(h, surface.viewDir), 0.0);
 
     vec3 radiance = light.color * NdotL;
 
@@ -135,14 +161,16 @@ vec3 GetLighting (Surface surface, DLight light)
     float denom = 4.0 * NdotV * NdotL + 0.0001;
     vec3 spec = num / denom;
 
-    return (kD * surface.albedo / pi + spec) * radiance * NdotL;
+    return (kD * surface.albedo / pi + spec) * radiance * NdotL * light.attenuation;
 }
 
 vec3 sampleGL (Surface surface)
 {
-    DLight light;
+    Light light;
+
     light.direction = -surface.normal;
     light.color = sampleAmbient(surface.normal);
+    light.attenuation = 1.0;
 
     return GetLighting(surface, light);
 }
@@ -153,7 +181,13 @@ vec3 GetLighting (Surface surface)
 
     for (int i = 0; i < DLightCount; i++)
     {
-        DLight light = GetDLight(i);
+        Light light = GetDLight(i);
+        color += GetLighting(surface, light);
+    }
+
+    for (int j = 0; j < LightCount; j++)
+    {
+        Light light = GetLight(0, surface);
         color += GetLighting(surface, light);
     }
 
@@ -199,6 +233,8 @@ void main ()
 	surface.albedo = texture(texCol, v.uv).rgb * v.color.rgb;
 	surface.normal = fnormal;
 	surface.viewDir = normalize(CamPosition - v.position.xyz);
+	surface.position = v.position.xyz;
+
 	surface.metallic = texture(texMetal, v.uv).r;
 	surface.roughness = texture(texRough, v.uv).r;
 
