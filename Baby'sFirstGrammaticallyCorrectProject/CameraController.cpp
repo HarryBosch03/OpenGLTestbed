@@ -5,7 +5,6 @@
 #include "imgui.h"
 #include "input.h"
 
-GLFWwindow* window = nullptr;
 Vec2 cursorPosition;
 
 using glm::sin;
@@ -27,11 +26,11 @@ void CameraController::ProcessInput()
 		Vec2 delta = cursorPosition - lastCursorPosition;
 		rotation += delta * sensitivity;
 		rotation.y = glm::clamp(rotation.y, -90.0f, 90.0f);
-		glfwSetInputMode(Application::Current->Window(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(Application::Current().Window(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 	else
 	{
-		glfwSetInputMode(Application::Current->Window(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(Application::Current().Window(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 }
 
@@ -50,7 +49,7 @@ void CameraController::SetPosition(Camera& camera)
 
 void CameraController::Control(Camera& camera)
 {
-	window = Application::Current->Window();
+	GLFWwindow* window = Application::Current().Window();
 
 	double xPos, yPos;
 	glfwGetCursorPos(window, &xPos, &yPos);

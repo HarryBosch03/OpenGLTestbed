@@ -56,8 +56,10 @@ void KeyCallback(GLFWwindow* window, int keycode, int scancode, int action, int 
 
 void Input::Init()
 {
-	glfwSetMouseButtonCallback(Application::Current->Window(), MouseCallback);
-	glfwSetKeyCallback(Application::Current->Window(), KeyCallback);
+	GLFWwindow* window = Application::Current().Window();
+
+	glfwSetMouseButtonCallback(window, MouseCallback);
+	glfwSetKeyCallback(window, KeyCallback);
 }
 
 void Input::Update()

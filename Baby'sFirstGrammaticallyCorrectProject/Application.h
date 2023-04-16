@@ -1,17 +1,9 @@
 #pragma once
 
-#include "Graphics.h"
 #include "GLBabysitter.h"
 #include "CameraController.h"
-#include "LightingEnviroment.h"
 #include "Camera.h"
-#include "ShaderProgram.h"
-#include "MeshRenderData.h"
-#include "MeshInstance.h"
-#include "RenderTarget.h"
-#include "Texture.h"
-#include "AssetDatabase.h"
-#include "Skybox.h"
+#include "RenderPipeline.h"
 
 class Application
 {
@@ -19,12 +11,8 @@ class Application
 	Camera camera;
 	CameraController cameraController;
 	GLBabysitter babysitter;
-	LightingEnviroment lightingEnviroment;
+	RenderPipeline renderPipeline;
 	
-	MeshRenderData renderData;
-	MeshInstance can;
-	Skybox skybox;
-
 	float time = 0.0f;
 	float unscaledTime = 0.0f;
 	float frameTime = 0.0f;
@@ -44,10 +32,10 @@ class Application
 	bool ShouldClose();
 
 public:
-	inline static float Time() { return Application::Current->time; }
-	inline static float FrameTime() { return Application::Current->frameTime; }
-	inline static float& FixedFrameTime() { return Application::Current->fixedUnscaledFrameTime; }
-	inline static int Frame() { return Application::Current->frame; }
+	inline static const float Time() { return Application::Current().time; }
+	inline static const float FrameTime() { return Application::Current().frameTime; }
+	inline static const float FixedFrameTime() { return Application::Current().fixedUnscaledFrameTime; }
+	inline static const int Frame() { return Application::Current().frame; }
 
 	inline GLFWwindow* Window() const { return window; }
 
@@ -59,5 +47,5 @@ public:
 	void Run();
 	inline void Quit() { quit = true; }
 
-	static Application* Current;
+	static const Application& Current();
 };

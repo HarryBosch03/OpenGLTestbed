@@ -2,10 +2,11 @@
 
 #include "Maths.h"
 #include "Material.h"
+#include "SceneObject.h"
 
 class MeshRenderData;
 
-class MeshInstance
+class MeshInstance : public SceneObject
 {
 	MeshRenderData* meshData = nullptr;
 	void Bind();
@@ -17,7 +18,7 @@ public:
 	Vec3 scale = {};
 	Material material;
 
-	void Draw();
+	void Draw() override;
 
 	MeshInstance& SetMaterial(Material material);
 	MeshInstance& SetMeshData(MeshRenderData* data);

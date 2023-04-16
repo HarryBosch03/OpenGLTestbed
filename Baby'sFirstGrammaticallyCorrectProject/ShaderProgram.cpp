@@ -5,6 +5,7 @@
 #include "LogMaster.h"
 #include "FileUtility.h"
 #include "UniformBufferObject.h"
+#include "AssetDatabase.h"
 
 #include <iostream>
 #include <string>
@@ -202,18 +203,20 @@ void ShaderProgram::Bind()
 	Current = this;
 	glUseProgram(programHandle);
 
-	const Camera& camera = *Camera::Current;
+	const Camera& camera = Camera::Current();
 
 	Mat4 vp = camera.projection * camera.view;
 
-	Uniform::Set<Mat4>("View", Camera::Current->view);
-	Uniform::Set<Mat4>("Projection", Camera::Current->projection);
+	Uniform::Set<Mat4>("View", camera.view);
+	Uniform::Set<Mat4>("Projection", camera.projection);
 	Uniform::Set<Mat4>("VP", vp);
 
+	Uniform::Set<Mat4>("V_I", glm::inverse(camera.view));
+	Uniform::Set<Mat4>("P_I", glm::inverse(camera.projection));
 	Uniform::Set<Mat4>("VP_I", glm::inverse(vp));
 
-	Uniform::Set<float>("Time", Application::Current->Time());
-	Uniform::Set<Vec3>("CamPosition", Camera::Current->position);
+	Uniform::Set<float>("Time", Application::Current().Time());
+	Uniform::Set<Vec3>("CamPosition", Camera::Current().position);
 
 	IGLuniform::SendAll(this);
 	UniformBufferObject::SendToActiveShader(this);
@@ -227,9 +230,9 @@ void ShaderProgram::Unbind()
 
 void ShaderProgram::SetModelMatrix(const Mat4& model)
 {
-	const Camera& camera = *Camera::Current;
+	const Camera& camera = Camera::Current();
 
-	Mat4 mvp = Camera::Current->projection * Camera::Current->view * model;
+	Mat4 mvp = camera.projection * camera.view * model;
 	Uniform::Set<Mat4>("Model", model);
 	Uniform::Set<Mat4>("MVP", mvp);
 }

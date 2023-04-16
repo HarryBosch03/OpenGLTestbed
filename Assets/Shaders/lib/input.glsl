@@ -4,6 +4,8 @@ uniform mat4 Projection;
 uniform mat4 VP;
 uniform mat4 MVP;
 
+uniform mat4 V_I;
+uniform mat4 P_I;
 uniform mat4 VP_I;
 
 uniform float Time;

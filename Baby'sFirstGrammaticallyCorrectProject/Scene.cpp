@@ -2,23 +2,20 @@
 
 #include "SceneObject.h"
 
-void Scene::Register(SceneObject* object)
+std::vector<Scene*> scenes;
+
+Scene::Scene(const std::string& name) : name(name)
 {
-	for (int i = 0; i < objects.size(); i++)
-	{
-		if (object == objects[i]) return;
-	}
-	objects.push_back(object);
+	scenes.push_back(this);
 }
 
-void Scene::Deregister(SceneObject* object)
+Scene::~Scene()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = 0; i < scenes.size(); i++)
 	{
-		if (object != objects[i]) continue;
-		delete object;
-		objects.erase(objects.begin() + i);
-		return;
+		if (scenes[i] != this) continue;
+		scenes.erase(scenes.begin() + i);
+		break;
 	}
 }
 
@@ -29,6 +26,25 @@ void Scene::LoadFromFile(const std::string& fileLoc)
 
 void Scene::Update()
 {
+	for (const SceneObject* old : oldObjects)
+	{
+		for (int i = 0; i < objects.size(); i++)
+		{
+			if (objects[i] != old) continue;
+
+			objects.erase(objects.begin() + i);
+			i--;
+		}
+		delete old;
+	}
+	oldObjects.clear();
+
+	for (SceneObject* n : newObjects)
+	{
+		objects.push_back(n);
+	}
+	newObjects.clear();
+
 	for (SceneObject*& mesh : objects)
 	{
 		mesh->Update();
@@ -42,17 +58,20 @@ void Scene::FixedUpdate()
 
 void Scene::Render()
 {
-	lightingEnviroment.Bind();
-	skybox.Bind();
-
 	for (SceneObject*& mesh : objects)
 	{
 		mesh->Draw();
 	}
-	skybox.Draw();
+}
 
-	skybox.Unbind();
-	lightingEnviroment.Unbind();
+void Scene::Add(SceneObject* sceneObject)
+{
+	newObjects.push_back(sceneObject);
+}
+
+void Scene::Delete(SceneObject* sceneObject)
+{
+	newObjects.push_back(sceneObject);
 }
 
 void Scene::Clear()
@@ -62,4 +81,14 @@ void Scene::Clear()
 		delete object;
 	}
 	objects.clear();
+}
+
+const std::vector<Scene*>& Scene::Scenes()
+{
+	return scenes;
+}
+
+const Scene& Scene::Main()
+{
+	return *scenes[0];
 }

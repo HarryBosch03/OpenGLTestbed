@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -184,9 +184,10 @@
     <ClCompile Include="MeshRenderData.cpp" />
     <ClCompile Include="MeshData.cpp" />
     <ClCompile Include="MeshUtil.cpp" />
+    <ClCompile Include="RenderPipeline.cpp" />
+    <ClCompile Include="RenderProfillingContext.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="ShaderPreprocessor.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -231,9 +232,10 @@
     <ClInclude Include="MeshRenderData.h" />
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="MeshUtil.h" />
+    <ClInclude Include="RenderPipeline.h" />
+    <ClInclude Include="RenderProfillingContext.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="ShaderPreprocessor.h" />
     <ClInclude Include="ShaderProgram.h" />

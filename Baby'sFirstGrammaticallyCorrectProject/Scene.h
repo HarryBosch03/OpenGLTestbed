@@ -1,8 +1,6 @@
 #pragma once
 
-#include "LightingEnviroment.h"
-#include "Skybox.h"
-
+#include <string>
 #include <vector>
 
 class SceneObject;
@@ -10,14 +8,16 @@ class SceneObject;
 class Scene
 {
 	std::vector<SceneObject*> objects;
-	LightingEnviroment lightingEnviroment;
-	Skybox skybox;
 
-	void Register(SceneObject* object);
-	void Deregister(SceneObject* object);
+	std::vector<SceneObject*> newObjects;
+	std::vector<SceneObject*> oldObjects;
 
 public:
-	bool doomed = false;
+	std::string name;	
+	Scene(const std::string& name);
+	Scene(const Scene& other) = delete;
+	Scene& operator=(const Scene& other) = delete;
+	~Scene();
 
 	void LoadFromFile(const std::string& fileLoc);
 
@@ -26,7 +26,12 @@ public:
 
 	void Render();
 
+	void Add(SceneObject* sceneObject);
+	void Delete(SceneObject* sceneObject);
 	void Clear();
+	
+	static const std::vector<Scene*>& Scenes();
+	static const Scene& Main();
 
 	friend SceneObject;
 };

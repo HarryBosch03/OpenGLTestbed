@@ -6,6 +6,8 @@
 
 class Application;
 
+class Camera;
+
 class Camera
 {
 public:
@@ -18,8 +20,15 @@ public:
 	Mat4 view = {};
 	Mat4 projection = {};
 
+	Camera();
+	Camera(const Camera& camera) = delete;
+	Camera& operator=(const Camera& camera) = delete;
+	~Camera();
+
 	void Bind();
 	void Unbind();
 
-	static Camera* Current;
+	static const std::vector<Camera*>& Itterator();
+
+	static const Camera& Current();
 };

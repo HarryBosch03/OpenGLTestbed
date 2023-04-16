@@ -25,6 +25,14 @@ MeshRenderData& MeshRenderData::Load(const MeshData& meshData)
 	glGenBuffers(1, &vbo);
 	glGenVertexArrays(1, &vao);
 
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	glBufferData(GL_ARRAY_BUFFER, data.vertices.size() * sizeof(VertexData), data.vertices.data(), GL_STATIC_DRAW);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
 	return *this;
 }
 
@@ -38,8 +46,6 @@ void MeshRenderData::Bind()
 {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, data.vertices.size() * sizeof(VertexData), data.vertices.data(), GL_STATIC_DRAW);
 
 	SetVertexAttribute("position", 4, offsetof(VertexData, position));
 	SetVertexAttribute("normal", 4, offsetof(VertexData, normal));

@@ -43,8 +43,8 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 
 	std::string shaderPath = ("../Assets/" + ShaderPath).c_str();
 
-	char* shaderC = new char[shader.size()];
-	char* includeC = new char[shaderPath.size()];
+	char* shaderC = new char[shader.size() + 1];
+	char* includeC = new char[shaderPath.size() + 1];
 
 	std::strcpy(shaderC, shader.c_str());
 	std::strcpy(includeC, shaderPath.c_str());

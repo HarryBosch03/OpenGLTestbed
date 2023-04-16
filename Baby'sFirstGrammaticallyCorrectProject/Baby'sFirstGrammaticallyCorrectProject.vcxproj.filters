@@ -125,6 +125,8 @@
     <ClCompile Include="SceneObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="RenderPipeline.cpp" />
+    <ClCompile Include="RenderProfillingContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -301,5 +303,7 @@
     <ClInclude Include="SceneObject.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="RenderPipeline.h" />
+    <ClInclude Include="RenderProfillingContext.h" />
   </ItemGroup>
 </Project>

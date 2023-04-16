@@ -7,6 +7,8 @@ uniform mat4 Projection;
 uniform mat4 VP;
 uniform mat4 MVP;
 
+uniform mat4 V_I;
+uniform mat4 P_I;
 uniform mat4 VP_I;
 
 uniform float Time;
@@ -22,6 +24,6 @@ out vec3 localPos;
 
 void main ()
 {
-    localPos = (VP_I * vec4(aPos, 1.0)).xyz;
+    localPos = (V_I * vec4((P_I * vec4(aPos, 1.0)).xyz, 0.0)).xyz;
     gl_Position = vec4(aPos, 1.0);
 }
