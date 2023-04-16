@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{991b3430-5119-4451-9078-331539383d5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Application">
+      <UniqueIdentifier>{a491f88d-5eee-42fa-9092-657ccd26995c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glad">
+      <UniqueIdentifier>{53a6001e-a4b6-4b35-a23e-7ff157387311}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Logger">
+      <UniqueIdentifier>{e6d9eedd-52c6-4f8e-801a-072f003d3a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{273871fc-b719-4c64-a1f5-0392f00d378b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset Managment">
+      <UniqueIdentifier>{01728680-2404-4442-ad69-1a05ea31ccce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset Managment\AssetTypes">
+      <UniqueIdentifier>{4473c454-b4c9-4c75-8cf4-8dacf4fe7d3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{4bfd587f-0ced-4920-909a-7d3afa8e58f4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Application.cpp">
+      <Filter>Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\glad\glad.c">
+      <Filter>glad</Filter>
+    </ClCompile>
+    <ClCompile Include="LogMaster.cpp">
+      <Filter>Core\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetDatabase.cpp">
+      <Filter>Asset Managment</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>Asset Managment</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Asset Managment\AssetTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="GLBabysitter.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Submesh.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h">
+      <Filter>Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\glad\glad.h">
+      <Filter>glad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\glad\khrplatform.h">
+      <Filter>glad</Filter>
+    </ClInclude>
+    <ClInclude Include="LogMaster.h">
+      <Filter>Core\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUtility.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetDatabase.h">
+      <Filter>Asset Managment</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>Asset Managment</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Asset Managment\AssetTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GLBabysitter.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Submesh.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
