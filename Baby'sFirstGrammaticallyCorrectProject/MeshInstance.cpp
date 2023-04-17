@@ -1,50 +1,46 @@
 #include "MeshInstance.h"
 
-#include "MeshRenderData.h"
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "Texture.h"
-
-void MeshInstance::Bind()
-{
-	Mat4 m = LocalToWorld();
-	ShaderProgram::Current->SetModelMatrix(m);
-
-	material.Bind();
-	if (meshData) meshData->Bind();
-}
+#include "Mesh.h"
 
 void MeshInstance::Draw()
 {
-	Bind();
+	if (!mesh) return;
 
-	if (meshData)
-	{
-		meshData->Draw();
-	}
-
-	Unbind();
-}
-
-void MeshInstance::Unbind()
-{
-	if (meshData) meshData->Unbind();
-	material.Unbind();
-}
-
-MeshInstance& MeshInstance::SetMaterial(Material material)
-{
-	this->material = material;
-	return *this;
-}
-
-MeshInstance& MeshInstance::SetMeshData(MeshRenderData* data)
-{
-	this->meshData = data;
-	return *this;
+	Mat4 m = LocalToWorld();
+	ShaderProgram::Current->SetModelMatrix(m);
+	mesh->Draw(materials);
 }
 
 Mat4 MeshInstance::LocalToWorld() const
 {
 	return TRS(position, axisAngleRotation, scale);
+}
+
+MeshInstance& MeshInstance::SetMaterials(const Material& material)
+{
+	if (!mesh) return *this;
+
+	materials.clear();
+	materials.reserve(mesh->submeshes.size());
+
+	for (int i = 0; i < mesh->submeshes.size(); i++)
+	{
+		materials.push_back(material);
+	}
+	return *this;
+}
+
+MeshInstance& MeshInstance::SetMaterial(int index, const Material& material)
+{
+	materials[index] = material;
+	return *this;
+}
+
+MeshInstance& MeshInstance::SetMeshData(Mesh* mesh)
+{
+	this->mesh = mesh;
+	return *this;
 }

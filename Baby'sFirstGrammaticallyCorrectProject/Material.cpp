@@ -32,8 +32,14 @@ Material& Material::SetTexture(const std::string& ref, Texture* tex)
 	return *this;
 }
 
-void Material::Bind()
+void Material::Bind() const
 {
+	if (this == nullptr)
+	{
+		ShaderProgram::Fallback()->Bind();
+		return;
+	}
+
 	program->Bind();
 
 	for (auto& pair : textures)
@@ -44,8 +50,14 @@ void Material::Bind()
 	Texture::BindAll();
 }
 
-void Material::Unbind()
+void Material::Unbind() const
 {
+	if (this == nullptr)
+	{
+		ShaderProgram::Fallback()->Unbind();
+		return;
+	}
+
 	Texture::UnbindAll();
 
 	for (auto& pair : textures)

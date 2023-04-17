@@ -8,7 +8,8 @@ class Asset
 {
 protected:
 	std::string fileLoc;
-
+	void* args = nullptr;
+		
 public:
 	inline const std::string& FileName() { return fileLoc; }
 	virtual AssetType GetType() const = 0;

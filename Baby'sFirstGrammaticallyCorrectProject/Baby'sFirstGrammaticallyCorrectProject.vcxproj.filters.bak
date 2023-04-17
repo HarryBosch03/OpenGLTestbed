@@ -4,12 +4,28 @@
     <ClCompile Include="..\extern\glad\glad.c">
       <Filter>Glad</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GLuniform.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GLBabysitter.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Maths.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AssetDatabase.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
+    <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="LightingEnviroment.cpp">
       <Filter>Rendering\Lighting</Filter>
     </ClCompile>
@@ -43,6 +59,18 @@
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderPreprocessor.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="Asset.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
@@ -55,13 +83,30 @@
     <ClCompile Include="AssetDatabasePredicate.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
+    <ClCompile Include="UniformBufferObject.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="LogMaster.cpp">
       <Filter>LogMaster</Filter>
     </ClCompile>
     <ClCompile Include="StringUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline.cpp" />
+    <ClCompile Include="RenderProfillingContext.cpp" />
     <ClCompile Include="MeshInstance.cpp">
+      <Filter>Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshUtil.cpp">
+      <Filter>Core\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
       <Filter>Core\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Submesh.cpp">
@@ -70,61 +115,7 @@
     <ClCompile Include="ColorUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Maths.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneObject.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderPipeline.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderProfillingContext.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraController.cpp">
-      <Filter>Rendering\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="GLBabysitter.cpp">
-      <Filter>Rendering\Debugging</Filter>
-    </ClCompile>
-    <ClCompile Include="GLuniform.cpp">
-      <Filter>Rendering\Communication</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderPreprocessor.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderProgram.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="UniformBufferObject.cpp">
-      <Filter>Rendering\Communication</Filter>
-    </ClCompile>
-    <ClCompile Include="Skybox.cpp">
-      <Filter>Rendering\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Rendering\Materials</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Assets</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Assets</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
-      <Filter>Rendering\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>Inspection</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp"/>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -157,27 +148,6 @@
     <Filter Include="Core\Mesh">
       <UniqueIdentifier>{08105f69-c234-4382-a445-5a1fe3d84fee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{d76cfaef-a1a0-4fa3-89e8-01aaacbac78a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Camera">
-      <UniqueIdentifier>{bfab3076-6bbd-4862-917f-c182e5deb739}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Debugging">
-      <UniqueIdentifier>{3b441d6f-bffc-442f-b860-8471928d559e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Shaders">
-      <UniqueIdentifier>{f6068f41-7598-49b1-95dc-46b27f44e1d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Communication">
-      <UniqueIdentifier>{4ee2ba75-38e9-4c39-b4a8-6868c5ad63e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Materials">
-      <UniqueIdentifier>{b7f5711b-1e8b-4a3a-b5e6-e43f3a54da8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Inspection">
-      <UniqueIdentifier>{da8543c4-2816-441d-a573-fd873ce861d6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\khrplatform.h">
@@ -186,17 +156,39 @@
     <ClInclude Include="..\extern\glad\glad.h">
       <Filter>Glad</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="Graphics.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Maths.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="GLuniform.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GLBabysitter.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="AssetDatabase.h">
       <Filter>Assets</Filter>
     </ClInclude>
+    <ClInclude Include="CameraController.h" />
+    <ClInclude Include="Texture.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="LightingEnviroment.h">
       <Filter>Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderPreprocessor.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="stb_include.h">
       <Filter>stb</Filter>
@@ -243,6 +235,12 @@
     <ClInclude Include="stb_image.h">
       <Filter>stb</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="Asset.h">
       <Filter>Assets</Filter>
     </ClInclude>
@@ -252,8 +250,14 @@
     <ClInclude Include="FileUtility.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="AssetDatabasePredicate.h">
       <Filter>Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBufferObject.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="LogMaster.h">
       <Filter>LogMaster</Filter>
@@ -261,7 +265,21 @@
     <ClInclude Include="StringUtility.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline.h" />
+    <ClInclude Include="RenderProfillingContext.h" />
     <ClInclude Include="MeshInstance.h">
+      <Filter>Core\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshUtil.h">
+      <Filter>Core\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
       <Filter>Core\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="VertexData.h">
@@ -272,60 +290,6 @@
     </ClInclude>
     <ClInclude Include="ColorUtility.h">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderPipeline.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderProfillingContext.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraController.h">
-      <Filter>Rendering\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="GLBabysitter.h">
-      <Filter>Rendering\Debugging</Filter>
-    </ClInclude>
-    <ClInclude Include="GLuniform.h">
-      <Filter>Rendering\Communication</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderPreprocessor.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderProgram.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="UniformBufferObject.h">
-      <Filter>Rendering\Communication</Filter>
-    </ClInclude>
-    <ClInclude Include="Skybox.h">
-      <Filter>Rendering\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Rendering\Materials</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Assets</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Assets</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>Rendering\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>Rendering\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

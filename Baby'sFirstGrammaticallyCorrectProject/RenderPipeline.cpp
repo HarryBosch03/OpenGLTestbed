@@ -3,7 +3,7 @@
 #include "RenderProfillingContext.h"
 #include "Application.h"
 #include "Graphics.h"
-#include "Scene.h"
+#include "MeshInstance.h"
 
 #include <chrono>
 #include <imgui.h>
@@ -31,9 +31,9 @@ void RenderCamera(RenderPipeline& pipeline, Camera* camera)
 {
 	camera->Bind();
 	pipeline.skybox.Draw();
-	for (Scene* scene : Scene::Scenes())
+	for (SceneObject* object : SceneObject::All())
 	{
-		scene->Render();
+		object->Draw();
 	}
 	camera->Unbind();
 }
@@ -53,6 +53,10 @@ void RenderPipeline::Render()
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+
 	lighting.Bind();
 	skybox.Bind();
 
@@ -60,6 +64,7 @@ void RenderPipeline::Render()
 	{
 		RenderCamera(*this, camera);
 	}
+
 
 	lighting.Unbind();
 	skybox.Unbind();

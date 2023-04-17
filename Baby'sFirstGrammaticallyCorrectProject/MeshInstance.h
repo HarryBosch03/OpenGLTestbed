@@ -4,24 +4,29 @@
 #include "Material.h"
 #include "SceneObject.h"
 
-class MeshRenderData;
+#include <vector>
+
+class Mesh;
 
 class MeshInstance : public SceneObject
 {
-	MeshRenderData* meshData = nullptr;
-	void Bind();
-	void Unbind();
+	Mesh* mesh = nullptr;
 
 public:
-	Vec3 position = {};
-	Vec4 axisAngleRotation = {};
-	Vec3 scale = {};
-	Material material;
+	Vec3 position = Zero;
+	Vec4 axisAngleRotation = Zero;
+	Vec3 scale = One;
+
+	std::vector<Material> materials;
 
 	void Draw() override;
 
-	MeshInstance& SetMaterial(Material material);
-	MeshInstance& SetMeshData(MeshRenderData* data);
+	MeshInstance& SetMaterials(const Material& material);
+	MeshInstance& SetMaterial(int index, const Material& material);
+
+	MeshInstance& SetMeshData(Mesh* mesh);
 
 	Mat4 LocalToWorld() const;
+
+	static const std::vector<MeshInstance*>& All();
 };

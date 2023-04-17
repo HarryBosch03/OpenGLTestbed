@@ -3,12 +3,12 @@
 #include "Maths.h"
 #include "AssetDatabase.h"
 
-const Vec3 A = {-1.0f,  1.0f, 0.9999f };
-const Vec3 B = { 1.0f,  1.0f, 0.9999f };
-const Vec3 C = { 1.0f, -1.0f, 0.9999f };
-const Vec3 D = {-1.0f, -1.0f, 0.9999f };
+const Vec3 A = {-1.0f,  1.0f, 0.999999f };
+const Vec3 B = { 1.0f,  1.0f, 0.999999f };
+const Vec3 C = { 1.0f, -1.0f, 0.999999f };
+const Vec3 D = {-1.0f, -1.0f, 0.999999f };
 
-const Vec3 verticies[] = { A, B, C, C, D, A };
+const Vec3 vertices[] = { C, B, A, A, D, C };
 
 Skybox::~Skybox()
 {
@@ -41,7 +41,7 @@ void Skybox::Draw()
 	material.Bind();
 
 	glBindBuffer(GL_ARRAY_BUFFER, Handle());
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vec3), verticies, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vec3), vertices, GL_DYNAMIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), nullptr);
 	glEnableVertexAttribArray(0);

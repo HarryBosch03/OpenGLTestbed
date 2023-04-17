@@ -107,7 +107,7 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 	this->name = Utility::Files::FileName(fileLoc);
 
 	bool success;
-	std::string shaderRaw = BMUtil::LoadTextFromFile(fileLoc + ".shader", &success, false);
+	std::string shaderRaw = Utility::Files::LoadTextFromFile(fileLoc + ".shader", &success, false);
 	
 	std::string vertRaw;
 	std::string fragRaw;
@@ -119,8 +119,8 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 	}
 	else
 	{
-		vertRaw = BMUtil::LoadTextFromFile(fileLoc + ".vert", &success);
-		fragRaw = BMUtil::LoadTextFromFile(fileLoc + ".frag", &success);
+		vertRaw = Utility::Files::LoadTextFromFile(fileLoc + ".vert", &success);
+		fragRaw = Utility::Files::LoadTextFromFile(fileLoc + ".frag", &success);
 		if (!success)
 		{
 			LogError("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");

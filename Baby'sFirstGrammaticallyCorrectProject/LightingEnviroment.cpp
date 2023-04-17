@@ -3,81 +3,69 @@
 #include "Graphics.h"
 #include "GLuniform.h"
 #include "UniformBufferObject.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
 
 LightingEnviroment* LightingEnviroment::Current = nullptr;
-
-struct DLightData
-{
-	Vec4I DLightCount = Zero;
-	Vec4 DLightDirections[MaxDLights]{};
-	Vec4 DLightColors[MaxDLights]{};
-	Vec4 AmbientLight = Zero;
-};
-
-struct LightData
-{
-	Vec4I LightCount = Zero;
-	Vec4 LightPositions[MaxLights]{};
-	Vec4 LightColors[MaxLights]{};
-	Vec4 LightDirections[MaxLights]{};
-};
-
-Vec3 LightingEnviroment::Ambient()
-{
-	return Uniform::Get<Vec3>("AmbientLight");
-}
 
 void LightingEnviroment::Initalize()
 {
 
 }
 
-void LightingEnviroment::PushDirectionalLight(Vec3 direction, Vec3 color)
-{
-	DLightData& lightData = UniformBufferObject::Lookup<DLightData>("DLightData");
-	int& count = lightData.DLightCount[0];
-
-	if (count >= MaxDLights) return;
-	
-	lightData.DLightDirections[count] = Vector(direction);
-	lightData.DLightColors[count] = Vector(color);
-
-	count++;
-}
-
-void LightingEnviroment::PushPointLight(Vec3 position, Vec3 color)
-{
-	LightData& lightData = UniformBufferObject::Lookup<LightData>("LightData");
-	int& count = lightData.LightCount[0];
-
-	if (count >= MaxLights) return;
-
-	lightData.LightPositions[count] = Point(position);
-	lightData.LightColors[count] = Vector(color);
-	lightData.LightDirections[count] = Vec4(1.0f, 0.0f, 0.0f, 1.0f);
-
-	count++;
-}
-
 void LightingEnviroment::SetAmbient(Vec3 color)
 {
-	UniformBufferObject::Lookup<DLightData>("DLightData").AmbientLight = Vector(color);
+	dLightData.AmbientLight = Vec4(color.x, color.y, color.z, 0.0);
+}
+
+void GetDirectionalLights(DLightData& lightData)
+{
+	const std::vector<DirectionalLight*> lights = SceneObject::All<DirectionalLight>();
+	for (DirectionalLight* light : lights)
+	{
+		int& count = lightData.DLightCount[0];
+
+		if (count >= MaxDLights) return;
+
+		lightData.DLightDirections[count] = Vector(light->direction);
+		lightData.DLightColors[count] = Vector(light->FinalColor());
+
+		count++;
+	}
+}
+
+void GetPointLights(LightData& lightData)
+{
+	const std::vector<PointLight*> lights = SceneObject::All<PointLight>();
+	for (PointLight* light : lights)
+	{
+		int& count = lightData.LightCount[0];
+
+		if (count >= MaxLights) return;
+
+		lightData.LightPositions[count] = Point(light->position);
+		lightData.LightColors[count] = Vector(light->FinalColor());
+		lightData.LightDirections[count] = Vec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+		count++;
+	}
 }
 
 void LightingEnviroment::Bind()
 {
 	Current = this;
+
+	dLightData.DLightCount = Zero;
+	lightData.LightCount = Zero;
+
+	GetDirectionalLights(dLightData);
+	GetPointLights(lightData);
+
+	UniformBufferObject::Lookup<DLightData>("DLightData") = dLightData;
+	UniformBufferObject::Lookup<LightData>("LightData") = lightData;
 }
 
 void LightingEnviroment::Unbind()
 {
 	Current = nullptr;
-	
-	UniformBufferObject::Lookup<DLightData>("DLightData").DLightCount = Zero;
-	UniformBufferObject::Lookup<LightData>("LightData").LightCount = Zero;
-}
-
-void LightingEnviroment::SetShaderUniforms(ShaderProgram& shader)
-{
-
 }

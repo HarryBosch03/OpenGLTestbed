@@ -1,17 +1,17 @@
 #include "Application.h"
 
-#include "MeshData.h"
-#include "MeshRenderData.h"
-
 #include "LogMaster.h"
 #include "Input.h"
 #include "ShaderPreprocessor.h"
 #include "DrawGUIListener.h"
 #include "AssetDatabasePredicate.h"
 #include "RenderProfillingContext.h"
-#include "ColorUtil.h"
+#include "ColorUtility.h"
 #include "Scene.h"
 #include "MeshInstance.h"
+#include "Mesh.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -23,27 +23,7 @@ Application* current = nullptr;
 
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
 
-Vec3 ambient = GREY(1.0);
-float ambientStrength = 1.0f;
-const int dLightCount = 3;
-Vec3 dLightColor[dLightCount] =
-{
-	HEX3(ffefd6),
-	HEX3(c4eeff),
-	HEX3(c4eeff),
-};
-float dLightStrength[dLightCount] =
-{
-	1.0f,
-	0.6f,
-	0.3f,
-};
-
-Vec3 pointLightPosition = {};
-Vec3 pointLightColor = Vec3(255.0, 15.0, 0.0) / 255.0f;
-float pointLightValue = 100.0f;
-
-MeshInstance monke;
+MeshInstance* monke;
 
 void Application::Run()
 {
@@ -116,8 +96,10 @@ void Application::Initalize()
 
 	ShaderPreprocessor::Initalize();
 
-	MeshRenderData* monkeMesh = new MeshRenderData(*AssetDatabase::LoadAsset<MeshData>("Models/Monke Low Res.fbx", nullptr));
-	monke.SetMeshData(monkeMesh);
+	monke = new MeshInstance();
+
+	Mesh* monkeMesh = AssetDatabase::LoadAsset<Mesh>("Models/Monke Low Res.fbx", nullptr);
+	monke->SetMeshData(monkeMesh);
 
 	Material material = Material("shader");
 	material.SetTexture("texCol", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Albedo.tga"));
@@ -126,13 +108,19 @@ void Application::Initalize()
 	material.SetTexture("texNormal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Normal.tga"));
 	material.SetTexture("texHeight", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Height.tga"));
 	material.SetTexture("texAO", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.AO.tga"));
-	monke.SetMaterial(material);
+	monke->SetMaterials(material);
 
 	Scene& scene = *new Scene("Main Scene");
-	scene.Add(&monke);
+	scene.Add(monke);
 
 	renderPipeline.skybox.Setup("Textures/forest.hdr");
 	renderPipeline.lighting.Initalize();
+
+	new DirectionalLight({ 1.0, -1.0, -1.0 }, Utility::Color::Hex3(0xffefd6), 1.0f);
+	new DirectionalLight({ -1.0, 1.0, 0.5 }, Utility::Color::Hex3(0xc4eeff), 0.6f);
+	new DirectionalLight({ -1.0, -0.2, 0.5 }, Utility::Color::Hex3(0xc4eeff), 0.3f);
+
+	new PointLight({}, Vec3(255.0, 15.0, 0.0) / 255.0f, 100.0f);
 
 	Input::Init();
 }
@@ -143,21 +131,15 @@ void Application::Loop()
 {
 	ImGui::Begin("Inspector");
 
-	monke.position = Vec3(2.0f, glm::sin(Time() * 5.0f) * 0.2f, 0.0f);
+	monke->position = Vec3(2.0f, glm::sin(Time() * 5.0f) * 0.2f, 0.0f);
 
 	float a = Time() * 1.0f;
-	monke.axisAngleRotation = Vec4(1.0f, 0.0f, 0.0f, -90.0f);
-	monke.scale = One * 0.6f;
+	monke->axisAngleRotation = Vec4(1.0f, 0.0f, 0.0f, -90.0f);
+	monke->scale = One * 0.6f;
 
 	cameraController.Control(camera);
 
-	renderPipeline.lighting.PushDirectionalLight({ 1.0, -1.0, -1.0 }, dLightColor[0] * dLightStrength[0]);
-	renderPipeline.lighting.PushDirectionalLight({ -1.0, 1.0, 0.5 }, dLightColor[1] * dLightStrength[1]);
-	renderPipeline.lighting.PushDirectionalLight({ -1.0, -0.2, 0.5 }, dLightColor[2] * dLightStrength[2]);
-
-	renderPipeline.lighting.PushPointLight(pointLightPosition, pointLightColor * pointLightValue);
-
-	renderPipeline.lighting.SetAmbient(ambient, ambientStrength);
+	renderPipeline.lighting.SetAmbient(One, 1.0f);
 
 	for (Scene* scene : Scene::Scenes())
 	{
@@ -166,38 +148,8 @@ void Application::Loop()
 
 	if (ImGui::CollapsingHeader("Utility"))
 	{
-		if (ImGui::CollapsingHeader("Lighting Enviroment"))
-		{
-			ImGui::Indent();
-
-			ImGui::ColorEdit3("Ambient Light", &ambient.x);
-			ImGui::SliderFloat("Ambient Strength", &ambientStrength, 0.0f, 2.0f);
-			for (size_t i = 0; i < dLightCount; i++)
-			{
-				if (!ImGui::CollapsingHeader((std::string("Light.") + std::to_string(i)).c_str())) continue;
-
-				ImGui::Indent();
-
-				ImGui::ColorEdit3("Color##" + i, &dLightColor[i].x);
-				ImGui::SliderFloat("Strength##" + i, &dLightStrength[i], 0.0f, 10.0f);
-
-				ImGui::Unindent();
-			}
-
-			if (ImGui::CollapsingHeader("Point Light"))
-			{
-				ImGui::Indent();
-
-				ImGui::InputFloat3("Position", &pointLightPosition.x);
-				ImGui::ColorEdit3("Color##Point Light", &pointLightColor.x);
-				ImGui::InputFloat("Strength##Point Light", &pointLightValue);
-
-				ImGui::Unindent();
-			}
-
-			ImGui::Unindent();
-		}
-
+		ImGui::Indent();
+		
 		Uniform::Set<float>("metalIn", metalIn);
 		Uniform::Set<float>("roughIn", roughIn);
 
@@ -213,6 +165,8 @@ void Application::Loop()
 				AssetDatabase::HotReload(AssetDatabase::Predicates::MatchType((AssetType)i));
 			}
 		}
+
+		ImGui::Unindent();
 	}
 
 	DrawGUIListener::DrawAllListeners();

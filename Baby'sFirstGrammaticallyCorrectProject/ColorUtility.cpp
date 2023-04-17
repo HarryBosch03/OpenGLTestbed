@@ -1,4 +1,4 @@
-#include "ColorUtil.h"
+#include "ColorUtility.h"
 
 #include "Maths.h"
 
@@ -12,20 +12,20 @@ float FromHex1(unsigned int code, int offset)
 	return ((code >> offset) & mask) / 255.0f;
 }
 
-void ColorUtil::FromHex3(unsigned int code, float* r, float* g, float* b)
+void Utility::Color::Hex3(unsigned int code, float* r, float* g, float* b)
 {
 	*r = FromHex1(code, 16);
 	*g = FromHex1(code, 8);
 	*b = FromHex1(code, 0);
 }
 
-void ColorUtil::FromHex4(unsigned int code, float* r, float* g, float* b, float* a)
+void Utility::Color::Hex4(unsigned int code, float* r, float* g, float* b, float* a)
 {
 	*r = FromHex1(code, 24);
-	FromHex3(code, g, b, a);
+	Hex3(code, g, b, a);
 }
 
-void ColorUtil::FromHSV(float h, float s, float v, float* r, float* g, float* b)
+void Utility::Color::FromHSV(float h, float s, float v, float* r, float* g, float* b)
 {
 	if (v <= 0)
 	{
@@ -77,7 +77,7 @@ void ColorUtil::FromHSV(float h, float s, float v, float* r, float* g, float* b)
 	}
 }
 
-void ColorUtil::ToHSV(float r, float g, float b, float *h, float *s, float *v)
+void Utility::Color::ToHSV(float r, float g, float b, float *h, float *s, float *v)
 {
 	*v = max(r, max(g, b));
 	float xMin = min(r, min(g, b));
@@ -91,30 +91,35 @@ void ColorUtil::ToHSV(float r, float g, float b, float *h, float *s, float *v)
 	else if (*v == b) *h = ((r - g) / c + 4.0f) / 6.0f;
 }
 
-Vec4 ColorUtil::FromHex3(unsigned int code)
+Vec4 Utility::Color::Hex3(unsigned int code)
 {
 	Vec4 col;
-	FromHex3(code, &col.r, &col.g, &col.b); col.a = 1.0f;
+	Hex3(code, &col.r, &col.g, &col.b); col.a = 1.0f;
 	return col;
 }
 
-Vec4 ColorUtil::FromHex4(unsigned int code)
+Vec4 Utility::Color::Hex4(unsigned int code)
 {
 	Vec4 col;
-	FromHex4(code, &col.r, &col.g, &col.b, &col.a);
+	Hex4(code, &col.r, &col.g, &col.b, &col.a);
 	return col;
 }
 
-Vec4 ColorUtil::FromHSV(float h, float s, float v)
+Vec4 Utility::Color::FromHSV(float h, float s, float v)
 {
 	Vec4 col;
 	FromHSV(h, s, v, &col.r, &col.g, &col.b); col.a = 1.0f;
 	return col;
 }
 
-Vec4 ColorUtil::ToHSV(float r, float g, float b)
+Vec4 Utility::Color::ToHSV(float r, float g, float b)
 {
 	Vec4 col;
 	FromHSV(r, g, b, &col.r, &col.g, &col.b); col.a = 1.0f;
 	return col;
+}
+
+Vec4 Utility::Color::Grey(float v, float a)
+{
+	return Vec4(v, v, v, a);
 }

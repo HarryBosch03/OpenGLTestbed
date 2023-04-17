@@ -2,12 +2,10 @@
 
 #include "LogMaster.h"
 #include "Texture.h"
+#include "Mesh.h"
 
 #include <string>
 #include <map>
-
-class Texture;
-class MeshData;
 
 typedef std::pair<const std::string, Asset*> AssetEntry;
 

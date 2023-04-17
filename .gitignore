@@ -1,5 +1,6 @@
 .git
 .vs
+.idea
 /x64/
 /*/x64/
 **/*.spp

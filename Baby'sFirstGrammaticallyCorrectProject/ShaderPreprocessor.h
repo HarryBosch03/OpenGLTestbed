@@ -2,7 +2,6 @@
 
 #include <string>
 #include <sstream>
-#include "BMUtil.h"
 
 namespace ShaderPreprocessor
 {

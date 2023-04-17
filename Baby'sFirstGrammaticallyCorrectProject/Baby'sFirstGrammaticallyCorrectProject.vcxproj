@@ -164,12 +164,11 @@
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetDatabase.cpp" />
     <ClCompile Include="AssetDatabasePredicate.cpp" />
-    <ClCompile Include="BMUtil.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraController.cpp" />
-    <ClCompile Include="ColorUtil.cpp" />
+    <ClCompile Include="ColorUtility.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DrawGUIListener.cpp" />
-    <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="FileUtility.cpp" />
     <ClCompile Include="GLBabysitter.cpp" />
     <ClCompile Include="GLuniform.cpp" />
@@ -180,10 +179,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Maths.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshInstance.cpp" />
-    <ClCompile Include="MeshRenderData.cpp" />
-    <ClCompile Include="MeshData.cpp" />
-    <ClCompile Include="MeshUtil.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderPipeline.cpp" />
     <ClCompile Include="RenderProfillingContext.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
@@ -193,6 +191,7 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="StringUtility.cpp" />
+    <ClCompile Include="Submesh.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="UniformBufferObject.cpp" />
   </ItemGroup>
@@ -213,12 +212,11 @@
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetDatabase.h" />
     <ClInclude Include="AssetDatabasePredicate.h" />
-    <ClInclude Include="BMUtil.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraController.h" />
-    <ClInclude Include="ColorUtil.h" />
+    <ClInclude Include="ColorUtility.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DrawGUIListener.h" />
-    <ClInclude Include="FileIO.h" />
     <ClInclude Include="GLBabysitter.h" />
     <ClInclude Include="GLuniform.h" />
     <ClInclude Include="Graphics.h" />
@@ -228,10 +226,9 @@
     <ClInclude Include="LogMaster.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Maths.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshInstance.h" />
-    <ClInclude Include="MeshRenderData.h" />
-    <ClInclude Include="MeshData.h" />
-    <ClInclude Include="MeshUtil.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderPipeline.h" />
     <ClInclude Include="RenderProfillingContext.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -243,10 +240,11 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_include.h" />
     <ClInclude Include="StringUtility.h" />
+    <ClInclude Include="Submesh.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="FileUtility.h" />
-    <ClInclude Include="Tree.h" />
     <ClInclude Include="UniformBufferObject.h" />
+    <ClInclude Include="VertexData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

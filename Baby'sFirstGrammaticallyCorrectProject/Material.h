@@ -21,8 +21,8 @@ public:
 	Material& SetShader(ShaderProgram* program);
 	Material& SetTexture(const std::string& ref, Texture* tex);
 
-	void Bind();
-	void Unbind();
+	void Bind() const;
+	void Unbind() const;
 
 	inline ShaderProgram* Shader() { return program; }
 };
