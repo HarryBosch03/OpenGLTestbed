@@ -173,6 +173,7 @@
     <ClCompile Include="GLBabysitter.cpp" />
     <ClCompile Include="GLuniform.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InspectorUtility.cpp" />
     <ClCompile Include="KeyTable.cpp" />
     <ClCompile Include="LightingEnviroment.cpp" />
     <ClCompile Include="LogMaster.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="GLuniform.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InspectorUtility.h" />
     <ClInclude Include="KeyTable.h" />
     <ClInclude Include="LightingEnviroment.h" />
     <ClInclude Include="LogMaster.h" />

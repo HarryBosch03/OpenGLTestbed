@@ -30,5 +30,5 @@ public:
 
 	static const std::vector<Camera*>& Itterator();
 
-	static const Camera& Current();
+	static const Camera* Current();
 };

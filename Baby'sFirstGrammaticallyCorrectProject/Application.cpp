@@ -23,7 +23,9 @@ Application* current = nullptr;
 
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
 
-MeshInstance* monke;
+MeshInstance* soulspear;
+Vec3 ambientColor = One;
+float ambientStrength = 1.0f;
 
 void Application::Run()
 {
@@ -96,25 +98,19 @@ void Application::Initalize()
 
 	ShaderPreprocessor::Initalize();
 
-	monke = new MeshInstance();
+	soulspear = new MeshInstance();
 
-	Mesh* monkeMesh = AssetDatabase::LoadAsset<Mesh>("Models/Monke Low Res.fbx", nullptr);
-	monke->SetMeshData(monkeMesh);
+	Mesh* monkeMesh = AssetDatabase::Get<Mesh>("Models/soulspear.obj", nullptr);
+	soulspear->SetMeshData(monkeMesh);
 
 	Material material = Material("shader");
-	material.SetTexture("texCol", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Albedo.tga"));
-	material.SetTexture("texMetal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Metal.tga"));
-	material.SetTexture("texRough", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Rough.tga"));
-	material.SetTexture("texNormal", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Normal.tga"));
-	material.SetTexture("texHeight", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.Height.tga"));
-	material.SetTexture("texAO", AssetDatabase::LoadAsset<Texture>("Textures/Monke Metal 2/Monke.AO.tga"));
-	monke->SetMaterials(material);
+	material.SetTexture("texCol", AssetDatabase::Get<Texture>("Textures/SoulSpear/soulspear_diffuse.tga"));
+	material.SetTexture("texNormal", AssetDatabase::Get<Texture>("Textures/SoulSpear/soulspear_normal.tga"));
+	soulspear->SetMaterials(material);
 
-	Scene& scene = *new Scene("Main Scene");
-	scene.Add(monke);
-
-	renderPipeline.skybox.Setup("Textures/forest.hdr");
+	renderPipeline.skybox.Setup();
 	renderPipeline.lighting.Initalize();
+	renderPipeline.lighting.enviromentTex = AssetDatabase::Get<Texture>("Textures/forest.hdr");
 
 	new DirectionalLight({ 1.0, -1.0, -1.0 }, Utility::Color::Hex3(0xffefd6), 1.0f);
 	new DirectionalLight({ -1.0, 1.0, 0.5 }, Utility::Color::Hex3(0xc4eeff), 0.6f);
@@ -131,25 +127,36 @@ void Application::Loop()
 {
 	ImGui::Begin("Inspector");
 
-	monke->position = Vec3(2.0f, glm::sin(Time() * 5.0f) * 0.2f, 0.0f);
-
-	float a = Time() * 1.0f;
-	monke->axisAngleRotation = Vec4(1.0f, 0.0f, 0.0f, -90.0f);
-	monke->scale = One * 0.6f;
-
 	cameraController.Control(camera);
+	renderPipeline.lighting.SetAmbient(ambientColor, ambientStrength);
 
-	renderPipeline.lighting.SetAmbient(One, 1.0f);
-
-	for (Scene* scene : Scene::Scenes())
+	if (ImGui::CollapsingHeader("Scene Objects"))
 	{
-		scene->Update();
+		ImGui::Indent();
+
+		for (SceneObject* object : SceneObject::All())
+		{
+			object->DrawGUI();
+		}
+		ImGui::Unindent();
+	}
+
+	for (SceneObject* object : SceneObject::All())
+	{
+		if (!object->enabled) continue;
+		object->Update();
 	}
 
 	if (ImGui::CollapsingHeader("Utility"))
 	{
 		ImGui::Indent();
-		
+
+		if (ImGui::CollapsingHeader("GI"))
+		{
+			ImGui::ColorEdit3("Ambient Color", &ambientColor.x);
+			ImGui::DragFloat("Ambient Strength", &ambientStrength, 0.1f, 0.0f, FLT_MAX, "%.3f", ImGuiSliderFlags_AlwaysClamp);
+		}
+
 		Uniform::Set<float>("metalIn", metalIn);
 		Uniform::Set<float>("roughIn", roughIn);
 
@@ -205,7 +212,7 @@ Application::~Application()
 	glfwTerminate();
 }
 
-const Application& Application::Current()
+const Application* Application::Current()
 {
-	return *current;
+	return current;
 }

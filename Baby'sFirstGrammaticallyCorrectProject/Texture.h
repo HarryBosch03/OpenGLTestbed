@@ -8,13 +8,15 @@ class ShaderProgram;
 
 enum class TextureFiltering
 {
-	Linear = 0b00,
-	Nearest = 0b10,
+	Linear = GL_LINEAR,
+	LinearMipmap = GL_LINEAR_MIPMAP_LINEAR,
+	Nearest = GL_NEAREST,
+	NearestMipmap = GL_NEAREST_MIPMAP_NEAREST,
 };
 
 struct TextureImportSettings
 {
-	TextureFiltering filtering = TextureFiltering::Linear;
+	TextureFiltering filtering = TextureFiltering::LinearMipmap;
 	bool useMipmaps = true;
 };
 
@@ -25,8 +27,6 @@ class Texture : public Asset
 	int width = 0, height = 0, channels = 0;
 	bool initalized = false;
 
-	int boundIndex = -1;
-	bool bound = false;
 	std::string ref;
 
 	TextureImportSettings settings;

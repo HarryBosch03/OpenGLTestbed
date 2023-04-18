@@ -10,6 +10,6 @@ in vec3 localPos;
 
 void main ()
 {
-    vec3 color = sampleAmbient(normalize(localPos));
+    vec3 color = sampleAmbient(normalize(localPos), 0.0);
     FragColor = vec4(color, 1.0);
 }

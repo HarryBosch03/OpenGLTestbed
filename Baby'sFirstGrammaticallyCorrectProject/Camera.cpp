@@ -35,7 +35,7 @@ void Camera::Bind()
 	view = glm::translate(glm::toMat4(rotation), -position);
 
 	int width, height;
-	glfwGetWindowSize(Application::Current().Window(), &width, &height);
+	glfwGetWindowSize(Application::Current()->Window(), &width, &height);
 	if (width == 0 || height == 0) return;
 
 	float aspect = (float)width / height;
@@ -54,7 +54,7 @@ const std::vector<Camera*>& Camera::Itterator()
 	return cameras;
 }
 
-const Camera& Camera::Current()
+const Camera* Camera::Current()
 {
-	return *current;
+	return current;
 }

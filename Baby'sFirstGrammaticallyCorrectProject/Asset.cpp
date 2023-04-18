@@ -1,8 +1,8 @@
 #include "Asset.h"
 
-Asset& Asset::LoadFromFile(const std::string& fileLoc, void* args)
+Asset& Asset::LoadFromFile(const std::string& fileloc, void* args)
 {
-	this->fileLoc = fileLoc;
+	this->fileloc = fileloc;
 	this->args = args;
 	return *this;
 }

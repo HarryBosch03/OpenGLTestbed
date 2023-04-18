@@ -14,5 +14,7 @@ public:
 	Vec3 color;
 	float brightness;
 
+	void DrawGUIContent() override;
+
 	inline const Vec3 FinalColor() { return color * brightness; }
 };

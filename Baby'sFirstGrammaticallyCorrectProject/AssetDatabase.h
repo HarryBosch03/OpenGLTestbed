@@ -13,13 +13,12 @@ extern std::map<std::string, Asset*> assets;
 
 namespace AssetDatabase
 {
-	void Use();
 	void Cleanup();
 	void HotReload();
 	void HotReload(bool(*predicate)(const AssetEntry& entry));
 
 	template<typename T>
-	T* LoadAsset(const std::string& fileLoc, void* args = nullptr)
+	T* Get(const std::string& fileLoc, void* args = nullptr)
 	{
 		T* asset = assets.count(fileLoc) > 0 ? (T*)assets.at(fileLoc) : nullptr;
 		if (asset) return asset;

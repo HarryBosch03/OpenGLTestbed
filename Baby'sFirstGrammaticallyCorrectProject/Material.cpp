@@ -2,6 +2,7 @@
 
 #include "ShaderProgram.h"
 #include "AssetDatabase.h"
+#include "UniformBufferObject.h"
 #include "Texture.h"
 
 Material& Material::SetShader(ShaderProgram* program)
@@ -22,7 +23,7 @@ Material::Material(ShaderProgram* program)
 
 Material& Material::SetShader(const std::string& shader)
 {
-	this->program = AssetDatabase::LoadAsset<ShaderProgram>(ShaderPath + shader);
+	this->program = AssetDatabase::Get<ShaderProgram>(ShaderPath + shader);
 	return *this;
 }
 
@@ -48,6 +49,9 @@ void Material::Bind() const
 	}
 
 	Texture::BindAll();
+
+	UniformBufferObject::Lookup<MaterialProperties>("MaterialProperties") = properties;
+	UniformBufferObject::SendToActiveShader(ShaderProgram::Current);
 }
 
 void Material::Unbind() const

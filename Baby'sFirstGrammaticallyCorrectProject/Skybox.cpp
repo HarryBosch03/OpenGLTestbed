@@ -1,6 +1,7 @@
 #include "Skybox.h"
 
 #include "Maths.h"
+#include "LightingEnviroment.h"
 #include "AssetDatabase.h"
 
 const Vec3 A = {-1.0f,  1.0f, 0.999999f };
@@ -15,10 +16,9 @@ Skybox::~Skybox()
 	glDeleteBuffers(1, &Handle());
 }
 
-void Skybox::Setup(const std::string& textureName, const std::string& shaderName, const TextureImportSettings& settings)
+void Skybox::Setup(const std::string& shaderName)
 {
 	material.SetShader(shaderName);
-	material.SetTexture("glMap", AssetDatabase::LoadAsset<Texture>("Textures/forest.hdr", (void*)&settings));
 }
 
 const GLuint& Skybox::Handle()
@@ -27,19 +27,10 @@ const GLuint& Skybox::Handle()
 	return handle;
 }
 
-void Skybox::Bind()
-{
-	for (std::pair<const std::string, Texture*>& texture : material.textures)
-	{
-		texture.second->Bind(texture.first);
-	}
-}
-
 void Skybox::Draw()
 {
 	// Bind Local
 	material.Bind();
-
 	glBindBuffer(GL_ARRAY_BUFFER, Handle());
 	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(Vec3), vertices, GL_DYNAMIC_DRAW);
 
@@ -50,16 +41,7 @@ void Skybox::Draw()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	// Unbind Local
-	material.Unbind();
-
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-}
-
-void Skybox::Unbind()
-{
-	for (std::pair<const std::string, Texture*>& texture : material.textures)
-	{
-		texture.second->Unbind();
-	}
+	material.Unbind();
 }

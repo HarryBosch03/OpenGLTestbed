@@ -104,11 +104,11 @@ std::string ReadShader(const std::string shader, const std::string program)
 Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 {
 	Asset::LoadFromFile(Utility::Files::RemoveExtension(_fileLoc), args);
-	this->name = Utility::Files::FileName(fileLoc);
+	this->name = Utility::Files::FileName(fileloc);
 
 	bool success;
-	std::string shaderRaw = Utility::Files::LoadTextFromFile(fileLoc + ".shader", &success, false);
-	
+	std::string shaderRaw = Utility::Files::LoadTextFromFile(fileloc + ".shader", &success, false);
+
 	std::string vertRaw;
 	std::string fragRaw;
 
@@ -119,8 +119,8 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 	}
 	else
 	{
-		vertRaw = Utility::Files::LoadTextFromFile(fileLoc + ".vert", &success);
-		fragRaw = Utility::Files::LoadTextFromFile(fileLoc + ".frag", &success);
+		vertRaw = Utility::Files::LoadTextFromFile(fileloc + ".vert", &success);
+		fragRaw = Utility::Files::LoadTextFromFile(fileloc + ".frag", &success);
 		if (!success)
 		{
 			LogError("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");
@@ -182,7 +182,7 @@ Asset& ShaderProgram::Reload()
 	programHandle = 0;
 	bad = true;
 
-	LoadFromFile(fileLoc, nullptr);
+	LoadFromFile(fileloc, nullptr);
 	return *this;
 }
 
@@ -203,20 +203,23 @@ void ShaderProgram::Bind()
 	Current = this;
 	glUseProgram(programHandle);
 
-	const Camera& camera = Camera::Current();
+	if (Camera::Current())
+	{
+		const Camera& camera = *Camera::Current();
+		Mat4 vp = camera.projection * camera.view;
 
-	Mat4 vp = camera.projection * camera.view;
+		Uniform::Set<Mat4>("View", camera.view);
+		Uniform::Set<Mat4>("Projection", camera.projection);
+		Uniform::Set<Mat4>("VP", vp);
 
-	Uniform::Set<Mat4>("View", camera.view);
-	Uniform::Set<Mat4>("Projection", camera.projection);
-	Uniform::Set<Mat4>("VP", vp);
+		Uniform::Set<Mat4>("V_I", glm::inverse(camera.view));
+		Uniform::Set<Mat4>("P_I", glm::inverse(camera.projection));
+		Uniform::Set<Mat4>("VP_I", glm::inverse(vp));
 
-	Uniform::Set<Mat4>("V_I", glm::inverse(camera.view));
-	Uniform::Set<Mat4>("P_I", glm::inverse(camera.projection));
-	Uniform::Set<Mat4>("VP_I", glm::inverse(vp));
+		Uniform::Set<Vec3>("CamPosition", camera.position);
+	}
 
-	Uniform::Set<float>("Time", Application::Current().Time());
-	Uniform::Set<Vec3>("CamPosition", Camera::Current().position);
+	Uniform::Set<float>("Time", Application::Current()->Time());
 
 	IGLuniform::SendAll(this);
 	UniformBufferObject::SendToActiveShader(this);
@@ -230,7 +233,8 @@ void ShaderProgram::Unbind()
 
 void ShaderProgram::SetModelMatrix(const Mat4& model)
 {
-	const Camera& camera = Camera::Current();
+	if (!Camera::Current()) return;
+	const Camera& camera = *Camera::Current();
 
 	Mat4 mvp = camera.projection * camera.view * model;
 	Uniform::Set<Mat4>("Model", model);
@@ -239,5 +243,5 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 
 ShaderProgram* ShaderProgram::Fallback()
 {
-	return AssetDatabase::LoadAsset<ShaderProgram>("Shaders/fallback");
+	return AssetDatabase::Get<ShaderProgram>("Shaders/fallback");
 }

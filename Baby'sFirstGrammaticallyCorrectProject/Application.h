@@ -19,7 +19,7 @@ class Application
 	float unscaledFrameTime = 0.0f;
 	float fixedUnscaledFrameTime = 1.0f / 50.0f;
 	int frame = -1;
-	
+
 	float timeScale = 1.0f;
 	float fixedFrameTimeAccumilator = 0.0f;
 
@@ -32,10 +32,10 @@ class Application
 	bool ShouldClose();
 
 public:
-	inline static const float Time() { return Application::Current().time; }
-	inline static const float FrameTime() { return Application::Current().frameTime; }
-	inline static const float FixedFrameTime() { return Application::Current().fixedUnscaledFrameTime; }
-	inline static const int Frame() { return Application::Current().frame; }
+	inline static const float Time() { return Application::Current()->time; }
+	inline static const float FrameTime() { return Application::Current()->frameTime; }
+	inline static const float FixedFrameTime() { return Application::Current()->fixedUnscaledFrameTime; }
+	inline static const int Frame() { return Application::Current()->frame; }
 
 	inline GLFWwindow* Window() const { return window; }
 
@@ -47,5 +47,5 @@ public:
 	void Run();
 	inline void Quit() { quit = true; }
 
-	static const Application& Current();
+	static const Application* Current();
 };

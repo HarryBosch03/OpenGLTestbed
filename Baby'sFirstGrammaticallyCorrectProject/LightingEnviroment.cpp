@@ -5,8 +5,9 @@
 #include "UniformBufferObject.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "Texture.h"
 
-LightingEnviroment* LightingEnviroment::Current = nullptr;
+LightingEnviroment* current = nullptr;
 
 void LightingEnviroment::Initalize()
 {
@@ -53,7 +54,7 @@ void GetPointLights(LightData& lightData)
 
 void LightingEnviroment::Bind()
 {
-	Current = this;
+	current = this;
 
 	dLightData.DLightCount = Zero;
 	lightData.LightCount = Zero;
@@ -61,11 +62,19 @@ void LightingEnviroment::Bind()
 	GetDirectionalLights(dLightData);
 	GetPointLights(lightData);
 
+	if (enviromentTex) enviromentTex->Bind("glMap");
+
 	UniformBufferObject::Lookup<DLightData>("DLightData") = dLightData;
 	UniformBufferObject::Lookup<LightData>("LightData") = lightData;
 }
 
 void LightingEnviroment::Unbind()
 {
-	Current = nullptr;
+	current = nullptr;
+	if (enviromentTex) enviromentTex->Unbind();
+}
+
+const LightingEnviroment* LightingEnviroment::Current()
+{
+	return current;
 }

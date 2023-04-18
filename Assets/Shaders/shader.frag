@@ -27,6 +27,16 @@ uniform sampler2D texNormal;
 uniform sampler2D texHeight;
 uniform sampler2D texAO;
 
+uniform MaterialProperties
+{
+	vec4 color;
+	vec2 metalness;
+	vec2 roughness;
+	float normal;
+	float height;
+	float ao;
+} properties;
+
 void main ()
 {
 	vec3 normal = normalize(v.normal.xyz);
@@ -34,23 +44,20 @@ void main ()
 	vec3 bitangent = normalize(v.bitangent.xyz);
 	mat3 tbn = mat3(tangent, bitangent, normal);
 
-	vec3 fnormal = mix(vec3(0.5, 0.5, 1.0), texture(texNormal, v.uv).rgb, 1.0);
+	vec3 fnormal = mix(vec3(0.5, 0.5, 1.0), texture(texNormal, v.uv).rgb, properties.normal);
 	fnormal = tbn * (fnormal * 2.0 - 1.0);
 
 	Surface surface;
-	surface.albedo = texture(texCol, v.uv).rgb * v.color.rgb;
+	surface.albedo = texture(texCol, v.uv).rgb * v.color.rgb * properties.color.rgb;
 	surface.normal = fnormal;
 	surface.viewDir = normalize(CamPosition - v.position.xyz);
 	surface.position = v.position.xyz;
 
-	surface.metallic = texture(texMetal, v.uv).r;
-	surface.roughness = texture(texRough, v.uv).r;
-
-	float d = dot(surface.normal, surface.viewDir);
+	surface.metallic = mix(properties.metalness.x, properties.metalness.y, texture(texMetal, v.uv).r);
+	surface.roughness = mix(properties.roughness.x, properties.roughness.y, texture(texRough, v.uv).r);
 
 	vec3 final = GetLighting(surface);
-	final *= texture(texAO, v.uv).r;
+	final *= mix(1.0, texture(texAO, v.uv).r, properties.ao);
 
-	float debug = 0.0;
-	fragColor = mix(vec4(final, 1), vec4(0.5, 0.5, 1.0, 1.0), debug);
+	fragColor = vec4(final, 1);
 }

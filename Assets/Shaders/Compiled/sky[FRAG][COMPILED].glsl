@@ -19,13 +19,15 @@ vec2 SampleSphericalMap(vec3 v)
 #line       1        2 
 struct Surface
 {
-    vec3 albedo;
-    vec3 normal;
-    vec3 viewDir;
-    vec3 position;
+    vec3 
+        albedo,
+        normal,
+        viewDir,
+        position;
     
-    float metallic;
-    float roughness;
+    float 
+        metallic,
+        roughness;
 };
 #line      5        0 
 #line       1        3 
@@ -59,7 +61,7 @@ Light GetDLight (int index)
 {
 	Light light;
 
-	light.direction = DLightDirections[index].xyz;
+	light.direction = -DLightDirections[index].xyz;
 	light.color = DLightColors[index].xyz;
 	light.attenuation = 1.0;
 
@@ -73,7 +75,7 @@ Light GetLight (int index, Surface surface)
 	vec3 vec = surface.position - LightPositions[index].xyz;
 	float l = length(vec);
 
-	light.direction = vec / l;
+	light.direction = -vec / l;
 	light.color = LightColors[index].rgb;
 	light.attenuation = 1.0 / (l * l);
 
@@ -82,9 +84,9 @@ Light GetLight (int index, Surface surface)
 
 uniform sampler2D glMap;
 
-vec3 sampleAmbient (vec3 v)
+vec3 sampleAmbient (vec3 v, float mip = 0)
 {
-    return texture(glMap, SampleSphericalMap(v)).rgb * AmbientLight.rgb;
+    return textureLod(glMap, SampleSphericalMap(v), mip).rgb * AmbientLight.rgb;
 }
 #line      6        0 
 
@@ -94,6 +96,6 @@ in vec3 localPos;
 
 void main ()
 {
-    vec3 color = sampleAmbient(normalize(localPos));
+    vec3 color = sampleAmbient(normalize(localPos), 0.0);
     FragColor = vec4(color, 1.0);
 }

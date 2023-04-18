@@ -33,6 +33,7 @@ void RenderCamera(RenderPipeline& pipeline, Camera* camera)
 	pipeline.skybox.Draw();
 	for (SceneObject* object : SceneObject::All())
 	{
+		if (!object->enabled) continue;
 		object->Draw();
 	}
 	camera->Unbind();
@@ -40,14 +41,14 @@ void RenderCamera(RenderPipeline& pipeline, Camera* camera)
 
 void RenderPipeline::Initalize()
 {
-
+	
 }
 
 void RenderPipeline::Render()
 {
 	RenderProfillingContext::Start("Render Loop");
 
-	window = Application::Current().Window();
+	window = Application::Current()->Window();
 	glfwGetWindowSize(window, &width, &height);
 
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -58,16 +59,13 @@ void RenderPipeline::Render()
 	glFrontFace(GL_CCW);
 
 	lighting.Bind();
-	skybox.Bind();
 
 	for (Camera* camera : Camera::Itterator())
 	{
 		RenderCamera(*this, camera);
 	}
 
-
 	lighting.Unbind();
-	skybox.Unbind();
 
 	RenderGUI();
 

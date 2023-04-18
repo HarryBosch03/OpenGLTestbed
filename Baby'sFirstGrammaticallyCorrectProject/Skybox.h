@@ -23,9 +23,7 @@ public:
 	Skybox& operator=(const Skybox& other) = delete;
 	~Skybox();
 
-	void Setup(const std::string& textureName, const std::string& shaderName = "sky", const TextureImportSettings& settings = SkyboxImportSettings);
+	void Setup(const std::string& shaderName = "sky");
 
-	void Bind();
 	void Draw();
-	void Unbind();
 };

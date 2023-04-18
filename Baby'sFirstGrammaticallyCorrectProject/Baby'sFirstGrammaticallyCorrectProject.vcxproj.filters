@@ -125,6 +125,9 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>Inspection</Filter>
     </ClCompile>
+    <ClCompile Include="InspectorUtility.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -326,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="PointLight.h">
       <Filter>Rendering\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectorUtility.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

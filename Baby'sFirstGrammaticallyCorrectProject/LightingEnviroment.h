@@ -8,6 +8,7 @@ const int MaxDLights = 4;
 const int MaxLights = 64;
 
 class ShaderProgram;
+class Texture;
 
 struct DLightData
 {
@@ -30,6 +31,7 @@ class LightingEnviroment
 public:
 	DLightData dLightData;
 	LightData lightData;
+	Texture* enviromentTex = nullptr;
 
 	void Initalize();
 
@@ -39,5 +41,5 @@ public:
 	void Bind();
 	void Unbind();
 
-	static LightingEnviroment* Current;
+	static const LightingEnviroment* Current();
 };

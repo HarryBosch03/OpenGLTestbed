@@ -10,16 +10,6 @@
 
 std::map<std::string, Texture*> boundTextures;
 
-// 0b[Filter Mode][Use Mipmaps]
-GLint filterMap[] =
-{
-	GL_LINEAR, // 0b00
-	GL_LINEAR_MIPMAP_LINEAR, // 0b01
-
-	GL_NEAREST, // 0b10
-	GL_NEAREST_MIPMAP_NEAREST, // 0b11
-};
-
 Texture::~Texture()
 {
 	glDeleteTextures(1, &handle);
@@ -42,13 +32,12 @@ void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const 
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMap[(int)settings.filtering | (int)settings.useMipmaps]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLint)settings.filtering);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, GL_RGBA, type, data);
 	if (settings.useMipmaps) glGenerateMipmap(GL_TEXTURE_2D);
 	
-
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	stbi_image_free(data);
@@ -85,7 +74,7 @@ Asset& Texture::Reload()
 	height = 0;
 	channels = 0;
 	initalized = false;
-	LoadFromFile(fileLoc, &settings);
+	LoadFromFile(fileloc, &settings);
 	return *this;
 }
 
@@ -104,13 +93,8 @@ void Texture::BindAll()
 {
 	for (std::pair<const std::string, Texture*>& pair : boundTextures)
 	{
-		if (pair.second->bound) continue;
-
 		int index = glGetUniformLocation(ShaderProgram::Current->programHandle, pair.first.c_str());
 		if (index == -1) continue;
-
-		pair.second->bound = true;
-		pair.second->boundIndex = index;
 
 		glActiveTexture(GL_TEXTURE0 + index);
 		glBindTexture(GL_TEXTURE_2D, pair.second->handle);
@@ -123,14 +107,12 @@ void Texture::UnbindAll()
 {
 	for (std::pair<const std::string, Texture*>& pair : boundTextures)
 	{
-		if (!pair.second->bound) continue;
+		int index = glGetUniformLocation(ShaderProgram::Current->programHandle, pair.first.c_str());
+		if (index == -1) continue;
 
-		glActiveTexture(GL_TEXTURE0 + pair.second->boundIndex);
+		glActiveTexture(GL_TEXTURE0 + index);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glUniform1i(glGetUniformLocation(ShaderProgram::Current->programHandle, pair.first.c_str()), 0);
-
-		pair.second->bound = false;
-		pair.second->boundIndex = 0;
 	}
 }

@@ -88,7 +88,7 @@ Asset& Mesh::LoadFromFile(const std::string& fileLoc, void* args)
 
 Asset& Mesh::Reload()
 {
-	LoadFromFile(fileLoc, args);
+	LoadFromFile(fileloc, args);
 	return *this;
 }
 

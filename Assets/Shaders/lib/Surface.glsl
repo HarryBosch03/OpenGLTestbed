@@ -1,10 +1,12 @@
 struct Surface
 {
-    vec3 albedo;
-    vec3 normal;
-    vec3 viewDir;
-    vec3 position;
+    vec3 
+        albedo,
+        normal,
+        viewDir,
+        position;
     
-    float metallic;
-    float roughness;
+    float 
+        metallic,
+        roughness;
 };

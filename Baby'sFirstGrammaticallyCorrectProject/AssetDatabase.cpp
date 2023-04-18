@@ -5,6 +5,7 @@
 #include "Asset.h"
 #include "DrawGUIListener.h"
 #include "FileUtility.h"
+#include "Application.h"
 
 #include "imgui.h"
 #include "AssetDatabasePredicate.h"
@@ -42,39 +43,3 @@ void AssetDatabase::HotReload(bool(*predicate)(const AssetEntry& entry))
 
 	LogSuccess("Finished Reloading " << assets.size() << " Assets Successfully in " << duration.count() << "ms");
 }
-
-class AssetDatabaseDrawer : public DrawGUIListener
-{
-public:
-	void DrawGUI() override
-	{
-		std::map<std::string, std::vector<std::string>> pathMap;
-		for (const AssetEntry& asset : assets)
-		{
-			int i = asset.first.substr(0, 2) == "./" ? 2 : 0;
-			std::stringstream working;
-			while (i < asset.first.size())
-			{
-				char c = asset.first[i++];
-				if (c == '/' || c == '\\')
-				{
-					pathMap[asset.first].push_back(working.str());
-					working.clear();
-					continue;
-				}
-				working << c;
-			}
-		}
-
-		if (ImGui::CollapsingHeader("Asset Database"))
-		{
-			int depth = 0;
-			for (const AssetEntry& asset : assets)
-			{
-				
-			}
-		}
-	}
-};
-
-AssetDatabaseDrawer drawer;

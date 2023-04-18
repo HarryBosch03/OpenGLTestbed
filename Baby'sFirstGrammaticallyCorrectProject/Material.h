@@ -3,8 +3,23 @@
 #include <map>
 #include <string>
 
+#include "Maths.h"
+
 class ShaderProgram;
 class Texture;
+
+struct MaterialProperties
+{
+	Vec4
+		color = One;
+	Vec2
+		metalness = { 0.0f, 1.0f},
+		roughness = { 0.0f, 1.0f};
+	float
+		normal = 1.0f,
+		height = 1.0f,
+		ao = 0.0f;
+};
 
 class Material
 {
@@ -12,6 +27,7 @@ class Material
 
 public:
 	std::map<std::string, Texture*> textures;
+	MaterialProperties properties;
 
 	Material() = default;
 	Material(const std::string& shader);
