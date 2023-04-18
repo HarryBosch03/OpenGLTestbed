@@ -107,65 +107,72 @@ vec3 sampleAmbient (vec3 v, float mip = 0)
 }
 #line      7        0 
 #line       1        5 
-// Oren-Nayar
-vec3 DiffuseLighting(Surface surface, Light light)
+float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
     float 
-        ndl = clamp(dot(surface.normal, light.direction), 0.0, 1.0),
-        nde = clamp(dot(surface.normal, surface.viewDir), 0.0, 1.0),
+        a      = roughness*roughness,
+        a2     = a*a,
+        NdotH  = max(dot(N, H), 0.0),
+        NdotH2 = NdotH*NdotH,
+        
+        num    = a2,
+        denom  = (NdotH2 * (a2 - 1.0) + 1.0);
 
-        r2 = surface.roughness * surface.roughness,
-
-        a = 1.0 - 0.5 * r2 / (r2 + 0.33),
-        b = 0.45 * r2 / (r2 + 0.09);
-
-    vec3 
-        lightProjected = normalize(light.direction - surface.normal * ndl),
-        viewProjected = normalize(surface.viewDir - surface.normal * nde);
-
-    float 
-        cx = max(0.0, dot(lightProjected, viewProjected)),
-
-        alpha = sin(max(acos(nde), acos(ndl))),
-        beta = tan(min(acos(nde), acos(ndl))),
-        dx = alpha * beta,
-
-        orenNayar = ndl * (a + b * cx * dx);
-
-    return light.color * light.attenuation * orenNayar * (1.0 - surface.metallic);
+    denom = pi * denom * denom;
+	
+    return num / denom;
 }
 
-// Cook Torrance
-vec3 SpecularLighting(Surface surface, Light light)
+float GeometrySchlickGGX(float NdotV, float roughness)
 {
-    vec3 h = normalize(surface.viewDir + light.direction);
+    float 
+        r = (roughness + 1.0),
+        k = (r*r) / 8.0,
 
-    float
-        r = max(surface.roughness, 0.08),
-        r2 = r * r,
-        ndh = clamp(dot(surface.normal, h), 0.0, 1.0),
-        ndh2 = ndh * ndh,
-        nde = clamp(dot(surface.normal, surface.viewDir), 0.1, 1.0),
-        ndl = clamp(dot(surface.normal, light.direction), 0.1, 1.0),
-        e = 2.71828,
-        pi = 3.14159,
-        reflectionCoefficient = 0.5,
-
-        exponent = -(1 - ndh2) / (ndh2 * r2),
-        d = pow(e, exponent) / (r2 * ndh2 * ndh2),
-
-        f = reflectionCoefficient + (1 - reflectionCoefficient) * pow(1 - nde, 5),
-        x = 2.0 * ndh / clamp(dot(surface.viewDir, h), 0.001, 1.0),
-        g = min(1, min(x * ndl, x * nde)),
-
-        cookTorrance = max((d * g * f) / (nde * pi), 0.0);
-
-    return cookTorrance * light.color * light.attenuation;
+        num   = NdotV,
+        denom = NdotV * (1.0 - k) + k;
+	
+    return num / denom;
 }
+float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
+{
+    float 
+        NdotV = max(dot(N, V), 0.0),
+        NdotL = max(dot(N, L), 0.0),
+        ggx2  = GeometrySchlickGGX(NdotV, roughness),
+        ggx1  = GeometrySchlickGGX(NdotL, roughness);
+	
+    return ggx1 * ggx2;
+}
+
+vec3 FresnelSchlick(float cosTheta, vec3 F0)
+{
+    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+}  
 
 vec3 GetLighting (Surface surface, Light light)
 {
-    return surface.albedo * (DiffuseLighting(surface, light) + SpecularLighting(surface, light));
+    vec3 
+        h = normalize(surface.normal + light.direction),
+        f0 = mix(vec3(0.04), surface.albedo, surface.metallic);
+
+    float
+        ndf = DistributionGGX(surface.normal, h, surface.roughness),
+        g = GeometrySmith(surface.normal, surface.viewDir, light.direction, surface.roughness);
+
+    vec3
+        f = FresnelSchlick(max(dot(h, surface.viewDir), 0.0), f0),
+        kD = vec3(1.0) - f;
+        
+    kD *= 1.0 - surface.metallic;
+
+    vec3 numerator = ndf * g * f;
+    float denominator = 4.0 * max(dot(surface.normal, surface.viewDir), 0.0) * max(dot(light.direction, surface.normal), 0.0) + 0.0001;
+    vec3 specular = numerator / denominator;
+
+    float ndl = max(dot(surface.normal, light.direction), 0.0);
+
+    return (kD * surface.albedo / pi + specular) * light.color * light.attenuation * ndl;
 }
 
 vec3 sampleGL (Surface surface)
