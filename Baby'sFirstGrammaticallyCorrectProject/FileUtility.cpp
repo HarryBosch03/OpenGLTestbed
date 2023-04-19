@@ -22,6 +22,11 @@ std::string Utility::Files::RemoveExtension(const std::string& filePath)
 	return Directory(filePath) + name.substr(0, name.find_last_of('.') - 1);
 }
 
+std::string Utility::Files::Ext(const std::string& filepath)
+{
+	return filepath.substr(filepath.rfind('.') + 1);
+}
+
 bool Utility::Files::Exists(const std::string& filepath)
 {
 	return std::filesystem::exists(filepath);

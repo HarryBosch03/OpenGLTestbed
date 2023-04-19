@@ -2,7 +2,9 @@
 
 #include "Graphics.h"
 #include "Asset.h"
+
 #include <string>
+#include <map>
 
 class ShaderProgram;
 
@@ -40,9 +42,11 @@ public:
 	~Texture();
 
 	inline AssetType GetType() const override { return AssetType::Texture; }
+	inline const std::string& Ref() { return ref; }
 
 	Asset& LoadFromFile(const std::string& fileLoc, void* args) override;
 	Asset& Reload() override;
+	static bool DoesFileMatch(const std::string& fileloc);
 
 	void Bind(const std::string& ref);
 	void Unbind();
@@ -53,4 +57,6 @@ public:
 
 	static void BindAll();
 	static void UnbindAll();
+
+	static const std::map<std::string, Texture*>& BoundTextures();
 };

@@ -3,6 +3,7 @@
 #include "stb_include.h"
 #include "LogMaster.h"
 #include "ShaderProgram.h"
+#include "AssetDatabase.h"
 
 #include <vector>
 #include <fstream>
@@ -10,12 +11,12 @@
 #include <filesystem>
 
 std::vector<std::string> includes;
-const std::string CompiledLocation = "../Assets/" + ShaderPath + "Compiled/";
+const std::string CompiledLocation() { return AssetDatabase::AssetLocation() + ShaderPath + "Compiled/"; }
 
 void ShaderPreprocessor::Initalize()
 {
-	std::filesystem::remove_all(CompiledLocation);
-	std::filesystem::create_directory(CompiledLocation);
+	std::filesystem::remove_all(CompiledLocation());
+	std::filesystem::create_directory(CompiledLocation());
 }
 
 void WriteOutputToFile(const std::string& data, const std::string& filePath, int attempt = 0)
@@ -41,7 +42,7 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 {
 	char error[256] = {'\0'};
 
-	std::string shaderPath = ("../Assets/" + ShaderPath).c_str();
+	std::string shaderPath = (AssetDatabase::AssetLocation() + ShaderPath).c_str();
 
 	char* shaderC = new char[shader.size() + 1];
 	char* includeC = new char[shaderPath.size() + 1];
@@ -63,7 +64,7 @@ std::string ShaderPreprocessor::ParseIncludes(const std::string& shader, const s
 	std::string output = std::string() + data;
 	free(data);
 
-	WriteOutputToFile(output, CompiledLocation + shaderName);
+	WriteOutputToFile(output, CompiledLocation() + shaderName);
 
 	return output;
 }

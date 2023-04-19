@@ -33,6 +33,12 @@ Material& Material::SetTexture(const std::string& ref, Texture* tex)
 	return *this;
 }
 
+Texture*& Material::Textures(const std::string& ref)
+{
+	if (!textures.count(ref)) textures[ref] = nullptr;
+	return textures[ref];
+}
+
 void Material::Bind() const
 {
 	if (this == nullptr)

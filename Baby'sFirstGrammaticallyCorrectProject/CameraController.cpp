@@ -18,12 +18,12 @@ void CameraController::ProcessInput()
 {
 	moveInput =
 	{
-		Input::GetKeyDown(GLFW_KEY_D) - Input::GetKeyDown(GLFW_KEY_A),
-		Input::GetKeyDown(GLFW_KEY_E) - Input::GetKeyDown(GLFW_KEY_Q),
-		Input::GetKeyDown(GLFW_KEY_S) - Input::GetKeyDown(GLFW_KEY_W),
+		Input::Keyboard().Down(GLFW_KEY_D) - Input::Keyboard().Down(GLFW_KEY_A),
+		Input::Keyboard().Down(GLFW_KEY_E) - Input::Keyboard().Down(GLFW_KEY_Q),
+		Input::Keyboard().Down(GLFW_KEY_S) - Input::Keyboard().Down(GLFW_KEY_W),
 	};
 
-	if (Input::GetMouseDown(GLFW_MOUSE_BUTTON_2))
+	if (Input::Mouse().Down(GLFW_MOUSE_BUTTON_2))
 	{
 		Vec2 delta = cursorPosition - lastCursorPosition;
 		rotation += delta * sensitivity;
@@ -35,8 +35,8 @@ void CameraController::ProcessInput()
 		glfwSetInputMode(Application::Current()->Window(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	float moveSpeedExp = log2(max(moveSpeed, 0.0f));
-	moveSpeedExp += Input::
+	float moveSpeedExp = log2(max(moveSpeed, FLT_MIN));
+	moveSpeedExp += Input::Mouse().ScrollDelta().y * 0.1f;
 	moveSpeed = pow(2.0f, moveSpeedExp);
 }
 

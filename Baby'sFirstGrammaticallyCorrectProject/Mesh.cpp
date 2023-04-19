@@ -48,12 +48,12 @@ void LoadSubmesh(Submesh& data, const aiMesh& mesh)
 
 	for (int i = 0; i < mesh.mNumVertices; i++)
 	{
-		Vec4 vertex, normal, tangent;
-		Vec2 texCoord;
+		Vec4 vertex = {}, normal = {}, tangent = {};
+		Vec2 texCoord = {};
 
-		vertex = Vec(mesh.mVertices[i], 1.0f);
-		normal = Vec(mesh.mNormals[i], 0.0f);
-		tangent = Vec(mesh.mTangents[i], 1.0);
+		if (mesh.mVertices) vertex = Vec(mesh.mVertices[i], 1.0f);
+		if (mesh.mNormals) normal = Vec(mesh.mNormals[i], 0.0f);
+		if (mesh.mTangents) tangent = Vec(mesh.mTangents[i], 1.0);
 
 		texCoord = TexCoord(mesh.mTextureCoords[0][i]);
 
@@ -86,10 +86,12 @@ Asset& Mesh::LoadFromFile(const std::string& fileLoc, void* args)
 	return *this;
 }
 
-Asset& Mesh::Reload()
+bool Mesh::DoesFileMatch(const std::string& fileloc)
 {
-	LoadFromFile(fileloc, args);
-	return *this;
+	std::string ext = Utility::Files::Ext(fileloc);
+	if (ext == "fbx") return true;
+	if (ext == "obj") return true;
+	return false;
 }
 
 void Mesh::Draw(const std::vector<Material>& materials) const

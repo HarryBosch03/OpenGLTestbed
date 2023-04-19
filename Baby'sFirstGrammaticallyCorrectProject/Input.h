@@ -2,18 +2,16 @@
 
 #include "imgui.h"
 #include "Maths.h"
+#include "Mouse.h"
 
 #include <map>
 
 namespace Input
 {
-	namespace
-	{
-
-	}
-
 	void Init();
 	void Update();
+	void DrawGUI();
 
-	//Mouse mouse;
+	const MouseDevice& Mouse();
+	const InputDevice& Keyboard();
 }

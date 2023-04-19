@@ -28,7 +28,7 @@ Light GetDLight (int index)
 {
 	Light light;
 
-	light.direction = -DLightDirections[index].xyz;
+	light.direction = -normalize(DLightDirections[index].xyz);
 	light.color = DLightColors[index].xyz;
 	light.attenuation = 1.0;
 
@@ -42,7 +42,7 @@ Light GetLight (int index, Surface surface)
 	vec3 vec = surface.position - LightPositions[index].xyz;
 	float l = length(vec);
 
-	light.direction = -vec / l;
+	light.direction = -normalize(vec) / l;
 	light.color = LightColors[index].rgb;
 	light.attenuation = 1.0 / (l * l);
 

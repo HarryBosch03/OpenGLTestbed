@@ -12,6 +12,9 @@ class MeshInstance : public SceneObject
 {
 	Mesh* mesh = nullptr;
 
+	static const int meshFileNameSize = 256;
+	char meshFileName[meshFileNameSize];
+
 public:
 	Vec3 position = Zero;
 	Vec4 axisAngleRotation = Up;

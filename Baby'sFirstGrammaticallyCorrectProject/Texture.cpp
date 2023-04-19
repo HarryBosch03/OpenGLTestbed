@@ -6,8 +6,6 @@
 
 #include "stb_image.h"
 
-#include <map>
-
 std::map<std::string, Texture*> boundTextures;
 
 Texture::~Texture()
@@ -74,18 +72,28 @@ Asset& Texture::Reload()
 	height = 0;
 	channels = 0;
 	initalized = false;
-	LoadFromFile(fileloc, &settings);
-	return *this;
+	return Asset::Reload();
+}
+
+bool Texture::DoesFileMatch(const std::string& fileloc)
+{
+	std::string ext = Utility::Files::Ext(fileloc);
+	if (ext == "png") return true;
+	if (ext == "tga") return true;
+	if (ext == "hdr") return true;
+	return false;
 }
 
 void Texture::Bind(const std::string& ref)
 {
 	boundTextures[ref] = this;
+	if (!this) return;
 	this->ref = ref;
 }
 
 void Texture::Unbind()
 {
+	if (!this) return;
 	boundTextures.erase(ref);
 }
 
@@ -93,6 +101,8 @@ void Texture::BindAll()
 {
 	for (std::pair<const std::string, Texture*>& pair : boundTextures)
 	{
+		if (!pair.second) continue;
+
 		int index = glGetUniformLocation(ShaderProgram::Current->programHandle, pair.first.c_str());
 		if (index == -1) continue;
 
@@ -115,4 +125,9 @@ void Texture::UnbindAll()
 
 		glUniform1i(glGetUniformLocation(ShaderProgram::Current->programHandle, pair.first.c_str()), 0);
 	}
+}
+
+const std::map<std::string, Texture*>& Texture::BoundTextures()
+{
+	return boundTextures;
 }

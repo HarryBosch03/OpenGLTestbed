@@ -16,7 +16,7 @@ public:
 	inline AssetType GetType() const override { return AssetType::Mesh; }
 
 	Asset& LoadFromFile(const std::string& path, void* args) override;
-	Asset& Reload() override;
+	static bool DoesFileMatch(const std::string& fileloc);
 
 	void Draw(const std::vector<Material>& materials) const;
 };

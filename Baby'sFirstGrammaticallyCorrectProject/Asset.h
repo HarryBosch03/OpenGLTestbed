@@ -16,7 +16,8 @@ public:
 	virtual AssetType GetType() const = 0;
 
 	virtual Asset& LoadFromFile(const std::string& fileloc, void* args);
-	virtual Asset& Reload() = 0;
+	virtual Asset& Reload();
+
 	Asset& ActiveHotReload();
 };
 

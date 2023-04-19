@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Maths.h"
-#include "DrawGUIListener.h"
 
 class Camera;
 
-class CameraController : DrawGUIListener
+class CameraController
 {
 	void ProcessInput();
 	void SetPosition(Camera& camera);
@@ -24,5 +23,5 @@ public:
 	Vec2 lastCursorPosition = {};
 
 	void Control(Camera& camera);
-	void DrawGUI() override;
+	void DrawGUI();
 };

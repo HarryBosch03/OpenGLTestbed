@@ -39,17 +39,17 @@ uniform MaterialProperties
 
 void main ()
 {
-	vec3 normal = normalize(v.normal.xyz);
+	vec3 geoNormal = normalize(v.normal.xyz);
 	vec3 tangent = normalize(v.tangent.xyz);
 	vec3 bitangent = normalize(v.bitangent.xyz);
-	mat3 tbn = mat3(tangent, bitangent, normal);
+	mat3 tbn = mat3(tangent, bitangent, geoNormal);
 
-	vec3 fnormal = mix(vec3(0.5, 0.5, 1.0), texture(texNormal, v.uv).rgb, properties.normal);
-	fnormal = tbn * (fnormal * 2.0 - 1.0);
+	vec3 texNormal = normalize(tbn * (texture(texNormal, v.uv).rgb * 2.0 - 1.0));
+	vec3 normal = mix(geoNormal, texNormal, properties.normal);
 
 	Surface surface;
 	surface.albedo = texture(texCol, v.uv).rgb * v.color.rgb * properties.color.rgb;
-	surface.normal = fnormal;
+	surface.normal = normal;
 	surface.viewDir = normalize(CamPosition - v.position.xyz);
 	surface.position = v.position.xyz;
 
@@ -58,6 +58,9 @@ void main ()
 
 	vec3 final = GetLighting(surface);
 	final *= mix(1.0, texture(texAO, v.uv).r, properties.ao);
+
+	final = final / (final + vec3(1.0));
+    final = pow(final, vec3(1.0/2.2)); 
 
 	fragColor = vec4(final, 1);
 }

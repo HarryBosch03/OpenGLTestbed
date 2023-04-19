@@ -7,6 +7,10 @@
 #include "imgui_impl_glfw.h"
 
 #include <map>
+#include "InputDevice.h"
+
+MouseDevice mouse;
+InputDevice keyboard;
 
 void MouseCallback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -15,7 +19,7 @@ void MouseCallback(GLFWwindow* window, int button, int action, int mods)
 
 	if (io.WantCaptureMouse) return;
 
-	MouseMap[button] = action != GLFW_RELEASE;
+	mouse.ButtonCallback(button, action != GLFW_RELEASE);
 }
 
 void KeyCallback(GLFWwindow* window, int keycode, int scancode, int action, int mods)
@@ -26,7 +30,17 @@ void KeyCallback(GLFWwindow* window, int keycode, int scancode, int action, int 
 
 	if (io.WantCaptureKeyboard) return;
 
-	KeyMap[keycode] = action != GLFW_RELEASE;
+	keyboard.ButtonCallback(keycode, action != GLFW_RELEASE);
+}
+
+void ScrollCallback(GLFWwindow* window, double x, double y)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	io.AddMouseWheelEvent(x, y);
+
+	if (io.WantCaptureMouse) return;
+
+	mouse.ScrollCallback(x, y);
 }
 
 void Input::Init()
@@ -35,6 +49,7 @@ void Input::Init()
 
 	glfwSetMouseButtonCallback(window, MouseCallback);
 	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetScrollCallback(window, ScrollCallback);
 }
 
 void Input::Update()
@@ -42,41 +57,24 @@ void Input::Update()
 	mouse.Update();
 }
 
-bool Input::InputDevice::GetDown(int key)
+void Input::DrawGUI()
 {
-	return cMap[key];
+	if (!ImGui::CollapsingHeader("Input")) return;
+
+	ImGui::Indent();
+
+	if (ImGui::CollapsingHeader("Mouse"))
+	{
+		ImGui::Indent();
+
+		ImGui::Text(("Position: (" + std::to_string(Input::Mouse().Position().x) + ", " + std::to_string(Input::Mouse().Position().y) + ")").c_str());
+		ImGui::Text(("Scroll: (" + std::to_string(Input::Mouse().Scroll().x) + ", " + std::to_string(Input::Mouse().Scroll().y) + ")").c_str());
+
+		ImGui::Unindent();
+	}
+
+	ImGui::Unindent();
 }
 
-bool Input::InputDevice::GetPressed(int key)
-{
-	return cMap[key] && !lMap[key];
-}
-
-bool Input::InputDevice::GetReleased(int key)
-{
-	return !cMap[key] && lMap[key];
-}
-
-void Input::InputDevice::Update()
-{
-	lMap = cMap;
-}
-
-void Input::Mouse::Initalize()
-{
-	glfwSetScrollCallback(Window(), );
-}
-
-void Input::Mouse::Update()
-{
-	InputDevice::Update();
-
-	lastPosition = position;
-	lastScroll = scroll;
-
-	glm::vec<2, double, glm::defaultp> dpos;
-	glfwGetCursorPos(Window(), &dpos.x, &dpos.y);
-	position = dpos;
-
-	
-}
+const MouseDevice& Input::Mouse() { return mouse; }
+const InputDevice& Input::Keyboard() { return keyboard; }

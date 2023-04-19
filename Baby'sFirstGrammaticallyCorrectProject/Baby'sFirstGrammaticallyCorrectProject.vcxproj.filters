@@ -125,6 +125,12 @@
     <ClCompile Include="InspectorUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="InputDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -327,7 +333,10 @@
     <ClInclude Include="InspectorUtility.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="InputClasses.h">
+    <ClInclude Include="Mouse.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDevice.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

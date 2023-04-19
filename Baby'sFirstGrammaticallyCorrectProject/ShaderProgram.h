@@ -34,6 +34,7 @@ public:
 
 	AssetType GetType() const override { return AssetType::Shader; }
 	Asset& LoadFromFile(const std::string& fileLoc, void*) override;
+	static bool DoesFileMatch(const std::string& fileloc);
 
 	void Bind();
 	void Unbind();

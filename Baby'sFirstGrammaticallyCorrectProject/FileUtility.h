@@ -10,6 +10,7 @@ namespace Utility
 		std::string Directory(const std::string& filePath);
 		
 		std::string RemoveExtension(const std::string& filePath);
+		std::string Ext(const std::string& filepath);
 
 		bool Exists(const std::string& filepath);
 

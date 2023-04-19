@@ -172,6 +172,9 @@ void Application::Loop()
 			}
 		}
 
+		Input::DrawGUI();
+		cameraController.DrawGUI();
+
 		ImGui::Unindent();
 	}
 

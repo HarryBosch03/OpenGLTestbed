@@ -107,7 +107,7 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 	this->name = Utility::Files::FileName(fileloc);
 
 	bool success;
-	std::string shaderRaw = Utility::Files::LoadTextFromFile(fileloc + ".shader", &success, false);
+	std::string shaderRaw = Utility::Files::LoadTextFromFile(AssetDatabase::AssetLocation() + fileloc + ".shader", &success, false);
 
 	std::string vertRaw;
 	std::string fragRaw;
@@ -119,8 +119,8 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 	}
 	else
 	{
-		vertRaw = Utility::Files::LoadTextFromFile(fileloc + ".vert", &success);
-		fragRaw = Utility::Files::LoadTextFromFile(fileloc + ".frag", &success);
+		vertRaw = Utility::Files::LoadTextFromFile(AssetDatabase::AssetLocation() + fileloc + ".vert", &success);
+		fragRaw = Utility::Files::LoadTextFromFile(AssetDatabase::AssetLocation() + fileloc + ".frag", &success);
 		if (!success)
 		{
 			LogError("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");
@@ -134,6 +134,15 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 
 	Initalize(vert, frag);
 	return *this;
+}
+
+bool ShaderProgram::DoesFileMatch(const std::string& fileloc)
+{
+	std::string ext = Utility::Files::Ext(fileloc);
+	if (ext == "vert") return true;
+	if (ext == "frag") return true;
+	if (ext == "shader") return true;
+	return false;
 }
 
 void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
@@ -182,8 +191,7 @@ Asset& ShaderProgram::Reload()
 	programHandle = 0;
 	bad = true;
 
-	LoadFromFile(fileloc, nullptr);
-	return *this;
+	return Asset::Reload();
 }
 
 void ShaderProgram::Bind()

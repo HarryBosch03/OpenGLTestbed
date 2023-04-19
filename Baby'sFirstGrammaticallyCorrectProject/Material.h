@@ -24,9 +24,9 @@ struct MaterialProperties
 class Material
 {
 	ShaderProgram* program = nullptr;
+	std::map<std::string, Texture*> textures;
 
 public:
-	std::map<std::string, Texture*> textures;
 	MaterialProperties properties;
 
 	Material() = default;
@@ -36,6 +36,7 @@ public:
 	Material& SetShader(const std::string& shader);
 	Material& SetShader(ShaderProgram* program);
 	Material& SetTexture(const std::string& ref, Texture* tex);
+	Texture*& Textures(const std::string& ref);
 
 	void Bind() const;
 	void Unbind() const;
