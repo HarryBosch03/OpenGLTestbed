@@ -4,3 +4,4 @@
 /x64/
 /*/x64/
 **/*.spp
+/Assets/Shaders/Compiled/*
