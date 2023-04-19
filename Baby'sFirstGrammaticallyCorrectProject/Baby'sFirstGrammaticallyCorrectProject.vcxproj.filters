@@ -46,9 +46,6 @@
     <ClCompile Include="Asset.cpp">
       <Filter>Assets</Filter>
     </ClCompile>
-    <ClCompile Include="DrawGUIListener.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="FileUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -248,9 +245,6 @@
     </ClInclude>
     <ClInclude Include="Asset.h">
       <Filter>Assets</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawGUIListener.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="FileUtility.h">
       <Filter>Utility</Filter>

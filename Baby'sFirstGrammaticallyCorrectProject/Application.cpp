@@ -3,7 +3,6 @@
 #include "LogMaster.h"
 #include "Input.h"
 #include "ShaderPreprocessor.h"
-#include "DrawGUIListener.h"
 #include "AssetDatabasePredicate.h"
 #include "RenderProfillingContext.h"
 #include "ColorUtility.h"
@@ -176,7 +175,6 @@ void Application::Loop()
 		ImGui::Unindent();
 	}
 
-	DrawGUIListener::DrawAllListeners();
 	RenderProfillingContext::RenderGUI();
 	ImGui::End();
 

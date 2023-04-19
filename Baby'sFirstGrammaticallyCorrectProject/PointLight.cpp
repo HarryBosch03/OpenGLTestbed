@@ -19,4 +19,5 @@ void PointLight::DrawGUIContent()
 	SceneObject::DrawGUIContent();
 	ImGui::ColorEdit3(AppendID("Color"), &color.x);
 	ImGui::DragFloat(AppendID("Brightness"), &brightness);
+	ImGui::InputFloat3(AppendID("Position"), &position.x);
 }

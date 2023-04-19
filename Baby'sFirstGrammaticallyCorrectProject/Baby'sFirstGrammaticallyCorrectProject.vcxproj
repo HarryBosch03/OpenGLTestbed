@@ -168,7 +168,6 @@
     <ClCompile Include="CameraController.cpp" />
     <ClCompile Include="ColorUtility.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="DrawGUIListener.cpp" />
     <ClCompile Include="FileUtility.cpp" />
     <ClCompile Include="GLBabysitter.cpp" />
     <ClCompile Include="GLuniform.cpp" />
@@ -217,7 +216,6 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ColorUtility.h" />
     <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="DrawGUIListener.h" />
     <ClInclude Include="GLBabysitter.h" />
     <ClInclude Include="GLuniform.h" />
     <ClInclude Include="Graphics.h" />
