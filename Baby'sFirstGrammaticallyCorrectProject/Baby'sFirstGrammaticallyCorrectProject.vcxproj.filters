@@ -327,5 +327,8 @@
     <ClInclude Include="InspectorUtility.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="InputClasses.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

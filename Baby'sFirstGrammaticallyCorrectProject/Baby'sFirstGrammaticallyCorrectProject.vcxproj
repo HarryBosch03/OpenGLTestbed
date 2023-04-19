@@ -220,6 +220,7 @@
     <ClInclude Include="GLuniform.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="InputClasses.h" />
     <ClInclude Include="InspectorUtility.h" />
     <ClInclude Include="KeyTable.h" />
     <ClInclude Include="LightingEnviroment.h" />

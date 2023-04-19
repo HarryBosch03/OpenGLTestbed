@@ -51,3 +51,9 @@ inline float SqrLength(Vec3 v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
 
 Mat4 TRS(Vec3 position, Vec4 angleAxisRotation, float scale);
 Mat4 TRS(Vec3 position, Vec4 angleAxisRotation, Vec3 scale);
+
+using glm::min;
+using glm::max;
+using glm::pow;
+using glm::log;
+using glm::log2;

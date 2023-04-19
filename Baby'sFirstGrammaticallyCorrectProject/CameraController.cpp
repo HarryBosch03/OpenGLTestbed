@@ -5,6 +5,8 @@
 #include "imgui.h"
 #include "input.h"
 
+#include "imgui.h"
+
 Vec2 cursorPosition;
 
 using glm::sin;
@@ -32,12 +34,17 @@ void CameraController::ProcessInput()
 	{
 		glfwSetInputMode(Application::Current()->Window(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
+
+	float moveSpeedExp = log2(max(moveSpeed, 0.0f));
+	moveSpeedExp += Input::
+	moveSpeed = pow(2.0f, moveSpeedExp);
 }
 
 void CameraController::SetPosition(Camera& camera)
 {
+	float accelerationMagnitude = 1.0f / accelerationTime;
 	Vec3 targetVelocity = (glm::inverse(camera.rotation) * moveInput) * moveSpeed;
-	acceleration += (targetVelocity - velocity) * moveAcceleration;
+	acceleration += (targetVelocity - velocity) * accelerationMagnitude;
 
 	camera.position += velocity * Application::FrameTime();
 	velocity += acceleration * Application::FrameTime();
@@ -59,4 +66,13 @@ void CameraController::Control(Camera& camera)
 	SetPosition(camera);
 
 	lastCursorPosition = cursorPosition;
+}
+
+void CameraController::DrawGUI()
+{
+	if (!ImGui::CollapsingHeader("Camera Controller")) return;
+
+	ImGui::Indent();
+	ImGui::DragFloat("Move Speed##CameraController", &moveSpeed, 0.1f, 0.0f, FLT_MAX);
+	ImGui::Unindent();
 }

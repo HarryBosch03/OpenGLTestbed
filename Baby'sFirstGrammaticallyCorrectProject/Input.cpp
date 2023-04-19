@@ -8,31 +8,6 @@
 
 #include <map>
 
-#define MAP_FUNCTIONS_DEF(name) \
-std::map<int, bool> name ## Map; \
-std::map<int, bool> last ## name ## Map; \
-bool Input::Get ## name ## Down(int key) \
-{ \
-	return name ## Map[key]; \
-} \
-bool Input::Get ## name ## Pressed(int key) \
-{ \
-	return name ## Map[key] && !last ## name ## Map[key]; \
-} \
-bool Input::Get ## name ## Released(int key) \
-{ \
-	return !name ## Map[key] && !last ## name ## Map[key]; \
-}
-
-#define MAP_UPDATE(name) \
-for (auto it = name ## Map.begin(); it != name ## Map.end(); ++it) \
-{ \
-	last ## name ## Map[it->first] = it->second; \
-}
-
-MAP_FUNCTIONS_DEF(Key)
-MAP_FUNCTIONS_DEF(Mouse)
-
 void MouseCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	ImGuiIO& io = ImGui::GetIO();
@@ -64,6 +39,44 @@ void Input::Init()
 
 void Input::Update()
 {
-	MAP_UPDATE(Key);
-	MAP_UPDATE(Mouse);
+	mouse.Update();
+}
+
+bool Input::InputDevice::GetDown(int key)
+{
+	return cMap[key];
+}
+
+bool Input::InputDevice::GetPressed(int key)
+{
+	return cMap[key] && !lMap[key];
+}
+
+bool Input::InputDevice::GetReleased(int key)
+{
+	return !cMap[key] && lMap[key];
+}
+
+void Input::InputDevice::Update()
+{
+	lMap = cMap;
+}
+
+void Input::Mouse::Initalize()
+{
+	glfwSetScrollCallback(Window(), );
+}
+
+void Input::Mouse::Update()
+{
+	InputDevice::Update();
+
+	lastPosition = position;
+	lastScroll = scroll;
+
+	glm::vec<2, double, glm::defaultp> dpos;
+	glfwGetCursorPos(Window(), &dpos.x, &dpos.y);
+	position = dpos;
+
+	
 }

@@ -1,17 +1,19 @@
 #pragma once
 
 #include "imgui.h"
+#include "Maths.h"
 
-#define MAP_FUNCTIONS_DEF_H(name) \
-bool Get ## name ## Down(int key); \
-bool Get ## name ## Pressed(int key); \
-bool Get ## name ## Released(int key); 
+#include <map>
 
 namespace Input
 {
+	namespace
+	{
+
+	}
+
 	void Init();
 	void Update();
 
-	MAP_FUNCTIONS_DEF_H(Key)
-	MAP_FUNCTIONS_DEF_H(Mouse)
+	//Mouse mouse;
 }
