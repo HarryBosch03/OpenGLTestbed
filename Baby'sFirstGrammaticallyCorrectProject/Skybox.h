@@ -23,7 +23,7 @@ public:
 	Skybox& operator=(const Skybox& other) = delete;
 	~Skybox();
 
-	void Setup(const std::string& shaderName = "Shaders/sky.yaml");
+	void Setup(const std::string& shaderName = "sky.yaml");
 
 	void Draw();
 };

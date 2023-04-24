@@ -274,6 +274,9 @@
     <Filter Include="External\YAML">
       <UniqueIdentifier>{be07cb15-86a3-40c2-965a-385a3e78d7f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{9baf9265-32f9-49c2-9e3d-63710a8ecd6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\khrplatform.h">
@@ -492,5 +495,34 @@
     <ClInclude Include="..\extern\yaml-cpp\src\token.h">
       <Filter>External\YAML</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Shaders\fallback.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\fallback.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\fallback.yaml">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\shader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\shader.yaml">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\sky.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\sky.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\sky.yaml">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

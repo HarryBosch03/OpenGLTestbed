@@ -301,6 +301,17 @@
     <ClInclude Include="UniformBufferObject.h" />
     <ClInclude Include="VertexData.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Shaders\fallback.frag" />
+    <None Include="..\Assets\Shaders\fallback.vert" />
+    <None Include="..\Assets\Shaders\fallback.yaml" />
+    <None Include="..\Assets\Shaders\shader.frag" />
+    <None Include="..\Assets\Shaders\shader.vert" />
+    <None Include="..\Assets\Shaders\shader.yaml" />
+    <None Include="..\Assets\Shaders\sky.frag" />
+    <None Include="..\Assets\Shaders\sky.vert" />
+    <None Include="..\Assets\Shaders\sky.yaml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

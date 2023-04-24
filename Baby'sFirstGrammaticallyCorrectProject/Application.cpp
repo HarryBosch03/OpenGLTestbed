@@ -110,7 +110,7 @@ void Application::Initalize()
 	Mesh* monkeMesh = GetAsset<Mesh>("Models/soulspear.obj", nullptr);
 	soulspear->SetMeshData(monkeMesh);
 
-	Material material = Material("shader");
+	Material material = Material("shader.yaml");
 	material.SetTexture("texCol", GetAsset<Texture>("Textures/SoulSpear/soulspear_diffuse.tga"));
 	material.SetTexture("texNormal", GetAsset<Texture>("Textures/SoulSpear/soulspear_normal.tga"));
 	soulspear->SetMaterials(material);
