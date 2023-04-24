@@ -12,13 +12,18 @@ typedef std::pair<const std::string, Asset*> AssetEntry;
 
 extern std::map<std::string, Asset*> assets;
 
-namespace AssetDatabase
+class AssetDatabase
 {
+	std::map<std::string, Asset*> assets;
+
+public:
 	void Cleanup();
 	void HotReload();
 	void HotReload(bool(*predicate)(const AssetEntry& entry));
 
-	const inline std::string AssetLocation() { return "../Assets/"; }
+	static const std::string AssetLocation();
+	static const std::string AssetLocation(const std::string& filename);
+	static const AssetDatabase& Main();
 
 	template<typename T>
 	T* Get(const std::string& fileloc, void* args = nullptr)
@@ -58,3 +63,11 @@ namespace AssetDatabase
 		return res;
 	}
 };
+
+AssetDatabase& Assets();
+
+template<typename T>
+T* GetAsset(const std::string& fileloc, void* args = nullptr)
+{
+	return Assets().Get<T>(fileloc, args);
+}

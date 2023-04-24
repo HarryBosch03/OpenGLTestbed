@@ -12,6 +12,8 @@
 #define LOGGER_IMPLEMENTATION
 #include "LogMaster.h"
 
+#include <Windows.h>
+
 int main()
 {
 	Logger.Test();
@@ -21,5 +23,12 @@ int main()
 	application.Run();
 
 	glfwTerminate();
+
+	if (!application.persistConsole)
+	{
+		HWND wConsole = GetConsoleWindow();
+		SendMessage(wConsole, WM_CLOSE, (WPARAM)nullptr, (LPARAM)nullptr);
+	}
+
 	return 0;
 }

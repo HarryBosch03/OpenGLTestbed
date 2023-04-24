@@ -251,5 +251,5 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 
 ShaderProgram* ShaderProgram::Fallback()
 {
-	return AssetDatabase::Get<ShaderProgram>("Shaders/fallback");
+	return GetAsset<ShaderProgram>("Shaders/fallback");
 }

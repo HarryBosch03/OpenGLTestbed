@@ -184,6 +184,12 @@
     <Filter Include="Inspection">
       <UniqueIdentifier>{da8543c4-2816-441d-a573-fd873ce861d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{864690cd-45e3-4899-bd4d-202597d95266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Library">
+      <UniqueIdentifier>{5e2060ea-847f-41e8-a0f4-558c0760cbb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\khrplatform.h">
@@ -339,5 +345,40 @@
     <ClInclude Include="InputDevice.h">
       <Filter>Core</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Assets\Shaders\fallback.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\fallback.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\shader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\sky.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\sky.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\common.glsl">
+      <Filter>Shaders\Library</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\input.glsl">
+      <Filter>Shaders\Library</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\light.glsl">
+      <Filter>Shaders\Library</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\lighting.glsl">
+      <Filter>Shaders\Library</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\Surface.glsl">
+      <Filter>Shaders\Library</Filter>
+    </None>
   </ItemGroup>
 </Project>

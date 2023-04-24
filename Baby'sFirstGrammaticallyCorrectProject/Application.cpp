@@ -76,7 +76,18 @@ void Application::Initalize()
 
 	if (!glfwInit()) return;
 
-	window = glfwCreateWindow(1280, 720, "Trust me I Didnt", nullptr, nullptr);
+	GLFWmonitor* monitor = nullptr;
+	int width = 1280, height = 720;
+
+#if _DEBUG
+	int monitorCount;
+	GLFWmonitor** monitors = glfwGetMonitors(&monitorCount);
+	monitor = monitorCount > 1 ? monitors[1] : nullptr;
+	glfwGetMonitorWorkarea(monitor, nullptr, nullptr, &width, &height);
+#endif
+
+	window = glfwCreateWindow(width, height, "Trust me I Didnt", monitor, nullptr);
+
 	if (!window)
 	{
 		glfwTerminate();
@@ -99,17 +110,17 @@ void Application::Initalize()
 
 	soulspear = new MeshInstance();
 
-	Mesh* monkeMesh = AssetDatabase::Get<Mesh>("Models/soulspear.obj", nullptr);
+	Mesh* monkeMesh = GetAsset<Mesh>("Models/soulspear.obj", nullptr);
 	soulspear->SetMeshData(monkeMesh);
 
 	Material material = Material("shader");
-	material.SetTexture("texCol", AssetDatabase::Get<Texture>("Textures/SoulSpear/soulspear_diffuse.tga"));
-	material.SetTexture("texNormal", AssetDatabase::Get<Texture>("Textures/SoulSpear/soulspear_normal.tga"));
+	material.SetTexture("texCol", GetAsset<Texture>("Textures/SoulSpear/soulspear_diffuse.tga"));
+	material.SetTexture("texNormal", GetAsset<Texture>("Textures/SoulSpear/soulspear_normal.tga"));
 	soulspear->SetMaterials(material);
 
 	renderPipeline.skybox.Setup();
 	renderPipeline.lighting.Initalize();
-	renderPipeline.lighting.enviromentTex = AssetDatabase::Get<Texture>("Textures/forest.hdr");
+	renderPipeline.lighting.enviromentTex = GetAsset<Texture>("Textures/forest.hdr");
 
 	new DirectionalLight({ 1.0, -1.0, -1.0 }, Utility::Color::Hex3(0xffefd6), 1.0f);
 	new DirectionalLight({ -1.0, 1.0, 0.5 }, Utility::Color::Hex3(0xc4eeff), 0.6f);
@@ -124,6 +135,8 @@ float metalIn = 0.0f, roughIn = 0.0f;
 
 void Application::Loop()
 {
+	Input::Update();
+
 	ImGui::Begin("Inspector");
 
 	cameraController.Control(camera);
@@ -161,16 +174,18 @@ void Application::Loop()
 
 		if (ImGui::Button("Hot Reload All Assets"))
 		{
-			AssetDatabase::HotReload();
+			Assets().HotReload();
 		}
 
 		for (int i = 1; i < (int)AssetType::Count; i++)
 		{
 			if (ImGui::Button(("Reload " + AssetTypenames[i] + "s").c_str()))
 			{
-				AssetDatabase::HotReload(AssetDatabase::Predicates::MatchType((AssetType)i));
+				Assets().HotReload(AssetDatabasePredicates::MatchType((AssetType)i));
 			}
 		}
+
+		ImGui::Checkbox("Persist Console", &persistConsole);
 
 		Input::DrawGUI();
 		cameraController.DrawGUI();
@@ -181,7 +196,7 @@ void Application::Loop()
 	RenderProfillingContext::RenderGUI();
 	ImGui::End();
 
-	Input::Update();
+	if (Input::Keyboard().Down(GLFW_KEY_ESCAPE)) quit = true;
 }
 
 void Application::FixedLoop()

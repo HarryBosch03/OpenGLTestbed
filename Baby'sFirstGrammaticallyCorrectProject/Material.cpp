@@ -23,7 +23,7 @@ Material::Material(ShaderProgram* program)
 
 Material& Material::SetShader(const std::string& shader)
 {
-	this->program = AssetDatabase::Get<ShaderProgram>(ShaderPath + shader);
+	this->program = GetAsset<ShaderProgram>(ShaderPath + shader);
 	return *this;
 }
 

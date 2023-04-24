@@ -6,10 +6,10 @@ bool MatchTypePredicate(const AssetEntry& entry)
 	return entry.second->GetType() == matchType;
 }
 
-AssetDatabase::Predicate AssetDatabase::Predicates::MatchType(const AssetType& type)
+AssetDatabasePredicates::Predicate AssetDatabasePredicates::MatchType(const AssetType& type)
 {
 	matchType = type;
 	return MatchTypePredicate;
 }
 
-bool AssetDatabase::Predicates::All(const AssetEntry&) { return true; }
+bool AssetDatabasePredicates::All(const AssetEntry&) { return true; }
