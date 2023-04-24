@@ -45,8 +45,8 @@ void main ()
 {
 	MaterialProperties properties;
 	properties.color = vec4(1.0);
-	properties.metalness = vec2(0.0, 1.0);
-	properties.roughness = vec2(0.4, 0.4);
+	properties.metalness = vec2(1.0, 1.0);
+	properties.roughness = vec2(0.1, 0.1);
 	properties.normal = 1.0;
 	properties.height = 1.0;
 	properties.ao = 0.0;
