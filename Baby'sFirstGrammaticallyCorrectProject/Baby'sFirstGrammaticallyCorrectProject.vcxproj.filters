@@ -218,6 +218,21 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>Rendering\Lighting</Filter>
     </ClCompile>
+    <ClCompile Include="..\extern\imguizmo\GraphEditor.cpp">
+      <Filter>External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imguizmo\ImCurveEdit.cpp">
+      <Filter>External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imguizmo\ImGradient.cpp">
+      <Filter>External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imguizmo\ImGuizmo.cpp">
+      <Filter>External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\imguizmo\ImSequencer.cpp">
+      <Filter>External\ImGuizmo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -279,6 +294,9 @@
     </Filter>
     <Filter Include="Shaders\lib">
       <UniqueIdentifier>{a201eddb-cdfc-4217-b7ae-0c59602e4a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGuizmo">
+      <UniqueIdentifier>{5c5910c4-ebf4-470f-bdfc-8a3e960e2ce8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -497,6 +515,24 @@
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\token.h">
       <Filter>External\YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imguizmo\GraphEditor.h">
+      <Filter>External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imguizmo\ImCurveEdit.h">
+      <Filter>External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imguizmo\ImGradient.h">
+      <Filter>External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imguizmo\ImGuizmo.h">
+      <Filter>External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imguizmo\ImSequencer.h">
+      <Filter>External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\imguizmo\ImZoomSlider.h">
+      <Filter>External\ImGuizmo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -154,6 +154,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\extern\glad\glad.c" />
+    <ClCompile Include="..\extern\imguizmo\GraphEditor.cpp" />
+    <ClCompile Include="..\extern\imguizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="..\extern\imguizmo\ImGradient.cpp" />
+    <ClCompile Include="..\extern\imguizmo\ImGuizmo.cpp" />
+    <ClCompile Include="..\extern\imguizmo\ImSequencer.cpp" />
     <ClCompile Include="..\extern\imgui\imgui.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_draw.cpp" />
@@ -230,6 +235,12 @@
   <ItemGroup>
     <ClInclude Include="..\extern\glad\glad.h" />
     <ClInclude Include="..\extern\glad\khrplatform.h" />
+    <ClInclude Include="..\extern\imguizmo\GraphEditor.h" />
+    <ClInclude Include="..\extern\imguizmo\ImCurveEdit.h" />
+    <ClInclude Include="..\extern\imguizmo\ImGradient.h" />
+    <ClInclude Include="..\extern\imguizmo\ImGuizmo.h" />
+    <ClInclude Include="..\extern\imguizmo\ImSequencer.h" />
+    <ClInclude Include="..\extern\imguizmo\ImZoomSlider.h" />
     <ClInclude Include="..\extern\imgui\dirent.h" />
     <ClInclude Include="..\extern\imgui\imconfig.h" />
     <ClInclude Include="..\extern\imgui\imgui.h" />
