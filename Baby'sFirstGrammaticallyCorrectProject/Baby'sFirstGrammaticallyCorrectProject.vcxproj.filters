@@ -277,6 +277,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{9baf9265-32f9-49c2-9e3d-63710a8ecd6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\lib">
+      <UniqueIdentifier>{a201eddb-cdfc-4217-b7ae-0c59602e4a66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\khrplatform.h">
@@ -523,6 +526,21 @@
     </None>
     <None Include="..\Assets\Shaders\sky.yaml">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\common.glsl">
+      <Filter>Shaders\lib</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\input.glsl">
+      <Filter>Shaders\lib</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\light.glsl">
+      <Filter>Shaders\lib</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\lighting.glsl">
+      <Filter>Shaders\lib</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\lib\Surface.glsl">
+      <Filter>Shaders\lib</Filter>
     </None>
   </ItemGroup>
 </Project>

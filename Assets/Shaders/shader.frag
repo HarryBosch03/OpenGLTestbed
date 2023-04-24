@@ -21,7 +21,17 @@ uniform sampler2D texNormal;
 uniform sampler2D texHeight;
 uniform sampler2D texAO;
 
-uniform MaterialProperties
+//uniform MaterialProperties
+//{
+//	vec4 color;
+//	vec2 metalness;
+//	vec2 roughness;
+//	float normal;
+//	float height;
+//	float ao;
+//} properties;
+
+struct MaterialProperties
 {
 	vec4 color;
 	vec2 metalness;
@@ -29,10 +39,18 @@ uniform MaterialProperties
 	float normal;
 	float height;
 	float ao;
-} properties;
+};
 
 void main ()
 {
+	MaterialProperties properties;
+	properties.color = vec4(1.0);
+	properties.metalness = vec2(0.0, 1.0);
+	properties.roughness = vec2(0.4, 0.4);
+	properties.normal = 1.0;
+	properties.height = 1.0;
+	properties.ao = 0.0;
+
 	vec3 geoNormal = normalize(v.normal.xyz);
 	vec3 tangent = normalize(v.tangent.xyz);
 	vec3 bitangent = normalize(v.bitangent.xyz);

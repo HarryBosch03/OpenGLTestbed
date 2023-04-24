@@ -55,6 +55,7 @@ void Input::Init()
 void Input::Update()
 {
 	mouse.Update();
+	keyboard.Update();
 }
 
 void Input::DrawGUI()

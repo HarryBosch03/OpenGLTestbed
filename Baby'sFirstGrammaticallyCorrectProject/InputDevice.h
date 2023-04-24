@@ -6,8 +6,8 @@ class GLFWwindow;
 
 class InputDevice
 {
-	std::map<int, bool> cMap;
-	std::map<int, bool> lMap;
+	std::map<int, bool> cMap; // current map
+	std::map<int, bool> lMap; // last map
 
 protected:
 	GLFWwindow* Window();

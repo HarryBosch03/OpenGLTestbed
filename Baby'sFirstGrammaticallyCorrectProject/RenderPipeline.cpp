@@ -70,8 +70,8 @@ void RenderPipeline::Render()
 
 	RenderGUI();
 
+	RenderProfillingContext::Finalize();
+
 	glfwSwapBuffers(window);
 	glfwPollEvents();
-
-	RenderProfillingContext::Finalize();
 }

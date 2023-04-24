@@ -27,6 +27,7 @@ public:
 	static void SendToActiveShader(ShaderProgram* program);
 
 	static byte* Get(const std::string& ref, int sizeBytes, int offsetBytes = 0, const byte* fallback = nullptr);
+	static byte* SoftGet(const std::string& ref, int* size, int offsetBytes = 0, const byte* fallback = nullptr);
 
 	template<typename T, int size>
 	static T& Lookup(const std::string& ref, const T& fallback = {})

@@ -57,3 +57,13 @@ byte* UniformBufferObject::Get(const std::string& ref, int sizeBytes, int offset
 	}
 	return &((byte*)buffer.data)[offsetBytes];
 }
+
+byte* UniformBufferObject::SoftGet(const std::string& ref, int* size, int offsetBytes, const byte* fallback)
+{
+	*size = 0;
+	UniformBufferObject& buffer = Find(ref);
+	if (!buffer.data) return nullptr;
+
+	*size = buffer.sizeBytes;
+	return &((byte*)buffer.data)[offsetBytes];
+}

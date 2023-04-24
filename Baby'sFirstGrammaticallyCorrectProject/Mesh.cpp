@@ -71,7 +71,9 @@ Asset& Mesh::LoadFromFile(const std::string& fileLoc, void* args)
 {
 	Asset::LoadFromFile(fileLoc, args);
 
+	for (Submesh* submesh : submeshes) delete submesh;
 	submeshes.clear();
+
 	const aiScene* scene = LoadMeshSceneFromFile(fileLoc);
 	if (!scene) return *this;
 

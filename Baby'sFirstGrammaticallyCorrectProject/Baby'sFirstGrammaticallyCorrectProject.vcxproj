@@ -305,6 +305,11 @@
     <None Include="..\Assets\Shaders\fallback.frag" />
     <None Include="..\Assets\Shaders\fallback.vert" />
     <None Include="..\Assets\Shaders\fallback.yaml" />
+    <None Include="..\Assets\Shaders\lib\common.glsl" />
+    <None Include="..\Assets\Shaders\lib\input.glsl" />
+    <None Include="..\Assets\Shaders\lib\light.glsl" />
+    <None Include="..\Assets\Shaders\lib\lighting.glsl" />
+    <None Include="..\Assets\Shaders\lib\Surface.glsl" />
     <None Include="..\Assets\Shaders\shader.frag" />
     <None Include="..\Assets\Shaders\shader.vert" />
     <None Include="..\Assets\Shaders\shader.yaml" />
