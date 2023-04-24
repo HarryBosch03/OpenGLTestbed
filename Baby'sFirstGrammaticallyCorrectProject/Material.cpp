@@ -56,7 +56,6 @@ void Material::Bind() const
 
 	Texture::BindAll();
 
-	UniformBufferObject::Lookup<MaterialProperties>("MaterialProperties") = properties;
 	UniformBufferObject::SendToActiveShader(ShaderProgram::Current);
 }
 

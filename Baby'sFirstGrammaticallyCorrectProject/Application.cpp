@@ -2,7 +2,6 @@
 
 #include "LogMaster.h"
 #include "Input.h"
-#include "ShaderPreprocessor.h"
 #include "AssetDatabasePredicate.h"
 #include "RenderProfillingContext.h"
 #include "ColorUtility.h"
@@ -12,9 +11,9 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include <chrono>
 
@@ -105,8 +104,6 @@ void Application::Initalize()
 	ImGui_ImplOpenGL3_Init();
 
 	babysitter.Initalize();
-
-	ShaderPreprocessor::Initalize();
 
 	soulspear = new MeshInstance();
 

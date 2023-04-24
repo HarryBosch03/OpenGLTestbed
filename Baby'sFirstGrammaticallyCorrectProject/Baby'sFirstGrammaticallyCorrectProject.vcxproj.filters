@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\extern\glad\glad.c">
-      <Filter>Glad</Filter>
+      <Filter>External\Glad</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Core</Filter>
@@ -17,25 +17,25 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui_impl_glfw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui_impl_opengl3.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClCompile>
     <ClCompile Include="KeyTable.cpp">
       <Filter>Core</Filter>
@@ -53,7 +53,7 @@
       <Filter>Assets</Filter>
     </ClCompile>
     <ClCompile Include="LogMaster.cpp">
-      <Filter>LogMaster</Filter>
+      <Filter>External\LogMaster</Filter>
     </ClCompile>
     <ClCompile Include="StringUtility.cpp">
       <Filter>Utility</Filter>
@@ -116,9 +116,6 @@
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Rendering\Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp">
-      <Filter>Inspection</Filter>
-    </ClCompile>
     <ClCompile Include="InspectorUtility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
@@ -132,91 +129,94 @@
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\binary.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\convert.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\depthguard.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\directives.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\emit.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\emitfromevents.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\emitter.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\emitterstate.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\emitterutils.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\exceptions.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\exp.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\memory.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\node.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\node_data.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\nodebuilder.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\nodeevents.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\null.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\ostream_wrapper.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\parse.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\parser.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\regex_yaml.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\scanner.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\scanscalar.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\scantag.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\scantoken.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\simplekey.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\singledocparser.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\stream.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClCompile>
     <ClCompile Include="..\extern\yaml-cpp\src\tag.cpp">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Rendering\Lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,26 +226,14 @@
     <Filter Include="Core">
       <UniqueIdentifier>{75f7bb83-1e25-425d-88ad-ab252016f88c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Glad">
-      <UniqueIdentifier>{93a838e1-958b-45d7-b416-a2799e1ec061}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{b4d17bd1-7312-4426-8a37-789f9d24f9aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Rendering\Lighting">
       <UniqueIdentifier>{8269d0e4-e8e6-4f4f-b2b1-4d84b6de4167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="stb">
-      <UniqueIdentifier>{3e1572a9-7751-4287-acb8-810480c24c25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{9d758e65-6161-468b-842c-3ce9b5ac10ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{2e8f87eb-5248-4d5e-b44d-2590a6f24c75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LogMaster">
-      <UniqueIdentifier>{b07ab74d-5bb6-4c73-8ba5-6f40963090a4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Mesh">
       <UniqueIdentifier>{08105f69-c234-4382-a445-5a1fe3d84fee}</UniqueIdentifier>
@@ -268,19 +256,31 @@
     <Filter Include="Rendering\Materials">
       <UniqueIdentifier>{b7f5711b-1e8b-4a3a-b5e6-e43f3a54da8a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Inspection">
-      <UniqueIdentifier>{da8543c4-2816-441d-a573-fd873ce861d6}</UniqueIdentifier>
+    <Filter Include="External">
+      <UniqueIdentifier>{199bfcfa-ff7a-46e5-9149-e161abe02aae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="YAML">
+    <Filter Include="External\Glad">
+      <UniqueIdentifier>{93a838e1-958b-45d7-b416-a2799e1ec061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\imgui">
+      <UniqueIdentifier>{9d758e65-6161-468b-842c-3ce9b5ac10ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\LogMaster">
+      <UniqueIdentifier>{b07ab74d-5bb6-4c73-8ba5-6f40963090a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\stb">
+      <UniqueIdentifier>{3e1572a9-7751-4287-acb8-810480c24c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\YAML">
       <UniqueIdentifier>{be07cb15-86a3-40c2-965a-385a3e78d7f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\extern\glad\khrplatform.h">
-      <Filter>Glad</Filter>
+      <Filter>External\Glad</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\glad\glad.h">
-      <Filter>Glad</Filter>
+      <Filter>External\Glad</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>Rendering</Filter>
@@ -295,40 +295,40 @@
       <Filter>Rendering\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="stb_include.h">
-      <Filter>stb</Filter>
+      <Filter>External\stb</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\dirent.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imgui.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imgui_impl_glfw.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imgui_impl_opengl3.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imgui_impl_opengl3_loader.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
+      <Filter>External\imgui</Filter>
     </ClInclude>
     <ClInclude Include="KeyTable.h">
       <Filter>Core</Filter>
@@ -337,7 +337,7 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
-      <Filter>stb</Filter>
+      <Filter>External\stb</Filter>
     </ClInclude>
     <ClInclude Include="Asset.h">
       <Filter>Assets</Filter>
@@ -349,7 +349,7 @@
       <Filter>Assets</Filter>
     </ClInclude>
     <ClInclude Include="LogMaster.h">
-      <Filter>LogMaster</Filter>
+      <Filter>External\LogMaster</Filter>
     </ClInclude>
     <ClInclude Include="StringUtility.h">
       <Filter>Utility</Filter>
@@ -430,67 +430,67 @@
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\collectionstack.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\directives.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\emitterstate.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\emitterutils.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\exp.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\indentation.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\nodebuilder.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\nodeevents.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\ptr_vector.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\regex_yaml.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\regeximpl.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\scanner.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\scanscalar.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\scantag.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\setting.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\singledocparser.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\stream.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\streamcharsource.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\stringsource.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\tag.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
     <ClInclude Include="..\extern\yaml-cpp\src\token.h">
-      <Filter>YAML</Filter>
+      <Filter>External\YAML</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
