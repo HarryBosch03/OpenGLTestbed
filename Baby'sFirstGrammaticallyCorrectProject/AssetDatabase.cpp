@@ -11,7 +11,7 @@
 
 #include <chrono>
 
-std::map<std::string, Asset*> assets;
+AssetDatabase _main;
 
 void AssetDatabase::Cleanup()
 {
@@ -24,7 +24,7 @@ void AssetDatabase::Cleanup()
 
 void AssetDatabase::HotReload()
 {
-	HotReload(AssetDatabase::Predicates::All);
+	HotReload(AssetDatabasePredicates::All);
 }
 
 void AssetDatabase::HotReload(bool(*predicate)(const AssetEntry& entry))
@@ -41,4 +41,28 @@ void AssetDatabase::HotReload(bool(*predicate)(const AssetEntry& entry))
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
 	LogSuccess("Finished Reloading " << assets.size() << " Assets Successfully in " << duration.count() << "ms");
+}
+
+const std::string AssetDatabase::AssetLocation()
+{
+#if _DEBUG
+	return "../Assets/";
+#else
+	return "./Assets/";
+#endif
+}
+
+const std::string AssetDatabase::AssetLocation(const std::string& filename)
+{
+	return AssetLocation() + filename;
+}
+
+const AssetDatabase& AssetDatabase::Main()
+{
+	return _main;
+}
+
+AssetDatabase& Assets()
+{
+	return _main;
 }

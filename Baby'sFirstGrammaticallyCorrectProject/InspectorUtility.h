@@ -20,7 +20,7 @@ namespace Utility
 		{
 			std::string first = "Change " + varName + "... (" + (asset ? asset->FileName() : "null") + ")";
 
-			std::vector<std::string> assets = AssetDatabase::GetType<T>();
+			std::vector<std::string> assets = Assets().GetType<T>();
 			const char** items = new const char* [assets.size() + 2];
 			items[0] = first.c_str();
 			items[1] = "None";
@@ -34,7 +34,7 @@ namespace Utility
 			{
 				if (item > 1)
 				{
-					asset = AssetDatabase::Get<T>(items[item]);
+					asset = GetAsset<T>(items[item]);
 				}
 				if (item == 1)
 				{

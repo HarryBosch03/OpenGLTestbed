@@ -12,7 +12,7 @@ class Application
 	CameraController cameraController;
 	GLBabysitter babysitter;
 	RenderPipeline renderPipeline;
-	
+
 	float time = 0.0f;
 	float unscaledTime = 0.0f;
 	float frameTime = 0.0f;
@@ -32,6 +32,8 @@ class Application
 	bool ShouldClose();
 
 public:
+	bool persistConsole = false;
+
 	inline static const float Time() { return Application::Current()->time; }
 	inline static const float FrameTime() { return Application::Current()->frameTime; }
 	inline static const float FixedFrameTime() { return Application::Current()->fixedUnscaledFrameTime; }

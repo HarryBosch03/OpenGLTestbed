@@ -207,7 +207,7 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 
 ShaderProgram* ShaderProgram::Fallback()
 {
-	return AssetDatabase::Get<ShaderProgram>("Shaders/fallback.yaml");
+	return GetAsset<ShaderProgram>("Shaders/fallback");
 }
 
 ShaderProperty::ShaderProperty(const std::string& name, const std::string& ref, const std::string& type, const std::string& def) : name(name), ref(ref), def(def)

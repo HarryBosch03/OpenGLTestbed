@@ -23,7 +23,7 @@ Material::Material(ShaderProgram* program)
 
 Material& Material::SetShader(const std::string& shader)
 {
-	this->program = AssetDatabase::Get<ShaderProgram>(shader);
+	this->program = GetAsset<ShaderProgram>(ShaderPath + shader);
 	return *this;
 }
 
@@ -37,12 +37,6 @@ Texture*& Material::Textures(const std::string& ref)
 {
 	if (!textures.count(ref)) textures[ref] = nullptr;
 	return textures[ref];
-}
-
-const Texture* Material::Textures(const std::string& ref) const
-{
-	if (!textures.count(ref)) return nullptr;
-	return textures.at(ref);
 }
 
 void Material::Bind() const
@@ -61,6 +55,8 @@ void Material::Bind() const
 	}
 
 	Texture::BindAll();
+
+	UniformBufferObject::Lookup<MaterialProperties>("MaterialProperties") = properties;
 	UniformBufferObject::SendToActiveShader(ShaderProgram::Current);
 }
 
