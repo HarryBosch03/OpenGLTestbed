@@ -24,6 +24,7 @@
     <ProjectGuid>{8208c822-b189-4419-a17d-599855a8b77d}</ProjectGuid>
     <RootNamespace>BabysFirstGrammaticallyCorrectProjectContainingTheWordBaby</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Graphics</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -189,6 +190,7 @@
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="Serializable.cpp" />
     <ClCompile Include="ShaderPreprocessor.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
@@ -238,6 +240,7 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="Serializable.h" />
     <ClInclude Include="ShaderPreprocessor.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />

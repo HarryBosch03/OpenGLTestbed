@@ -2,12 +2,14 @@
 
 typedef unsigned char byte;
 
-const void* Serializable::Data() const
+std::ostream& operator<<(std::ostream& stream, const Serializable& serializable)
 {
-	return (void*)((size_t)this + (size_t)Start());
+	serializable.WriteTo(stream);
+	return stream;
 }
 
-const size_t Serializable::Size() const
+std::istream& operator>>(std::istream& stream, Serializable& serializable)
 {
-	return (size_t)End() - (size_t)Start();
+	serializable.ReadFrom(stream);
+	return stream;
 }
