@@ -8,7 +8,7 @@
 #include "AssetDatabase.h"
 #include "LogMaster.h"
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 
 using namespace Utility::Inspector;
 
@@ -30,40 +30,8 @@ void MeshInstance::DrawGUIContent()
 	{
 		if (ImGui::CollapsingHeader(("Material." + std::to_string(i) + "##MeshInstance." + std::to_string(id)).c_str()))
 		{
-			ImGui::Indent();
-			std::string append = "##Material." + std::to_string(id) + "." + std::to_string(i);
-
 			Material& mat = materials[i];
-
-			int count, maxNameLength;
-			glGetProgramInterfaceiv(mat.Shader()->programHandle, GL_UNIFORM, GL_ACTIVE_RESOURCES, &count);
-			glGetProgramInterfaceiv(mat.Shader()->programHandle, GL_UNIFORM, GL_MAX_NAME_LENGTH, &maxNameLength);
-
-			std::vector < std::string> textures;
-			GLchar* buffer = new GLchar[maxNameLength];
-			const GLenum properties = GL_TYPE;
-			for (int i = 0; i < count; i++)
-			{
-				GLint type;
-				glGetProgramResourceiv(mat.Shader()->programHandle, GL_UNIFORM, i, 1, &properties, count, nullptr, &type);
-				if (type != GL_SAMPLER_2D) continue;
-				glGetProgramResourceName(mat.Shader()->programHandle, GL_UNIFORM, i, maxNameLength, nullptr, buffer);
-				textures.push_back(buffer);
-			}
-			delete[] buffer;
-
-			for (const std::string& texture : textures)
-			{
-				Utility::Inspector::AssetDropdown<Texture>(mat.Textures(texture), texture, "tex" + texture);
-			}
-
-			ImGui::ColorEdit4(AppendID("Color" + append), &mat.properties.color[0]);
-			ImGui::SliderFloat2(AppendID("Metalness" + append), &mat.properties.metalness[0], 0.0f, 1.0f);
-			ImGui::SliderFloat2(AppendID("Roughness" + append), &mat.properties.roughness[0], 0.0f, 1.0f);
-			ImGui::SliderFloat(AppendID("Normal" + append), &mat.properties.normal, 0.0f, 1.0f);
-			ImGui::SliderFloat(AppendID("Height" + append), &mat.properties.height, 0.0f, 1.0f);
-			ImGui::SliderFloat(AppendID("Ambient Occlusion" + append), &mat.properties.ao, 0.0f, 1.0f);
-			ImGui::Unindent();
+			Utility::Inspector::DrawMaterial(mat);
 		}
 	}
 

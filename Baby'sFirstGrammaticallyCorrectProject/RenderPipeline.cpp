@@ -6,8 +6,9 @@
 #include "MeshInstance.h"
 
 #include <chrono>
-#include <imgui.h>
-#include <imgui_impl_opengl3.h>
+#include <map>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 GLFWwindow* window = nullptr;
 int width = 0, height = 0;

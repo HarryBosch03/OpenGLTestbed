@@ -3,11 +3,11 @@
 #define GLM_FORCE_ONLY_XYZW
 
 #include "math.h"
-#include "glm.hpp"
+#include "glm/glm.hpp"
 #include "assimp/scene.h"
 
-#include "gtx/quaternion.hpp"
-#include "gtc/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
+#include "glm/gtc/quaternion.hpp"
 
 const float pi = 3.141592653589783238f;
 const float tau = 2.0f * pi;

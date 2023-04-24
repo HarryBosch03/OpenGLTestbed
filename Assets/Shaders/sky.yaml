@@ -1,0 +1,11 @@
+Includes:
+[
+    $f lib/input.glsl,
+    $f lib/common.glsl,
+    $f lib/surface.glsl,
+    $f lib/light.glsl,
+]
+Vertex:
+    $f sky.vert
+Fragment:
+    $f sky.frag

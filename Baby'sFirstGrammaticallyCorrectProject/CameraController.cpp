@@ -2,10 +2,8 @@
 
 #include "Graphics.h"
 #include "Application.h"
-#include "imgui.h"
+#include "imgui/imgui.h"
 #include "input.h"
-
-#include "imgui.h"
 
 Vec2 cursorPosition;
 

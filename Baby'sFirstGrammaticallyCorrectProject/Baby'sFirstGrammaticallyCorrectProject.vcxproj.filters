@@ -95,9 +95,6 @@
     <ClCompile Include="GLuniform.cpp">
       <Filter>Rendering\Communication</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderPreprocessor.cpp">
-      <Filter>Rendering\Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
       <Filter>Rendering\Shaders</Filter>
     </ClCompile>
@@ -130,6 +127,96 @@
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderCompiler.cpp">
+      <Filter>Rendering\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\binary.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\convert.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\depthguard.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\directives.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\emit.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\emitfromevents.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\emitter.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\emitterstate.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\emitterutils.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\exceptions.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\exp.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\memory.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\node.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\node_data.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\nodebuilder.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\nodeevents.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\null.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\ostream_wrapper.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\parse.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\parser.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\regex_yaml.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\scanner.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\scanscalar.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\scantag.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\scantoken.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\simplekey.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\singledocparser.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\stream.cpp">
+      <Filter>YAML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\extern\yaml-cpp\src\tag.cpp">
+      <Filter>YAML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +270,9 @@
     </Filter>
     <Filter Include="Inspection">
       <UniqueIdentifier>{da8543c4-2816-441d-a573-fd873ce861d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="YAML">
+      <UniqueIdentifier>{be07cb15-86a3-40c2-965a-385a3e78d7f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +393,6 @@
     <ClInclude Include="GLuniform.h">
       <Filter>Rendering\Communication</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderPreprocessor.h">
-      <Filter>Rendering\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderProgram.h">
       <Filter>Rendering\Shaders</Filter>
     </ClInclude>
@@ -338,6 +425,72 @@
     </ClInclude>
     <ClInclude Include="InputDevice.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderCompiler.h">
+      <Filter>Rendering\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\collectionstack.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\directives.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\emitterstate.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\emitterutils.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\exp.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\indentation.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\nodebuilder.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\nodeevents.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\ptr_vector.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\regex_yaml.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\regeximpl.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\scanner.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\scanscalar.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\scantag.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\setting.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\singledocparser.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\stream.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\streamcharsource.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\stringsource.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\tag.h">
+      <Filter>YAML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\extern\yaml-cpp\src\token.h">
+      <Filter>YAML</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

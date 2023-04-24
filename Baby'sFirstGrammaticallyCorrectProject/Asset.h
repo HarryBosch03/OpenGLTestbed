@@ -12,7 +12,7 @@ protected:
 	void* args = nullptr;
 		
 public:
-	inline const std::string& FileName() { return fileloc; }
+	inline const std::string& FileName() const { return fileloc; }
 	virtual AssetType GetType() const = 0;
 
 	virtual Asset& LoadFromFile(const std::string& fileloc, void* args);

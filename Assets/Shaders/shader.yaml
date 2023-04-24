@@ -1,0 +1,26 @@
+Properties:
+[
+  { name: "Albedo",             ref: "texCol",        type: "tex2D"      , default: "textures/SoulSpear/soulspear_diffuse.tga" },
+  { name: "Metalness",          ref: "texMetal",      type: "tex2D"      },
+  { name: "Roughness",          ref: "texRough",      type: "tex2D"      },
+  { name: "Normal",             ref: "texNormal",     type: "tex2D"      , default: "textures/SoulSpear/soulspear_normal.tga" },
+  { name: "Ambient Occlusion",  ref: "texAO",         type: "tex2D"      },
+  { name: "Color",              ref: "color",         type: "color"      , default: "1.0, 1.0, 1.0, 1.0" },
+  { name: "Metalness",          ref: "metalness",     type: "remap(0, 1)", default: "0.0, 1.0" },
+  { name: "Roughness",          ref: "roughness",     type: "remap(0, 1)", default: "0.0, 1.0" },
+  { name: "Normal",             ref: "normal",        type: "range(0, 1)", default: "1.0" },
+  { name: "Height",             ref: "height",        type: "range(0, 1)", default: "1.0" },
+  { name: "Ambient Occlusion",  ref: "ao",            type: "range(0, 1)", default: "0.0" },
+]
+Includes:
+[
+  $f lib/input.glsl,
+  $f lib/common.glsl,
+  $f lib/Surface.glsl,
+  $f lib/light.glsl,
+  $f lib/lighting.glsl,
+]
+Vertex:
+  $f shader.vert
+Fragment:
+  $f shader.frag

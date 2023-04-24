@@ -1,10 +1,11 @@
 #include "ShaderProgram.h"
 
-#include "ShaderPreprocessor.h"
 #include "Application.h"
 #include "LogMaster.h"
 #include "FileUtility.h"
+#include "StringUtility.h"
 #include "UniformBufferObject.h"
+#include "ShaderCompiler.h"
 #include "AssetDatabase.h"
 
 #include <iostream>
@@ -13,6 +14,7 @@
 #include <map>
 
 ShaderProgram* ShaderProgram::Current = nullptr;
+ShaderCompiler compiler;
 
 #define ERROR_DEF_START \
 const int LoggerSize = 512; \
@@ -22,7 +24,7 @@ GLint success = 0;
 #define ERROR_DEF_END \
 if (success == GL_FALSE) \
 { \
-	LogGLError(std::string() + "Error Linking Shader Program \"" + name + "\"\n", programHandle, errorLog, LoggerSize); \
+	LogGLError(std::string() + "Error Linking Shader Program \"" + fileloc + "\"\n", programHandle, errorLog, LoggerSize); \
 }
 
 void ShaderProgram::LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int LoggerSize)
@@ -73,64 +75,21 @@ void ShaderProgram::LoadShader(GLuint& handle, const std::string& shader, GLenum
 			type = "Unknown";
 			break;
 		}
-		LogGLError(std::string() + type + " Shader \"" + name + "\" Failed with error: ", handle, errorLog, LoggerSize);
+		LogGLError(std::string() + type + " Shader \"" + fileloc + "\" Failed with error: ", handle, errorLog, LoggerSize);
 	}
 	else
 	{
-		LogMessage("Shader \"" << name << "\" Compiled Successfully");
+		LogMessage("Shader \"" << fileloc << "\" Compiled Successfully");
 	}
 }
 
-std::string ReadShader(const std::string shader, const std::string program)
+Asset& ShaderProgram::LoadFromFile(const std::string& fileloc, void* args)
 {
-	std::stringstream out;
+	Asset::LoadFromFile(fileloc, args);
 
-	int i = 0;
-	while (i < shader.length())
-	{
-		if (shader.substr(i, 11 + program.size()) == "#program " + program + "\n") break;
-		i++;
-	}
+	std::string vert, frag;
 
-	while (i < shader.length())
-	{
-		if (shader.substr(i, 10) == "#program ") break;
-		out << shader[i++];
-	}
-
-	return out.str();
-}
-
-Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
-{
-	Asset::LoadFromFile(Utility::Files::RemoveExtension(_fileLoc), args);
-	this->name = Utility::Files::FileName(fileloc);
-
-	bool success;
-	std::string shaderRaw = Utility::Files::LoadTextFromFile(AssetDatabase::AssetLocation() + fileloc + ".shader", &success, false);
-
-	std::string vertRaw;
-	std::string fragRaw;
-
-	if (success)
-	{
-		vertRaw = ReadShader(shaderRaw, "vert");
-		fragRaw = ReadShader(shaderRaw, "frag");
-	}
-	else
-	{
-		vertRaw = Utility::Files::LoadTextFromFile(AssetDatabase::AssetLocation() + fileloc + ".vert", &success);
-		fragRaw = Utility::Files::LoadTextFromFile(AssetDatabase::AssetLocation() + fileloc + ".frag", &success);
-		if (!success)
-		{
-			LogError("Failed to load shader file \"" << name << "\" at \"" << _fileLoc << "\"");
-			Cleanup();
-			return *this;
-		}
-	}
-
-	std::string vert = ShaderPreprocessor::ParseIncludes(vertRaw, name + "[VERT]");
-	std::string frag = ShaderPreprocessor::ParseIncludes(fragRaw, name + "[FRAG]");
+	compiler.Compile(fileloc, vert, frag, properties);
 
 	Initalize(vert, frag);
 	return *this;
@@ -139,10 +98,7 @@ Asset& ShaderProgram::LoadFromFile(const std::string& _fileLoc, void* args)
 bool ShaderProgram::DoesFileMatch(const std::string& fileloc)
 {
 	std::string ext = Utility::Files::Ext(fileloc);
-	if (ext == "vert") return true;
-	if (ext == "frag") return true;
-	if (ext == "shader") return true;
-	return false;
+	return ext == "shad";
 }
 
 void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
@@ -171,7 +127,7 @@ void ShaderProgram::Initalize(const std::string& vert, const std::string& frag)
 		}
 		else
 		{
-			LogSuccess("Shader Compiled and Linked successfully.");
+			LogSuccess("Shader \"" << fileloc << "\" Compiled and Linked successfully.");
 		}
 }
 
@@ -251,5 +207,12 @@ void ShaderProgram::SetModelMatrix(const Mat4& model)
 
 ShaderProgram* ShaderProgram::Fallback()
 {
-	return AssetDatabase::Get<ShaderProgram>("Shaders/fallback");
+	return AssetDatabase::Get<ShaderProgram>("Shaders/fallback.yaml");
+}
+
+ShaderProperty::ShaderProperty(const std::string& name, const std::string& ref, const std::string& type, const std::string& def) : name(name), ref(ref), def(def)
+{
+	int i = type.find('(');
+	this->type = type.substr(0, i);
+	args = Utility::String::Split(type.substr(i + 1), ',');
 }

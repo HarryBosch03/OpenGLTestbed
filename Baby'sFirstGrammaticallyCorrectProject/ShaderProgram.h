@@ -8,9 +8,25 @@
 
 const std::string ShaderPath = "Shaders/";
 
+class ShaderProperty
+{
+	std::string name, ref, type, def;
+	std::vector<std::string> args;
+
+public:
+	ShaderProperty(const std::string& name, const std::string& ref, const std::string& type, const std::string& def);
+
+	inline const std::string& Name() const { return name; }
+	inline const std::string& Ref() const { return ref; }
+	inline const std::string& Typename() const { return type; }
+	inline const std::vector<std::string>& Args() const { return args; }
+	inline const std::string& Default() const { return def; }
+};
+
 class ShaderProgram : public Asset
 {
 	bool bad = true;
+	std::vector<ShaderProperty> properties;
 
 	void LoadShader(GLuint& handle, const std::string& shader, GLenum shaderType, GLchar* errorLog, int LoggerSize, GLint& success);
 	void LogGLError(const std::string& message, const GLuint& glObject, GLchar* errorLog, const int LoggerSize);
@@ -25,7 +41,7 @@ public:
 		fragHandle = {},
 		programHandle = {};
 
-	std::string name = "Unnamed Shader Program";
+	inline const std::vector<ShaderProperty>& Properties() const { return properties; }
 
 	ShaderProgram() = default;
 	ShaderProgram(const ShaderProgram& other) = delete;

@@ -44,3 +44,16 @@ void UniformBufferObject::SendToActiveShader(ShaderProgram* program)
 	}
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
+
+byte* UniformBufferObject::Get(const std::string& ref, int sizeBytes, int offsetBytes, const byte* fallback)
+{
+	UniformBufferObject& buffer = Find(ref);
+	if (!buffer.data || buffer.sizeBytes != sizeBytes)
+	{
+		delete[] buffer.data;
+		buffer.data = new byte[sizeBytes];
+		buffer.sizeBytes = sizeBytes;
+		if (fallback) std::memcpy(&buffer.data[offsetBytes], &fallback[offsetBytes], sizeBytes);
+	}
+	return &((byte*)buffer.data)[offsetBytes];
+}

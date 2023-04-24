@@ -1,7 +1,5 @@
 #version 450
 
-#include "lib/input.glsl"
-
 layout (location = 0) in vec3 aPos;
 
 out vec3 localPos;

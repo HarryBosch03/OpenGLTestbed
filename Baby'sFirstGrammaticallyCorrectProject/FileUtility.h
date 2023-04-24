@@ -14,6 +14,6 @@ namespace Utility
 
 		bool Exists(const std::string& filepath);
 
-		std::string LoadTextFromFile(const std::string& fileName, bool* success, bool log = true);
+		std::string LoadTextFromFile(const std::string& fileName, bool* success = nullptr, bool log = true);
 	}
 }

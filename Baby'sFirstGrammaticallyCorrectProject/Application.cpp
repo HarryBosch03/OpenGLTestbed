@@ -2,7 +2,6 @@
 
 #include "LogMaster.h"
 #include "Input.h"
-#include "ShaderPreprocessor.h"
 #include "AssetDatabasePredicate.h"
 #include "RenderProfillingContext.h"
 #include "ColorUtility.h"
@@ -12,9 +11,9 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include <chrono>
 
@@ -95,14 +94,12 @@ void Application::Initalize()
 
 	babysitter.Initalize();
 
-	ShaderPreprocessor::Initalize();
-
 	soulspear = new MeshInstance();
 
 	Mesh* monkeMesh = AssetDatabase::Get<Mesh>("Models/soulspear.obj", nullptr);
 	soulspear->SetMeshData(monkeMesh);
 
-	Material material = Material("shader");
+	Material material = Material("Shaders/shader.yaml");
 	material.SetTexture("texCol", AssetDatabase::Get<Texture>("Textures/SoulSpear/soulspear_diffuse.tga"));
 	material.SetTexture("texNormal", AssetDatabase::Get<Texture>("Textures/SoulSpear/soulspear_normal.tga"));
 	soulspear->SetMaterials(material);

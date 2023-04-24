@@ -1,7 +1,5 @@
 #version 450
 
-#include "lib/input.glsl"
-
 in vec4 position;
 in vec4 normal;
 in vec2 texcoord0;

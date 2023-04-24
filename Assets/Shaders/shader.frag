@@ -1,11 +1,5 @@
 #version 450
 
-#include "lib/common.glsl"
-#include "lib/input.glsl"
-#include "lib/Surface.glsl"
-#include "lib/light.glsl"
-#include "lib/lighting.glsl"
-
 out vec4 fragColor;
 
 struct Varyings

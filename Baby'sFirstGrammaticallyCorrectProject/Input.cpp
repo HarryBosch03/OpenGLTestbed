@@ -3,8 +3,8 @@
 #include "KeyTable.h"
 #include "Graphics.h"
 #include "Application.h"
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
 
 #include <map>
 #include "InputDevice.h"

@@ -119,14 +119,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)extern/assimp/x64-$(Configuration)/include;$(SolutionDir)extern/yaml-cpp;$(SolutionDir)extern/imgui;$(SolutionDir)extern;$(SolutionDir)extern/glad;$(SolutionDir)extern/glm;$(SolutionDir)extern/glfw;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)extern/assimp/x64-$(Configuration)/include;$(SolutionDir)extern/yaml-cpp/include;$(SolutionDir)extern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)extern\assimp\x64-$(Configuration)\lib;$(SolutionDir)extern/glm;$(SolutionDir)extern/glfw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib/;$(SolutionDir)lib/x64-$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -160,6 +160,35 @@
     <ClCompile Include="..\extern\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\extern\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\binary.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\convert.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\depthguard.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\directives.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\emit.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\emitfromevents.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\emitter.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\emitterstate.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\emitterutils.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\exceptions.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\exp.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\memory.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\node.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\nodebuilder.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\nodeevents.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\node_data.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\null.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\ostream_wrapper.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\parse.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\parser.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\regex_yaml.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\scanner.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\scanscalar.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\scantag.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\scantoken.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\simplekey.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\singledocparser.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\stream.cpp" />
+    <ClCompile Include="..\extern\yaml-cpp\src\tag.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetDatabase.cpp" />
@@ -189,7 +218,7 @@
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
-    <ClCompile Include="ShaderPreprocessor.cpp" />
+    <ClCompile Include="ShaderCompiler.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="StringUtility.cpp" />
@@ -210,6 +239,27 @@
     <ClInclude Include="..\extern\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\extern\imgui\imstb_textedit.h" />
     <ClInclude Include="..\extern\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\collectionstack.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\directives.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\emitterstate.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\emitterutils.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\exp.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\indentation.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\nodebuilder.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\nodeevents.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\ptr_vector.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\regeximpl.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\regex_yaml.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\scanner.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\scanscalar.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\scantag.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\setting.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\singledocparser.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\stream.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\streamcharsource.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\stringsource.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\tag.h" />
+    <ClInclude Include="..\extern\yaml-cpp\src\token.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetDatabase.h" />
@@ -238,7 +288,7 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneObject.h" />
-    <ClInclude Include="ShaderPreprocessor.h" />
+    <ClInclude Include="ShaderCompiler.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />

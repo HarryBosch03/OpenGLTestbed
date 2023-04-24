@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Graphics.h"
+#include "Maths.h"
 
 #include <string>
 #include <map>
@@ -10,7 +11,7 @@ class ShaderProgram;
 class UniformBufferObject
 {
 	GLuint handle = 0;
-	void* data = nullptr;
+	byte* data = nullptr;
 	int sizeBytes = 0;
 
 	static std::map<std::string, UniformBufferObject*> map;
@@ -25,22 +26,17 @@ class UniformBufferObject
 public:
 	static void SendToActiveShader(ShaderProgram* program);
 
+	static byte* Get(const std::string& ref, int sizeBytes, int offsetBytes = 0, const byte* fallback = nullptr);
+
 	template<typename T, int size>
-	static T& Lookup(const std::string& ref)
+	static T& Lookup(const std::string& ref, const T& fallback = {})
 	{
-		UniformBufferObject& buffer = Find(ref);
-		void* entry = buffer.data;
-		if (!buffer.data)
-		{
-			buffer.data = new T[size];
-			buffer.sizeBytes = sizeof(T) * size;
-		}
-		return *(T*)buffer.data;
+		return *(T*)Get(ref, sizeof(T) * size, 0, (const byte*)(&fallback));
 	}
 
 	template<typename T>
-	static T& Lookup(const std::string& ref)
+	static T& Lookup(const std::string& ref, const T& fallback = {})
 	{
-		return Lookup<T, 1>(ref);
+		return Lookup<T, 1>(ref, fallback);
 	}
 };

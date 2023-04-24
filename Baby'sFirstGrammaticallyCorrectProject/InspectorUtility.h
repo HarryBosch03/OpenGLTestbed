@@ -2,7 +2,9 @@
 
 #include <string>
 #include "AssetDatabase.h"
-#include "imgui.h"
+#include "imgui/imgui.h"
+
+class Material;
 
 namespace Utility
 {
@@ -11,8 +13,10 @@ namespace Utility
 		int& WorkingID();
 		const char* AppendID(const std::string& text);
 
+		void DrawMaterial(Material& material);
+
 		template<typename T>
-		void AssetDropdown(T*& asset, const std::string& varName, const std::string& idAppend = "")
+		void AssetDropdown(T*& asset, const std::string& varName, const std::string& idAppend = "", const std::string& fallback = "")
 		{
 			std::string first = "Change " + varName + "... (" + (asset ? asset->FileName() : "null") + ")";
 
