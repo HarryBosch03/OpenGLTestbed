@@ -2,10 +2,12 @@
 
 #include "Skybox.h"
 #include "LightingEnviroment.h"
+#include "PostProcessingStack.h"
 
 class RenderPipeline
 {
 	float renderTime;
+	PostProcessingStack stack;
 
 public:
 	Skybox skybox;

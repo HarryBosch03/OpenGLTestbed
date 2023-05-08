@@ -23,7 +23,7 @@ Application* current = nullptr;
 
 void WindowResizeCallback(GLFWwindow* window, int width, int height);
 
-MeshInstance* soulspear;
+MeshInstance* meshInstance;
 Vec3 ambientColor = One;
 float ambientStrength = 1.0f;
 
@@ -107,15 +107,20 @@ void Application::Initalize()
 
 	babysitter.Initalize();
 
-	soulspear = new MeshInstance();
+	meshInstance = new MeshInstance();
 
-	Mesh* monkeMesh = GetAsset<Mesh>("Models/soulspear.obj", nullptr);
-	soulspear->SetMeshData(monkeMesh);
+	Mesh* mesh = GetAsset<Mesh>("Models/Cerberus_LP.fbx", nullptr);
+	meshInstance->SetMeshData(mesh);
 
 	Material material = Material("shader.yaml");
-	material.SetTexture("texCol", GetAsset<Texture>("Textures/SoulSpear/soulspear_diffuse.tga"));
-	material.SetTexture("texNormal", GetAsset<Texture>("Textures/SoulSpear/soulspear_normal.tga"));
-	soulspear->SetMaterials(material);
+	material.SetTexture("texCol", GetAsset<Texture>(   "Textures/Cerberus/Cerberus_A.tga"));
+	material.SetTexture("texMetal", GetAsset<Texture>("Textures/Cerberus/Cerberus_M.tga"));
+	material.SetTexture("texRough", GetAsset<Texture>("Textures/Cerberus/Cerberus_R.tga"));
+	material.SetTexture("texNormal", GetAsset<Texture>("Textures/Cerberus/Cerberus_N.tga"));
+	meshInstance->SetMaterials(material);
+
+	meshInstance->scale = One * 0.01f;
+	meshInstance->axisAngleRotation = Vec4(1.0f, 0.0f, 0.0f, -90.0f);
 
 	renderPipeline.skybox.Setup();
 	renderPipeline.lighting.Initalize();

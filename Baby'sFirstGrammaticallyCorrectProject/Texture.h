@@ -36,6 +36,9 @@ class Texture : public Asset
 	void PassDataToGL(void* data, GLenum type, GLint internalFormat, const std::string& fileLoc, const TextureImportSettings& settings);
 
 public:
+
+	inline const GLuint Handle() { return handle; }
+
 	Texture() = default;
 	Texture(const Texture& other) = delete;
 	Texture& operator=(const Texture& other) = delete;
@@ -43,6 +46,8 @@ public:
 
 	inline AssetType GetType() const override { return AssetType::Texture; }
 	inline const std::string& Ref() { return ref; }
+
+	void Orphan(int width, int height, GLint internalFormat = GL_RGBA, GLint format = GL_RGBA, GLenum type = GL_UNSIGNED_BYTE);
 
 	Asset& LoadFromFile(const std::string& fileLoc, void* args) override;
 	Asset& Reload() override;

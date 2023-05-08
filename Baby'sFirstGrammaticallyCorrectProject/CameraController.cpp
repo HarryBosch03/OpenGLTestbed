@@ -40,6 +40,9 @@ void CameraController::ProcessInput()
 
 void CameraController::SetPosition(Camera& camera)
 {
+	float moveSpeed = this->moveSpeed;
+	if (Input::Keyboard().Down(GLFW_KEY_LEFT_SHIFT)) moveSpeed *= 5.0f;
+
 	float accelerationMagnitude = 1.0f / accelerationTime;
 	Vec3 targetVelocity = (glm::inverse(camera.rotation) * moveInput) * moveSpeed;
 	acceleration += (targetVelocity - velocity) * accelerationMagnitude;

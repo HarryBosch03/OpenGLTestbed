@@ -233,6 +233,10 @@
     <ClCompile Include="..\extern\imguizmo\ImSequencer.cpp">
       <Filter>External\ImGuizmo</Filter>
     </ClCompile>
+    <ClCompile Include="Framebuffer.cpp">
+      <Filter>Rendering\PostProcessing</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessingStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Rendering">
@@ -297,6 +301,9 @@
     </Filter>
     <Filter Include="External\ImGuizmo">
       <UniqueIdentifier>{5c5910c4-ebf4-470f-bdfc-8a3e960e2ce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\PostProcessing">
+      <UniqueIdentifier>{1e95a9dc-fb8c-4bba-b22c-2de6c9aa9dc4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -534,6 +541,12 @@
     <ClInclude Include="..\extern\imguizmo\ImZoomSlider.h">
       <Filter>External\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="PostProcessingStack.h">
+      <Filter>Rendering\PostProcessing</Filter>
+    </ClInclude>
+    <ClInclude Include="Framebuffer.h">
+      <Filter>Rendering\PostProcessing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Assets\Shaders\fallback.frag">
@@ -577,6 +590,15 @@
     </None>
     <None Include="..\Assets\Shaders\lib\Surface.glsl">
       <Filter>Shaders\lib</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\CopyPass.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\CopyPass.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Assets\Shaders\CopyPass.yaml">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

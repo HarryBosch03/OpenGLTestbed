@@ -24,6 +24,8 @@ int main()
 
 	glfwTerminate();
 
+	return 0;
+
 	if (!application.persistConsole)
 	{
 		HWND wConsole = GetConsoleWindow();

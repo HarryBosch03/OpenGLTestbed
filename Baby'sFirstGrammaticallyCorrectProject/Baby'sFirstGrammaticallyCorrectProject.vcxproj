@@ -204,6 +204,7 @@
     <ClCompile Include="ColorUtility.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="FileUtility.cpp" />
+    <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="GLBabysitter.cpp" />
     <ClCompile Include="GLuniform.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -219,6 +220,7 @@
     <ClCompile Include="MeshInstance.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="PostProcessingStack.cpp" />
     <ClCompile Include="RenderPipeline.cpp" />
     <ClCompile Include="RenderProfillingContext.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
@@ -280,6 +282,7 @@
     <ClInclude Include="CameraController.h" />
     <ClInclude Include="ColorUtility.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="GLBabysitter.h" />
     <ClInclude Include="GLuniform.h" />
     <ClInclude Include="Graphics.h" />
@@ -295,6 +298,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshInstance.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="PostProcessingStack.h" />
     <ClInclude Include="RenderPipeline.h" />
     <ClInclude Include="RenderProfillingContext.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -313,6 +317,9 @@
     <ClInclude Include="VertexData.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Assets\Shaders\CopyPass.vert" />
+    <None Include="..\Assets\Shaders\CopyPass.frag" />
+    <None Include="..\Assets\Shaders\CopyPass.yaml" />
     <None Include="..\Assets\Shaders\fallback.frag" />
     <None Include="..\Assets\Shaders\fallback.vert" />
     <None Include="..\Assets\Shaders\fallback.yaml" />

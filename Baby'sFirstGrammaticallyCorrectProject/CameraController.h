@@ -10,7 +10,7 @@ class CameraController
 	void SetPosition(Camera& camera);
 
 public:
-	float moveSpeed = 10.0f;
+	float moveSpeed = 1.0f;
 	float accelerationTime = 0.1f;
 	float sensitivity = 0.3f;
 

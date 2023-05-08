@@ -45,8 +45,8 @@ void main ()
 {
 	MaterialProperties properties;
 	properties.color = vec4(1.0);
-	properties.metalness = vec2(1.0, 1.0);
-	properties.roughness = vec2(0.1, 0.1);
+	properties.metalness = vec2(0.0, 1.0);
+	properties.roughness = vec2(0.0, 1.0);
 	properties.normal = 1.0;
 	properties.height = 1.0;
 	properties.ao = 0.0;
@@ -70,9 +70,6 @@ void main ()
 
 	vec3 final = GetLighting(surface);
 	final *= mix(1.0, texture(texAO, v.uv).r, properties.ao);
-
-	final = final / (final + vec3(1.0));
-    final = pow(final, vec3(1.0/2.2)); 
 
 	fragColor = vec4(final, 1);
 }

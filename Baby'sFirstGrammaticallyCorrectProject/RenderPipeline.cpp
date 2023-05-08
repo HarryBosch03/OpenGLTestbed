@@ -42,7 +42,7 @@ void RenderCamera(RenderPipeline& pipeline, Camera* camera)
 
 void RenderPipeline::Initalize()
 {
-	
+	stack.Init();
 }
 
 void RenderPipeline::Render()
@@ -59,6 +59,8 @@ void RenderPipeline::Render()
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
+	stack.Bind();
+
 	lighting.Bind();
 
 	for (Camera* camera : Camera::Itterator())
@@ -67,6 +69,9 @@ void RenderPipeline::Render()
 	}
 
 	lighting.Unbind();
+
+	stack.Draw();
+	stack.Unbind();
 
 	RenderGUI();
 

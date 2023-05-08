@@ -35,11 +35,29 @@ void Texture::PassDataToGL(void* data, GLenum type, GLint internalFormat, const 
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, GL_RGBA, type, data);
 	if (settings.useMipmaps) glGenerateMipmap(GL_TEXTURE_2D);
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	stbi_image_free(data);
 	initalized = true;
+}
+
+void Texture::Orphan(int width, int height, GLint internalFormat, GLint format, GLenum type)
+{
+	if (!handle)
+	{
+		glGenTextures(1, &handle);
+		glBindTexture(GL_TEXTURE_2D, handle);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+	else
+	{
+		glBindTexture(GL_TEXTURE_2D, handle);
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, nullptr);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Asset& Texture::LoadFromFile(const std::string& fileLoc, void* args)
